@@ -20,6 +20,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
+        buildConfigField("String", "BASE_URL", "\"https://jsonplaceholder.typicode.com\"")
+
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -44,6 +46,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -113,4 +116,7 @@ dependencies {
     implementation(libs.hilt.android.core)
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+
+    // Data Store
+    implementation (libs.androidx.datastore.preferences)
 }
