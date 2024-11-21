@@ -1,7 +1,9 @@
 package com.memtionsandroid.memotions.module
 
 import com.memtionsandroid.memotions.data.repository.DefaultEmotionRepository
+import com.memtionsandroid.memotions.data.repository.DefaultPostRepository
 import com.memtionsandroid.memotions.data.repository.EmotionRepository
+import com.memtionsandroid.memotions.data.repository.PostRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,4 +19,12 @@ interface DataModule {
     fun bindsEmotionRepository(
         emotionRepository: DefaultEmotionRepository
     ): EmotionRepository
+
+    @Singleton
+    @Binds
+    fun bindsPostRepository(
+        postRepository: DefaultPostRepository
+    ): PostRepository
+
+    // TODO: add another repository
 }

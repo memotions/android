@@ -3,6 +3,8 @@ package com.memtionsandroid.memotions.ui.home
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -23,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.memtionsandroid.memotions.data.local.entity.Emotion
+import com.memtionsandroid.memotions.data.remote.response.PostResponse
 import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
 import com.memtionsandroid.memotions.utils.DataResult
 
@@ -30,6 +33,7 @@ import com.memtionsandroid.memotions.utils.DataResult
 fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()) {
 
     val emotions by viewModel.emotionsState.collectAsStateWithLifecycle()
+    val post by viewModel.postState.collectAsStateWithLifecycle()
 
     when (emotions) {
         is DataResult.Error -> {
@@ -44,11 +48,25 @@ fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltVie
         }
 
         is DataResult.Success -> {
-            HomeScreenContent(
-                items = (emotions as DataResult.Success<List<Emotion>>).data,
-                onAdd = { viewModel.addEmotion(it) },
-                modifier = modifier
-            )
+            when (post) {
+                is DataResult.Error -> {
+                    val postErrorMessage = (post as DataResult.Error).error.getContentIfNotHandled()
+                    postErrorMessage?.let {
+                        Toast.makeText(LocalContext.current, it, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is DataResult.Loading -> {
+                    CircularProgressIndicator()
+                }
+                is DataResult.Success -> {
+                    HomeScreenContent(
+                        items = (emotions as DataResult.Success<List<Emotion>>).data,
+                        post = (post as DataResult.Success<PostResponse>).data,
+                        onAdd = { viewModel.addEmotion(it) },
+                        modifier = modifier
+                    )
+                }
+            }
         }
     }
 }
@@ -56,10 +74,16 @@ fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltVie
 @Composable
 internal fun HomeScreenContent(
     items: List<Emotion>,
+    post: PostResponse,
     onAdd: (desc: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier) {
+    val scrollState = rememberScrollState()
+    Column(
+        modifier = modifier
+            .verticalScroll(scrollState)
+            .padding(16.dp)
+    ) {
         Text(
             "Emotions List",
             style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
@@ -90,6 +114,15 @@ internal fun HomeScreenContent(
         ) {
             Text("Add Emotion")
         }
+
+        Text(
+            "Post Response",
+            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
+            modifier = Modifier.padding(vertical = 16.dp)
+        )
+
+        Text(text = post.title)
+        Text(text = post.body)
     }
 }
 
@@ -103,6 +136,14 @@ private fun DefaultPreview() {
             Emotion(description = "Sad"),
             Emotion(description = "Angry")
         )
-        HomeScreenContent(sampleEmotions, onAdd = {})
+
+        val samplePost = PostResponse(
+            id = 1,
+            title = "Sample Post",
+            body = "This is a sample post body.",
+            userId = 1
+        )
+
+        HomeScreenContent(sampleEmotions, samplePost, onAdd = {})
     }
 }
