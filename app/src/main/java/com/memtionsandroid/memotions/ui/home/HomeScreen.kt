@@ -34,6 +34,7 @@ fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltVie
 
     val emotions by viewModel.emotionsState.collectAsStateWithLifecycle()
     val post by viewModel.postState.collectAsStateWithLifecycle()
+    val authToken by viewModel.authTokenState.collectAsStateWithLifecycle()
 
     when (emotions) {
         is DataResult.Error -> {
@@ -62,7 +63,9 @@ fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltVie
                     HomeScreenContent(
                         items = (emotions as DataResult.Success<List<Emotion>>).data,
                         post = (post as DataResult.Success<PostResponse>).data,
+                        authToken = authToken,
                         onAdd = { viewModel.addEmotion(it) },
+                        onReplace = { viewModel.setAuthToken(it) },
                         modifier = modifier
                     )
                 }
@@ -75,7 +78,9 @@ fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltVie
 internal fun HomeScreenContent(
     items: List<Emotion>,
     post: PostResponse,
+    authToken: String?,
     onAdd: (desc: String) -> Unit,
+    onReplace: (token: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
@@ -123,6 +128,35 @@ internal fun HomeScreenContent(
 
         Text(text = post.title)
         Text(text = post.body)
+
+        var newAuthToken by remember { mutableStateOf(TextFieldValue("")) }
+
+        Text(
+            "Auth Token",
+            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
+            modifier = Modifier.padding(vertical = 16.dp)
+        )
+
+        Text(text = authToken ?: "No Auth Token")
+
+        TextField(
+            value = newAuthToken,
+            onValueChange = { newAuthToken = it },
+            label = { Text("Replace Auth Token") },
+            modifier = Modifier.padding(top = 16.dp)
+        )
+
+        Button(
+            onClick = {
+                if (newAuthToken.text.isNotEmpty()) {
+                    onReplace(newAuthToken.text)
+                    newAuthToken = TextFieldValue("")
+                }
+            },
+            modifier = Modifier.padding(top = 8.dp)
+        ) {
+            Text("Replace Auth Token")
+        }
     }
 }
 
@@ -144,6 +178,8 @@ private fun DefaultPreview() {
             userId = 1
         )
 
-        HomeScreenContent(sampleEmotions, samplePost, onAdd = {})
+        val sampleAuthToken = "Contoh Token 12123"
+
+        HomeScreenContent(sampleEmotions, samplePost, sampleAuthToken, onAdd = {}, onReplace = {})
     }
 }

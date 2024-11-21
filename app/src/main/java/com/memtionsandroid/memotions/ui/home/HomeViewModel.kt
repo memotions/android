@@ -2,6 +2,7 @@ package com.memtionsandroid.memotions.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.memtionsandroid.memotions.data.local.datastore.UserPreference
 import com.memtionsandroid.memotions.data.local.entity.Emotion
 import com.memtionsandroid.memotions.data.remote.response.PostResponse
 import com.memtionsandroid.memotions.data.repository.EmotionRepository
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val emotionRepository: EmotionRepository,
-    private val postRepository: PostRepository
+    private val postRepository: PostRepository,
+    private val userPreference: UserPreference
 ) : ViewModel() {
 
     val postState: StateFlow<DataResult<PostResponse>> =
@@ -33,6 +35,19 @@ class HomeViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = DataResult.Loading
         )
+
+    val authTokenState: StateFlow<String?> =
+        userPreference.authTokenPreference.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = null
+    )
+
+    fun setAuthToken(authToken: String) {
+        viewModelScope.launch {
+            userPreference.setAuthToken(authToken)
+        }
+    }
 
     fun addEmotion(description: String) {
         viewModelScope.launch {
