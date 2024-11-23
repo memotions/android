@@ -5,8 +5,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 
+// Define default Color Schemes
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,
@@ -19,6 +22,7 @@ private val LightColorScheme = lightColorScheme(
     tertiary = Pink40
 )
 
+// Define CustomColors
 data class CustomColors(
     val barColor: Color,
     val onBarColor: Color,
@@ -29,9 +33,11 @@ data class CustomColors(
     val backgroundColor: Color,
     val secondBackgroundColor: Color,
     val onBackgroundColor: Color,
+    val TextOnBackgroundColor: Color,
     val onSecondBackgroundColor: Color
 )
 
+// Define Light and Dark Custom Colors
 private val LightCustomColor = CustomColors(
     barColor = Charcoal,
     onBarColor = PureWhite,
@@ -42,7 +48,8 @@ private val LightCustomColor = CustomColors(
     backgroundColor = OffWhite,
     secondBackgroundColor = Ivory,
     onBackgroundColor = Charcoal,
-    onSecondBackgroundColor = SteelGrey,
+    TextOnBackgroundColor = Charcoal,
+    onSecondBackgroundColor = SteelGrey
 )
 
 private val DarkCustomColor = CustomColors(
@@ -55,9 +62,14 @@ private val DarkCustomColor = CustomColors(
     backgroundColor = SlateBLue,
     secondBackgroundColor = OnyxGrey,
     onBackgroundColor = PureWhite,
-    onSecondBackgroundColor = LightGrey,
+    TextOnBackgroundColor = LightGrey,
+    onSecondBackgroundColor = SteelGrey
 )
 
+// CompositionLocal for CustomColors
+val LocalCustomColors = compositionLocalOf {
+    LightCustomColor
+}
 
 @Composable
 fun MemotionsTheme(
@@ -68,18 +80,21 @@ fun MemotionsTheme(
 ) {
     val customColor = if (darkTheme) DarkCustomColor else LightCustomColor
     val colorScheme = when {
-//        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-//            val context = LocalContext.current
-//            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-//        }
-
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    // Provide both ColorScheme and CustomColors
+    CompositionLocalProvider(LocalCustomColors provides customColor) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }
+
+// Extension property to access CustomColors from MaterialTheme
+val MaterialTheme.customColors: CustomColors
+    @Composable
+    get() = LocalCustomColors.current
