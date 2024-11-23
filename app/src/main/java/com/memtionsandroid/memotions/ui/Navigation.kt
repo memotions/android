@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.memtionsandroid.memotions.ui.home.HomeScreen
+import com.memtionsandroid.memotions.ui.main.MainScreen
 
 @Composable
 fun MainNavigation() {
@@ -15,7 +16,8 @@ fun MainNavigation() {
 
     NavHost(navController = navController, startDestination = "main") {
         composable("main") {
-            HomeScreen(modifier = Modifier.padding(16.dp))
+//            HomeScreen(modifier = Modifier.padding(16.dp))
+            MainScreen()
         }
     }
 }
