@@ -27,6 +27,7 @@ import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.ui.main.screen.HomeScreen
 import com.memtionsandroid.memotions.ui.main.screen.ProfileScreen
 import com.memtionsandroid.memotions.ui.main.screen.StarredScreen
+import com.memtionsandroid.memotions.ui.main.screen.StatisticScreen
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,7 +51,7 @@ fun MainScreen() {
         ) {
             composable("home") { HomeScreen() }
             composable("starred") { StarredScreen() }
-            composable("statistic") { ProfileScreen() }
+            composable("statistic") { StatisticScreen() }
             composable("Profile") { ProfileScreen() }
         }
     }
