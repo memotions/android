@@ -68,55 +68,13 @@ fun SearchBar(modifier: Modifier = Modifier) {
                 }
                 Icon(
                     modifier = Modifier.padding(start = 8.dp),
-                    painter = painterResource(id = R.drawable.filter),
+                    painter = painterResource(id = R.drawable.ic_filter),
                     contentDescription = "Filter Icon",
                     tint = customColors.onSecondBackgroundColor
                 )
             }
         },
     )
-
-//    TextField(
-//        singleLine = true,
-//        value = searchText,
-//        onValueChange = { searchText = it },
-//        leadingIcon = {
-//            Icon(
-//                painter = painterResource(id = R.drawable.search),
-//                contentDescription = "Search Icon",
-//                tint = customColors.onSecondBackgroundColor
-//            )
-//        },
-//        trailingIcon = {
-//            Icon(
-//                painter = painterResource(id = R.drawable.search),
-//                contentDescription = "Filter Icon",
-//                tint = customColors.onSecondBackgroundColor
-//            )
-//        },
-//        shape = RoundedCornerShape(corner = CornerSize(8.dp)),
-//        placeholder = {
-//            Text(
-//                text = "Cari Jurnal",
-//                color = customColors.onSecondBackgroundColor,
-//                style = MaterialTheme.typography.bodySmall.copy(fontSize = 9.sp)
-//            )
-//        },
-//        colors = TextFieldDefaults.colors(
-//            focusedTextColor = customColors.TextOnBackgroundColor,
-//            unfocusedTextColor = customColors.TextOnBackgroundColor,
-//            focusedIndicatorColor = Color.Transparent,
-//            unfocusedIndicatorColor = Color.Transparent,
-//            focusedContainerColor = customColors.secondBackgroundColor,
-//            unfocusedContainerColor = customColors.secondBackgroundColor,
-//            cursorColor = customColors.TextOnBackgroundColor,
-//        ),
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .height(40.dp)
-//            .focusable()
-//    )
-//
 }
 
 @Preview
