@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -24,7 +22,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.memtionsandroid.memotions.R
-import com.memtionsandroid.memotions.ui.theme.CustomColors
 import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
 import com.memtionsandroid.memotions.ui.theme.customColors
 
@@ -44,7 +41,7 @@ fun JournalCard(
 ) {
     val customColors = MaterialTheme.customColors
     val tags = journal.Tag.joinToString(" ") { "#$it" }
-    val painter = painterResource(id = R.drawable.angry)
+    val painter = painterResource(id = R.drawable.emo_angry)
     val icon = painterResource(id = R.drawable.ic_star)
     Surface(
         modifier = modifier
