@@ -86,6 +86,7 @@ fun MemotionsTheme(
         else -> LightColorScheme
     }
 
+
     // Provide both ColorScheme and CustomColors
     CompositionLocalProvider(LocalCustomColors provides customColor) {
         MaterialTheme(

@@ -1,6 +1,7 @@
 package com.memtionsandroid.memotions.ui.main.screen
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -33,8 +34,6 @@ val starredJournalList = listOf(
     ),
 )
 
-
-
 @Composable
 fun StarredScreen() {
     Scaffold (
@@ -44,7 +43,7 @@ fun StarredScreen() {
         content = { innerPadding ->
             Box(modifier = Modifier
                 .fillMaxWidth()
-                .padding(innerPadding)) {
+                .padding(innerPadding).padding(bottom = 80.dp)) {
                 Journals(starredJournalList)
             }
         }

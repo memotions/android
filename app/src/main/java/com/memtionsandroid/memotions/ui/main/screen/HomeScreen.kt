@@ -93,7 +93,7 @@ fun HomeScreen() {
         content = { innerPadding ->
             Box(modifier = Modifier
                 .fillMaxWidth()
-                .padding(innerPadding)) {
+                .padding(innerPadding).padding(bottom = 80.dp)) {
                 Journals(journalList)
             }
         }

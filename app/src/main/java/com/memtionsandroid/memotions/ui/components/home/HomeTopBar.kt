@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.windowInsetsStartWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -31,6 +33,12 @@ import com.memtionsandroid.memotions.ui.theme.customColors
 fun HomeTopBar(
 
 ) {
+//    val insets = LocalWindowInsets.current
+//    val statusBarHeightPx = insets.statusBars.top
+//
+//    // Menghitung ukuran status bar dalam dp
+//    val statusBarHeightDp = with(LocalDensity.current) { statusBarHeightPx.toDp() }
+
     val customColors = MaterialTheme.customColors
     val streakImage = painterResource(id = R.drawable.streak)
     val streak = 12
@@ -46,7 +54,7 @@ fun HomeTopBar(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .height(140.dp),
+            .height(160.dp),
         shadowElevation = 4.dp,
         tonalElevation = 8.dp,
         border = BorderStroke(0.5.dp, customColors.outlineColor),
@@ -58,6 +66,7 @@ fun HomeTopBar(
                 .fillMaxWidth()
                 .background(customColors.backgroundColor)
                 .padding(horizontal = 20.dp, vertical = 12.dp)
+                .statusBarsPadding()
         ) {
             Column {
                 Row(

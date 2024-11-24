@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -26,7 +27,7 @@ fun StarredTopBar() {
     Surface (
         modifier = Modifier
             .fillMaxWidth()
-            .height(120.dp),
+            .height(140.dp),
         shadowElevation = 4.dp,
         tonalElevation = 8.dp,
         border = BorderStroke(0.5.dp, customColors.outlineColor),
@@ -37,6 +38,7 @@ fun StarredTopBar() {
                 .fillMaxWidth()
                 .background(customColors.backgroundColor)
                 .padding(horizontal = 20.dp, vertical = 12.dp)
+                .statusBarsPadding()
         ) {
             Column {
                 Text(text = "Jurnal Berbintang",
