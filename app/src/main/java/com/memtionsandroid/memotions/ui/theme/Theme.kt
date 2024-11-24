@@ -11,15 +11,17 @@ import androidx.compose.ui.graphics.Color
 
 // Define default Color Schemes
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
+    primary = PureWhite,
     secondary = PurpleGrey80,
-    tertiary = Pink80
+    tertiary = Pink80,
+    background = SlateBLue
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
+    primary = Charcoal,
     secondary = PurpleGrey40,
-    tertiary = Pink40
+    tertiary = Pink40,
+    background = OffWhite
 )
 
 // Define CustomColors
@@ -41,7 +43,7 @@ data class CustomColors(
 private val LightCustomColor = CustomColors(
     barColor = Charcoal,
     onBarColor = PureWhite,
-    onBarSecondColor = LightGrey,
+    onBarSecondColor = SteelGrey,
     outlineColor = Taupe,
     processColor = Charcoal,
     processBackgroundColor = Silver,
@@ -55,7 +57,7 @@ private val LightCustomColor = CustomColors(
 private val DarkCustomColor = CustomColors(
     barColor = Charcoal,
     onBarColor = PureWhite,
-    onBarSecondColor = LightGrey,
+    onBarSecondColor = SteelGrey,
     outlineColor = Taupe,
     processColor = LightGrey,
     processBackgroundColor = OnyxGrey,

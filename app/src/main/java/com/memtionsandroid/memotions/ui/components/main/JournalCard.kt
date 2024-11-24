@@ -120,6 +120,22 @@ fun JournalCard(
 @Preview
 @Composable
 fun JournalCardPreview() {
+    MemotionsTheme() {
+        val journal = Journal(
+            "Hari yang sangat melelahkan hingga saya ingin membunuh semua orang",
+            "bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla",
+            "Date",
+            listOf("Sekolah", "Kerja", "Belajar"),
+            true
+        )
+        JournalCard(journal)
+//        Text(text = journal.Tag.joinToString(" "))
+    }
+}
+
+@Preview
+@Composable
+fun JournalCardPreviewDark() {
     MemotionsTheme(darkTheme = true) {
         val journal = Journal(
             "Hari yang sangat melelahkan hingga saya ingin membunuh semua orang",
