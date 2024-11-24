@@ -1,5 +1,6 @@
 package com.memtionsandroid.memotions.ui.components.main
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,18 +39,22 @@ data class Journal(
 
 @Composable
 fun JournalCard(
-    journal: Journal
+    journal: Journal,
+    modifier: Modifier = Modifier
 ) {
     val customColors = MaterialTheme.customColors
     val tags = journal.Tag.joinToString(" ") { "#$it" }
     val painter = painterResource(id = R.drawable.angry)
     val icon = painterResource(id = R.drawable.ic_star)
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .height(120.dp)
             .fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
-        color = customColors.backgroundColor
+        color = customColors.backgroundColor,
+        shadowElevation = 4.dp,
+        tonalElevation = 8.dp,
+        border = BorderStroke(0.5.dp, customColors.outlineColor)
     ) {
         Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
             Column {
@@ -69,7 +74,7 @@ fun JournalCard(
                         Text(
                             text = journal.title,
                             maxLines = 1,
-                            style = MaterialTheme.typography.titleSmall,
+                            style = MaterialTheme.typography.titleMedium,
                             overflow = TextOverflow.Ellipsis,
                             color = customColors.TextOnBackgroundColor,
                         )
@@ -124,6 +129,7 @@ fun JournalCardPreview() {
             true
         )
         JournalCard(journal)
+//        Text(text = journal.Tag.joinToString(" "))
     }
 }
 
