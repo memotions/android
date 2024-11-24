@@ -24,6 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.ui.main.screen.HomeScreen
 import com.memtionsandroid.memotions.ui.main.screen.ProfileScreen
+import com.memtionsandroid.memotions.ui.main.screen.StarredScreen
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,7 +47,7 @@ fun MainScreen() {
             Modifier.padding(innerPadding)
         ) {
             composable("home") { HomeScreen() }
-            composable("starred") { HomeScreen() }
+            composable("starred") { StarredScreen() }
             composable("statistic") { ProfileScreen() }
             composable("Profile") { ProfileScreen() }
         }

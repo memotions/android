@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.memtionsandroid.memotions.ui.components.home.HomeTopBar
 import com.memtionsandroid.memotions.ui.components.main.Journal
 import com.memtionsandroid.memotions.ui.components.main.JournalCard
+import com.memtionsandroid.memotions.ui.components.main.Journals
 
 val journalList = listOf(
     Journal(
@@ -97,15 +98,6 @@ fun HomeScreen() {
             }
         }
     )
-}
-
-@Composable
-fun Journals(journals: List<Journal>){
-    LazyColumn(modifier = Modifier.padding(horizontal = 16.dp)) {
-        items(items = journals) { journal ->
-            JournalCard(journal, modifier = Modifier.padding(vertical = 4.dp))
-        }
-    }
 }
 
 
