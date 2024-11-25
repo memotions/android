@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.memtionsandroid.memotions.ui.components.home.HomeTopBar
 import com.memtionsandroid.memotions.ui.components.main.SearchBar
 import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
 import com.memtionsandroid.memotions.ui.theme.customColors
@@ -24,7 +23,7 @@ import com.memtionsandroid.memotions.ui.theme.customColors
 @Composable
 fun StarredTopBar() {
     val customColors = MaterialTheme.customColors
-    Surface (
+    Surface(
         modifier = Modifier
             .fillMaxWidth()
             .height(140.dp),
@@ -32,7 +31,7 @@ fun StarredTopBar() {
         tonalElevation = 8.dp,
         border = BorderStroke(0.5.dp, customColors.outlineColor),
         shape = RoundedCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp),
-        ){
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -41,8 +40,10 @@ fun StarredTopBar() {
                 .statusBarsPadding()
         ) {
             Column {
-                Text(text = "Jurnal Berbintang",
-                    style = MaterialTheme.typography.titleLarge)
+                Text(
+                    text = "Jurnal Berbintang",
+                    style = MaterialTheme.typography.titleLarge
+                )
                 SearchBar(modifier = Modifier.padding(top = 12.dp))
             }
         }
@@ -52,16 +53,16 @@ fun StarredTopBar() {
 
 @Preview
 @Composable
-fun HomeTopBarPreview() {
-    MemotionsTheme (){
+fun StarredTopBarPreview() {
+    MemotionsTheme() {
         StarredTopBar()
     }
 }
 
 @Preview
 @Composable
-fun HomeTopBarPreviewDark() {
-    MemotionsTheme (darkTheme = true){
+fun StarredTopBarPreviewDark() {
+    MemotionsTheme(darkTheme = true) {
         StarredTopBar()
     }
 }
