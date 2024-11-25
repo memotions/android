@@ -1,0 +1,29 @@
+<vector xmlns:aapt="http://schemas.android.com/aapt" xmlns:android="http://schemas.android.com/apk/res/android" android:height="52.02dp" android:viewportHeight="51" android:viewportWidth="50" android:width="51dp">
+      
+    <path android:pathData="M25,25.5m-25,0a25,25 0,1 1,50 0a25,25 0,1 1,-50 0">
+            
+        <aapt:attr name="android:fillColor">
+                  
+            <gradient android:endX="31.818" android:endY="50.5" android:startX="13.25" android:startY="1.75" android:type="linear">
+                        
+                <item android:color="#FF6DC6FD" android:offset="0"/>
+                        
+                <item android:color="#FF71028C" android:offset="1"/>
+                      
+            </gradient>
+                
+        </aapt:attr>
+          
+    </path>
+      
+    <path android:fillColor="#000000" android:fillType="evenOdd" android:pathData="M32.581,16.5C33.203,17.8 35.754,19.442 37.303,19.86C37.356,20.126 37.383,20.4 37.383,20.681C37.383,22.052 36.73,23.27 35.717,24.041C34.956,23.7 34.14,23.5 33.5,23.5C32.72,23.5 31.676,23.743 30.79,24.173C29.674,23.413 28.942,22.133 28.942,20.681C28.942,18.547 30.525,16.783 32.581,16.5Z"/>
+      
+    <path android:fillColor="#000000" android:fillType="evenOdd" android:pathData="M17.302,16.5C16.68,17.8 14.129,19.442 12.58,19.86C12.528,20.126 12.5,20.4 12.5,20.681C12.5,22.052 13.154,23.27 14.166,24.041C14.927,23.7 15.744,23.5 16.383,23.5C17.164,23.5 18.208,23.743 19.093,24.173C20.209,23.413 20.942,22.133 20.942,20.681C20.942,18.547 19.358,16.783 17.302,16.5Z"/>
+      
+    <path android:fillColor="#0062D1" android:pathData="M43,5L43,5A0.5,0.5 0,0 1,43.5 5.5L43.5,22A0.5,0.5 0,0 1,43 22.5L43,22.5A0.5,0.5 0,0 1,42.5 22L42.5,5.5A0.5,0.5 0,0 1,43 5z"/>
+      
+    <path android:fillColor="#0062D1" android:pathData="M40.5,2L40.5,2A0.5,0.5 0,0 1,41 2.5L41,19A0.5,0.5 0,0 1,40.5 19.5L40.5,19.5A0.5,0.5 0,0 1,40 19L40,2.5A0.5,0.5 0,0 1,40.5 2z"/>
+      
+    <path android:fillColor="#0062D1" android:pathData="M38,0L38,0A0.5,0.5 0,0 1,38.5 0.5L38.5,16A0.5,0.5 0,0 1,38 16.5L38,16.5A0.5,0.5 0,0 1,37.5 16L37.5,0.5A0.5,0.5 0,0 1,38 0z"/>
+    
+</vector>
