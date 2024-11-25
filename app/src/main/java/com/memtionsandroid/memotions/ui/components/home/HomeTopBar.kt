@@ -86,7 +86,7 @@ fun HomeTopBar(
                                 .padding(start = 8.dp)
                                 .weight(1f),
                             text = username,
-                            style = MaterialTheme.typography.titleSmall,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     }
 
