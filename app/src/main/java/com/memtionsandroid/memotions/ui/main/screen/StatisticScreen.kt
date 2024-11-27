@@ -21,7 +21,6 @@ fun StatisticScreen() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(innerPadding)
-                    .padding(bottom = 80.dp)
             ) {
                 Journals(starredJournalList)
             }

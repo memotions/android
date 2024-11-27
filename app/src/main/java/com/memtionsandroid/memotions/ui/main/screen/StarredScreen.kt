@@ -43,7 +43,7 @@ fun StarredScreen() {
         content = { innerPadding ->
             Box(modifier = Modifier
                 .fillMaxWidth()
-                .padding(innerPadding).padding(bottom = 80.dp)) {
+                .padding(innerPadding)) {
                 Journals(starredJournalList)
             }
         }

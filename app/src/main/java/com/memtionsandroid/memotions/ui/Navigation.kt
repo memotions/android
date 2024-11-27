@@ -9,6 +9,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.memtionsandroid.memotions.ui.home.HomeScreen
 import com.memtionsandroid.memotions.ui.main.MainScreen
+import com.memtionsandroid.memotions.ui.main.screen.ProfileScreen
+import com.memtionsandroid.memotions.ui.main.screen.StarredScreen
+import com.memtionsandroid.memotions.ui.main.screen.StatisticScreen
 
 @Composable
 fun MainNavigation() {
@@ -19,5 +22,9 @@ fun MainNavigation() {
 //            HomeScreen(modifier = Modifier.padding(16.dp))
             MainScreen()
         }
+//        composable("home") { HomeScreen() }
+//        composable("starred") { StarredScreen() }
+//        composable("statistic") { StatisticScreen() }
+//        composable("Profile") { ProfileScreen() }
     }
 }

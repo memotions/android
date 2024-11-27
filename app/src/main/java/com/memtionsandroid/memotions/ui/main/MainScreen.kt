@@ -1,22 +1,38 @@
 package com.memtionsandroid.memotions.ui.main
 
+import android.content.Context
+import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -30,24 +46,59 @@ import com.memtionsandroid.memotions.ui.main.screen.StarredScreen
 import com.memtionsandroid.memotions.ui.main.screen.StatisticScreen
 import com.memtionsandroid.memotions.ui.theme.customColors
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
 
-    // Remember scroll behavior
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
+    val isBarVisible = remember { mutableStateOf(true) }
+    val scrollOffset = remember { mutableStateOf(0f) }
+
+    val contentPd by animateDpAsState(
+        targetValue = if (isBarVisible.value) 80.dp else 0.dp,
+        animationSpec = tween(durationMillis = 300)
+    )
+
+    val nestedScrollConnection = object : NestedScrollConnection {
+        override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+            val delta = available.y
+            scrollOffset.value += delta
+
+            if (scrollOffset.value > 10f) {
+                isBarVisible.value = true
+            } else if (scrollOffset.value < -10f) {
+                isBarVisible.value = false
+            }
+
+            scrollOffset.value = scrollOffset.value.coerceIn(-100f, 100f)
+            return Offset.Zero
+        }
+    }
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(navController, scrollBehavior)
+            AnimatedVisibility(
+                visible = isBarVisible.value,
+                enter = slideInVertically(
+                    initialOffsetY = { it },
+                    animationSpec = tween(durationMillis = 300)
+                ) + fadeIn(),
+                exit = slideOutVertically(
+                    targetOffsetY = { it },
+                    animationSpec = tween(durationMillis = 300)
+                ) + fadeOut()
+            ) {
+                BottomNavigationBar(navController)
+            }
+
         },
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+        modifier = Modifier.nestedScroll(nestedScrollConnection)
     ) { innerPadding ->
         NavHost(
             navController = navController,
             startDestination = "home",
-//            Modifier.padding(innerPadding)
+            Modifier.padding(bottom = contentPd)
         ) {
             composable("home") { HomeScreen() }
             composable("starred") { StarredScreen() }
@@ -60,8 +111,7 @@ fun MainScreen() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavigationBar(
-    navController: NavController,
-    scrollBehavior: TopAppBarScrollBehavior
+    navController: NavController
 ) {
     val customColors = MaterialTheme.customColors
 
@@ -92,16 +142,19 @@ fun BottomNavigationBar(
                             tint = if (isSelected) customColors.onBarColor else customColors.onBarSecondColor,
                             contentDescription = item.label
                         )
+
                         "starred" -> Icon(
                             painter = painterResource(id = R.drawable.ic_star),
                             tint = if (isSelected) customColors.onBarColor else customColors.onBarSecondColor,
                             contentDescription = item.label
                         )
+
                         "statistic" -> Icon(
                             painter = painterResource(id = R.drawable.ic_statistic),
                             tint = if (isSelected) customColors.onBarColor else customColors.onBarSecondColor,
                             contentDescription = item.label
                         )
+
                         "profile" -> Icon(
                             painter = painterResource(id = R.drawable.ic_profile),
                             tint = if (isSelected) customColors.onBarColor else customColors.onBarSecondColor,
