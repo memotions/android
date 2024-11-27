@@ -33,7 +33,6 @@ fun ProfileScreen() {
                 modifier = Modifier
                     .padding(innerPadding)
                     .padding(horizontal = 16.dp)
-                    .padding(bottom = 80.dp)
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
             ) {

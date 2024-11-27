@@ -61,6 +61,7 @@ fun PersonalProgress(modifier: Modifier = Modifier) {
                         text = "${level}"
                     )
                 }
+                Spacer(modifier.padding(top = 8.dp))
                 Text(
                     color = customColors.TextOnBackgroundColor,
                     style = MaterialTheme.typography.titleMedium,
