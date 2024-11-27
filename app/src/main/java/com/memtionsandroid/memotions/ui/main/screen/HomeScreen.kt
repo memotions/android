@@ -2,7 +2,6 @@ package com.memtionsandroid.memotions.ui.main.screen
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.FloatingActionButton
@@ -12,12 +11,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.ui.components.home.HomeTopBar
 import com.memtionsandroid.memotions.ui.components.main.Journal
 import com.memtionsandroid.memotions.ui.components.main.Journals
-import com.memtionsandroid.memotions.ui.theme.CustomColors
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 val journalList = listOf(

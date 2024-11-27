@@ -1,17 +1,10 @@
 package com.memtionsandroid.memotions.ui
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.memtionsandroid.memotions.ui.home.HomeScreen
 import com.memtionsandroid.memotions.ui.main.MainScreen
-import com.memtionsandroid.memotions.ui.main.screen.ProfileScreen
-import com.memtionsandroid.memotions.ui.main.screen.StarredScreen
-import com.memtionsandroid.memotions.ui.main.screen.StatisticScreen
 
 @Composable
 fun MainNavigation() {
