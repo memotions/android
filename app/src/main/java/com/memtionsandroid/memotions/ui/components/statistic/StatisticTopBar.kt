@@ -3,17 +3,24 @@ package com.memtionsandroid.memotions.ui.components.statistic
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,6 +39,8 @@ import com.memtionsandroid.memotions.ui.theme.customColors
 fun StatisticTopBar() {
     val customColors = MaterialTheme.customColors
     var isExchange by remember { mutableStateOf(false) }
+    var selectedMode by remember { mutableStateOf(0) }
+    val options = listOf("Semua", "Hari", "Minggu", "Bulan")
 
     Surface(
         modifier = Modifier
@@ -90,20 +99,32 @@ fun StatisticTopBar() {
                             }
                         }
                     }
-                    Column(
+                    Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.End
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        TextButton(
+                        ChoiceButton(options = options, selectedOption = selectedMode) {
+                            selectedMode = it
+                        }
+                        IconButton(
                             onClick = { isExchange = !isExchange },
+                            modifier = Modifier.align(Alignment.CenterVertically)
                         ) {
-                            Text(
-                                text = if (!isExchange) "Lihat Selengkapnya" else "Sembunyikan",
-                                color = customColors.onSecondBackgroundColor,
-                                style = MaterialTheme.typography.labelMedium,
+                            Icon(
+                                modifier = Modifier.size(20.dp),
+                                imageVector = if (isExchange) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                                contentDescription = if (isExchange) "Sembunyikan" else "Lihat Selengkapnya"
                             )
                         }
-
+//                        TextButton(
+//                            onClick = { isExchange = !isExchange },
+//                        ) {
+//                            Text(
+//                                text = if (!isExchange) "Lihat Selengkapnya" else "Sembunyikan",
+//                                color = customColors.onSecondBackgroundColor,
+//                                style = MaterialTheme.typography.labelMedium,
+//                            )
+//                        }
                     }
                 }
 
