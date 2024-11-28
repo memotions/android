@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
@@ -43,6 +44,7 @@ import com.memtionsandroid.memotions.ui.theme.customColors
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
+    var selectedRoute by remember { mutableStateOf("home") }
 
 
     val isBarVisible = remember { mutableStateOf(true) }
@@ -81,7 +83,16 @@ fun MainScreen() {
                     animationSpec = tween(durationMillis = 300)
                 ) + fadeOut()
             ) {
-                BottomNavigationBar(navController)
+                BottomNavigationBar(selectedRoute){ itemRoute ->
+                    selectedRoute = itemRoute
+                    navController.navigate(itemRoute) {
+                        popUpTo(navController.graph.startDestinationId) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
             }
 
         },
@@ -104,7 +115,9 @@ fun MainScreen() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavigationBar(
-    navController: NavController
+//    navController: NavController,
+    selectedRoute: String,
+    onSelectRoute : (itemRoute: String) -> Unit
 ) {
     val customColors = MaterialTheme.customColors
 
@@ -116,7 +129,7 @@ fun BottomNavigationBar(
     )
 
     // Remember the selected route to ensure the correct icon is selected
-    val selectedRoute = remember { mutableStateOf("home") }
+//    val selectedRoute = remember { mutableStateOf("home") }
 
     NavigationBar(
         modifier = Modifier
@@ -125,7 +138,7 @@ fun BottomNavigationBar(
         containerColor = customColors.barColor,
     ) {
         menus.forEach { item ->
-            val isSelected = selectedRoute.value == item.route
+            val isSelected = selectedRoute == item.route
 
             NavigationBarItem(
                 icon = {
@@ -157,15 +170,16 @@ fun BottomNavigationBar(
                 },
                 selected = false,
                 onClick = {
-                    // Update the selected route and navigate
-                    selectedRoute.value = item.route
-                    navController.navigate(item.route) {
-                        popUpTo(navController.graph.startDestinationId) {
-                            saveState = true
-                        }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
+                    onSelectRoute(item.route)
+//                    // Update the selected route and navigate
+//                    selectedRoute.value = item.route
+//                    navController.navigate(item.route) {
+//                        popUpTo(navController.graph.startDestinationId) {
+//                            saveState = true
+//                        }
+//                        launchSingleTop = true
+//                        restoreState = true
+//                    }
                 }
             )
         }
