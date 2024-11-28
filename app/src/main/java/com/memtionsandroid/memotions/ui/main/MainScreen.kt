@@ -28,7 +28,6 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -40,7 +39,7 @@ import com.memtionsandroid.memotions.ui.main.screen.StatisticScreen
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+//@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
@@ -83,7 +82,7 @@ fun MainScreen() {
                     animationSpec = tween(durationMillis = 300)
                 ) + fadeOut()
             ) {
-                BottomNavigationBar(selectedRoute){ itemRoute ->
+                BottomNavigationBar(selectedRoute) { itemRoute ->
                     selectedRoute = itemRoute
                     navController.navigate(itemRoute) {
                         popUpTo(navController.graph.startDestinationId) {
@@ -117,7 +116,7 @@ fun MainScreen() {
 fun BottomNavigationBar(
 //    navController: NavController,
     selectedRoute: String,
-    onSelectRoute : (itemRoute: String) -> Unit
+    onSelectRoute: (itemRoute: String) -> Unit
 ) {
     val customColors = MaterialTheme.customColors
 
