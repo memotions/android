@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,6 +37,7 @@ import com.memtionsandroid.memotions.ui.onboarding.screen.OnBoardingScreen4
 import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
 import com.memtionsandroid.memotions.ui.theme.Poppins
 import kotlinx.coroutines.launch
+import kotlin.math.absoluteValue
 
 @Composable
 fun OnBoardingScreen() {
@@ -51,11 +53,22 @@ fun OnBoardingScreen() {
             state = pagerState,
             modifier = Modifier.fillMaxSize()
         ) { page ->
-            when (page) {
-                0 -> OnBoardingScreen1()
-                1 -> OnBoardingScreen2()
-                2 -> OnBoardingScreen3()
-                3 -> OnBoardingScreen4()
+            val pageOffset = (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .graphicsLayer {
+                        translationX = pageOffset * size.width
+                        alpha = 1f - pageOffset.absoluteValue.coerceIn(0f, 1f)
+                    }
+            ) {
+                when (page) {
+                    0 -> OnBoardingScreen1()
+                    1 -> OnBoardingScreen2()
+                    2 -> OnBoardingScreen3()
+                    3 -> OnBoardingScreen4()
+                }
             }
         }
 
