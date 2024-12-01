@@ -1,5 +1,6 @@
 package com.memtionsandroid.memotions.ui.components.setting
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -33,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.ui.theme.Poppins
+import com.memtionsandroid.memotions.ui.theme.customColors
 
 @Composable
 fun SettingSection(
@@ -40,10 +43,13 @@ fun SettingSection(
     checkedDarkModeState: MutableState<Boolean>,
     checkedNotificationState: MutableState<Boolean>,
 ) {
+    val customColors = MaterialTheme.customColors
+
     Column(
         modifier = Modifier
             .padding(start = 16.dp, end = 16.dp, top = 0.dp, bottom = 16.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .background(customColors.backgroundColor),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -54,7 +60,7 @@ fun SettingSection(
                 style = TextStyle(
                     fontFamily = Poppins,
                     fontSize = 12.sp,
-                    color = Color.Black
+                    color = customColors.onBackgroundColor
                 ),
                 modifier = Modifier.padding(bottom = 5.dp, start = 10.dp)
             )
@@ -63,14 +69,14 @@ fun SettingSection(
 
         ElevatedCard(
             elevation = CardDefaults.cardElevation(
-                defaultElevation = 0.dp
+                defaultElevation = 6.dp
             ),
             shape = RoundedCornerShape(12.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
+            colors = CardDefaults.cardColors(containerColor = customColors.backgroundColor),
             modifier = Modifier
                 .border(
                     width = 0.4.dp,
-                    color = Color(0xFF7D7A78),
+                    color = customColors.outlineColor,
                     shape = RoundedCornerShape(12.dp)
                 )
         ) {
@@ -87,7 +93,8 @@ fun SettingSection(
                         Icon(
                             painter = painterResource(id = R.drawable.ic_darkmode),
                             contentDescription = "Darkmode Icon",
-                            modifier = Modifier.size(16.dp)
+                            modifier = Modifier.size(16.dp),
+                            tint = customColors.onBackgroundColor
                         )
                         Spacer(modifier = Modifier.width(10.dp))
                         Text(
@@ -95,6 +102,7 @@ fun SettingSection(
                             style = TextStyle(
                                 fontFamily = Poppins,
                                 fontSize = 12.sp,
+                                color = customColors.onBackgroundColor
                             )
                         )
                         Spacer(modifier = Modifier.weight(1f))
@@ -104,10 +112,10 @@ fun SettingSection(
                                 checkedDarkModeState.value = it
                             },
                             colors = SwitchDefaults.colors(
-                                checkedThumbColor = Color.Black,
-                                checkedTrackColor = Color.Black.copy(alpha = 0.3f),
-                                uncheckedThumbColor = Color.White,
-                                uncheckedTrackColor = Color.Black.copy(alpha = 0.3f),
+                                checkedThumbColor = customColors.onBackgroundColor,
+                                checkedTrackColor = customColors.onBackgroundColor.copy(alpha = 0.3f),
+                                uncheckedThumbColor = customColors.onBackgroundColor,
+                                uncheckedTrackColor = customColors.onBackgroundColor.copy(alpha = 0.3f),
                             ),
                             modifier = Modifier.scale(0.5f).size(20.dp).padding(bottom = 5.dp)
                         )
@@ -122,7 +130,8 @@ fun SettingSection(
                         Icon(
                             painter = painterResource(id = R.drawable.ic_notification),
                             contentDescription = "Darkmode Icon",
-                            modifier = Modifier.size(16.dp)
+                            modifier = Modifier.size(16.dp),
+                            tint = customColors.onBackgroundColor
                         )
                         Spacer(modifier = Modifier.width(10.dp))
                         Text(
@@ -130,6 +139,7 @@ fun SettingSection(
                             style = TextStyle(
                                 fontFamily = Poppins,
                                 fontSize = 12.sp,
+                                color = customColors.onBackgroundColor
                             )
                         )
                         Spacer(modifier = Modifier.weight(1f))
@@ -139,10 +149,10 @@ fun SettingSection(
                                 checkedNotificationState.value = it
                             },
                             colors = SwitchDefaults.colors(
-                                checkedThumbColor = Color.Black,
-                                checkedTrackColor = Color.Black.copy(alpha = 0.3f),
-                                uncheckedThumbColor = Color.White,
-                                uncheckedTrackColor = Color.Black.copy(alpha = 0.3f),
+                                checkedThumbColor = customColors.onBackgroundColor,
+                                checkedTrackColor = customColors.onBackgroundColor.copy(alpha = 0.3f),
+                                uncheckedThumbColor = customColors.onBackgroundColor,
+                                uncheckedTrackColor = customColors.onBackgroundColor.copy(alpha = 0.3f),
                             ),
                             modifier = Modifier.scale(0.5f).size(20.dp).padding(bottom = 5.dp)
                         )
