@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -25,7 +27,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -34,7 +35,6 @@ import com.memtionsandroid.memotions.ui.onboarding.screen.OnBoardingScreen1
 import com.memtionsandroid.memotions.ui.onboarding.screen.OnBoardingScreen2
 import com.memtionsandroid.memotions.ui.onboarding.screen.OnBoardingScreen3
 import com.memtionsandroid.memotions.ui.onboarding.screen.OnBoardingScreen4
-import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
 import com.memtionsandroid.memotions.ui.theme.Poppins
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
@@ -48,6 +48,8 @@ fun OnBoardingScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .statusBarsPadding()
+            .navigationBarsPadding()
     ) {
         HorizontalPager(
             state = pagerState,
@@ -146,12 +148,4 @@ fun OnBoardingScreen() {
 
 fun onStart(navController: NavController) {
     navController.navigate("login")
-}
-
-@Composable
-@Preview(showBackground = true)
-private fun DefaultPreview() {
-    MemotionsTheme {
-        OnBoardingScreen()
-    }
 }
