@@ -1,22 +1,35 @@
 package com.memtionsandroid.memotions.ui.components.home
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.windowInsetsStartWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -29,16 +42,11 @@ import com.memtionsandroid.memotions.ui.components.main.SearchBar
 import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
 import com.memtionsandroid.memotions.ui.theme.customColors
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun HomeTopBar(
 
 ) {
-//    val insets = LocalWindowInsets.current
-//    val statusBarHeightPx = insets.statusBars.top
-//
-//    // Menghitung ukuran status bar dalam dp
-//    val statusBarHeightDp = with(LocalDensity.current) { statusBarHeightPx.toDp() }
-
     val customColors = MaterialTheme.customColors
     val streakImage = painterResource(id = R.drawable.streak)
     val streak = 12
@@ -51,10 +59,12 @@ fun HomeTopBar(
     val username = "Liangga"
     val profileImage = painterResource(id = R.drawable.profile)
 
+    var isFilter by remember { mutableStateOf(false) }
+
+
     Surface(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(160.dp),
+            .fillMaxWidth(),
         shadowElevation = 4.dp,
         tonalElevation = 8.dp,
         border = BorderStroke(0.5.dp, customColors.outlineColor),
@@ -122,8 +132,6 @@ fun HomeTopBar(
 
 
 
-
-
                     Row(
                         modifier = Modifier.padding(start = 16.dp),
                         verticalAlignment = Alignment.CenterVertically
@@ -143,16 +151,24 @@ fun HomeTopBar(
                         )
                     }
                 }
-                SearchBar(modifier = Modifier.padding(top = 24.dp))
+                SearchBar(modifier = Modifier.padding(top = 24.dp), isFilter = isFilter) {
+                    isFilter = !isFilter
+                }
+                AnimatedVisibility(isFilter) {
+                    SearchFilter()
+                }
             }
         }
     }
 }
 
+
+
+
 @Preview
 @Composable
 fun HomeTopBarPreview() {
-    MemotionsTheme (darkTheme = true){
+    MemotionsTheme(darkTheme = true) {
         HomeTopBar()
     }
 }

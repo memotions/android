@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,7 +29,11 @@ import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 @Composable
-fun SearchBar(modifier: Modifier = Modifier) {
+fun SearchBar(
+    modifier: Modifier = Modifier,
+    isFilter: Boolean = false,
+    onFilterClicked: () -> Unit = {},
+) {
     val customColors = MaterialTheme.customColors
     var searchText by remember { mutableStateOf("") }
 
@@ -42,12 +47,13 @@ fun SearchBar(modifier: Modifier = Modifier) {
             ),
         value = searchText,
         onValueChange = { searchText = it },
+
         singleLine = true,
         cursorBrush = SolidColor(customColors.TextOnBackgroundColor),
         textStyle = MaterialTheme.typography.bodySmall.copy(color = customColors.TextOnBackgroundColor),
         decorationBox = { innerTextField ->
             Row(
-                modifier = Modifier.padding(horizontal = 8.dp),
+                modifier = Modifier.padding(start = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
@@ -66,12 +72,17 @@ fun SearchBar(modifier: Modifier = Modifier) {
                     }
                     innerTextField()
                 }
-                Icon(
-                    modifier = Modifier.padding(start = 8.dp),
-                    painter = painterResource(id = R.drawable.ic_filter),
-                    contentDescription = "Filter Icon",
-                    tint = customColors.onSecondBackgroundColor
-                )
+                IconButton(
+                    onClick = { onFilterClicked() },
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_filter),
+                        contentDescription = "Filter Icon",
+                        tint = if (!isFilter) customColors.onSecondBackgroundColor else customColors.onBackgroundColor
+                    )
+                }
+
             }
         },
     )
