@@ -41,6 +41,10 @@ fun ViewJournalScreen(viewModel: ViewJournalViewModel = hiltViewModel()) {
     val customColors = MaterialTheme.customColors
 
     BottomSheetScaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .navigationBarsPadding()
+            .statusBarsPadding(),
         scaffoldState = scaffoldState,
         sheetPeekHeight = 85.dp,
         sheetContainerColor = Color(0xFF292828),
@@ -48,7 +52,7 @@ fun ViewJournalScreen(viewModel: ViewJournalViewModel = hiltViewModel()) {
         sheetContent = {
             BottomSheetContent(
                 emotionType = EmotionType.SCARED,
-                confidenceScore = 0.7f,
+                confidenceScore = 0.75f,
                 feedback = "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque"
             )
         }
