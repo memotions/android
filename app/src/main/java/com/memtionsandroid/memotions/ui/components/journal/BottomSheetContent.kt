@@ -49,8 +49,7 @@ fun BottomSheetContent(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .navigationBarsPadding(),
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
