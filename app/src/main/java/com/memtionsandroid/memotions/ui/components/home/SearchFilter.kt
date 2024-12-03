@@ -130,8 +130,6 @@ fun SearchFilter() {
                 }
                 openDialog = false
             },
-            onEmptyTagInputIcon = null,
-            onEmptyTagInputHint = null,
             onEmptyTagContent = {
                 Box(modifier = Modifier.fillMaxSize()) {
                     Text(

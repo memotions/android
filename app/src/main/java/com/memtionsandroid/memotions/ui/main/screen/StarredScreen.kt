@@ -8,25 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.memtionsandroid.memotions.ui.components.main.Journal
 import com.memtionsandroid.memotions.ui.components.main.Journals
+import com.memtionsandroid.memotions.ui.components.main.journalList
 import com.memtionsandroid.memotions.ui.components.starred.StarredTopBar
 
 
-val starredJournalList = listOf(
-    Journal(
-        "Sangat bahagia karena mendapatkan hadiah besar",
-        "Hari ini saya merasa sangat beruntung karena mendapatkan hadiah yang saya inginkan sejak lama. Semoga terus membawa keberuntungan.",
-        "Date 2",
-        listOf("Liburan", "Hadiah"),
-        true
-    ),
-    Journal(
-        "Pagi yang cerah dan menyenangkan",
-        "Cuaca hari ini sangat cerah dan menyenangkan. Saya merasa sangat berenergi untuk memulai hari ini.",
-        "Date 4",
-        listOf("Sekolah", "Olahraga"),
-        true
-    ),
-)
 
 @Composable
 fun StarredScreen() {
@@ -40,7 +25,9 @@ fun StarredScreen() {
                     .fillMaxWidth()
                     .padding(innerPadding)
             ) {
-                Journals(starredJournalList)
+
+                val filteredList = journalList.filter { it.isStarred }
+                Journals(filteredList)
             }
         }
     )

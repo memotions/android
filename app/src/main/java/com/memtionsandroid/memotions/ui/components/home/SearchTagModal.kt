@@ -42,8 +42,8 @@ import com.memtionsandroid.memotions.ui.theme.customColors
 @Composable
 fun SearchTagModal(
     tags: List<Tag>,
-    onEmptyTagInputIcon: Painter?,
-    onEmptyTagInputHint: String?,
+    onEmptyTagInputIcon: Painter = painterResource(id = R.drawable.ic_search),
+    onEmptyTagInputHint: String = "Cari Tag",
     onDismissRequest: () -> Unit,
     onEmptyTagContent: @Composable (String) -> @Composable Unit,
     onItemClicked: (String) -> Unit
@@ -102,16 +102,14 @@ fun SearchTagModal(
                         ) {
                             Icon(
                                 modifier = Modifier.padding(end = 8.dp),
-                                painter = if (filteredTags.isNotEmpty()) painterResource(id = R.drawable.ic_search) else onEmptyTagInputIcon
-                                    ?: painterResource(id = R.drawable.ic_search),
+                                painter = if (filteredTags.isNotEmpty()) painterResource(id = R.drawable.ic_search) else onEmptyTagInputIcon,
                                 contentDescription = "Search Icon",
                                 tint = if (!isFocused) customColors.onSecondBackgroundColor else customColors.onBackgroundColor
                             )
                             Box(Modifier.weight(1f)) {
                                 if (searchTags.isEmpty()) {
                                     Text(
-                                        text = if (filteredTags.isNotEmpty()) "Cari Tag" else onEmptyTagInputHint
-                                            ?: "Cari Tag",
+                                        text = if (filteredTags.isNotEmpty()) "Cari Tag" else onEmptyTagInputHint,
                                         color = customColors.onSecondBackgroundColor,
                                         style = MaterialTheme.typography.bodySmall
                                     )
