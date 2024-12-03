@@ -1,6 +1,5 @@
 package com.memtionsandroid.memotions.ui.main.screen
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.ui.components.home.HomeTopBar
-import com.memtionsandroid.memotions.ui.components.main.Journal
 import com.memtionsandroid.memotions.ui.components.main.Journals
 import com.memtionsandroid.memotions.ui.components.main.journalList
 import com.memtionsandroid.memotions.ui.theme.customColors
@@ -26,8 +24,7 @@ fun HomeScreen() {
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    // Tambahkan aksi saat FAB diklik
-                    Log.d("FAB", "Floating Action Button Clicked!")
+
                 },
                 containerColor = customColors.barColor,
                 contentColor = customColors.onBarColor,

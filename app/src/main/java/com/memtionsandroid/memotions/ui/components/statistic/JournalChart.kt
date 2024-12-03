@@ -14,12 +14,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
-import kotlinx.coroutines.Delay
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -55,7 +53,7 @@ fun JournalChart(
             color = it.color,
             animation = Animatable(0f),
 
-        )
+            )
     }
 
     LaunchedEffect(key1 = arcs) {
@@ -87,7 +85,7 @@ fun JournalChart(
                 )
             }
         }
-        Column (modifier = Modifier.align(Alignment.Center)){
+        Column(modifier = Modifier.align(Alignment.Center)) {
             content()
         }
     }

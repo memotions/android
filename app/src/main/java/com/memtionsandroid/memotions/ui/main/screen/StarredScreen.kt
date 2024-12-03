@@ -6,11 +6,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.memtionsandroid.memotions.ui.components.main.Journal
 import com.memtionsandroid.memotions.ui.components.main.Journals
 import com.memtionsandroid.memotions.ui.components.main.journalList
 import com.memtionsandroid.memotions.ui.components.starred.StarredTopBar
-
 
 
 @Composable
