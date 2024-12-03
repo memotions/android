@@ -115,6 +115,7 @@ fun SearchFilter() {
             }
         }
     }
+
     if (openDialog) {
         SearchTagModal(
             tags = tagsJurnal,

@@ -85,7 +85,7 @@ fun JournalCard(
                     }
                     Icon(
                         painter = icon,
-                        contentDescription = "Angry Icon",
+                        contentDescription = "Star Icon",
                         modifier = Modifier.size(12.dp),
                         tint = if (journal.isStarred) customColors.TextOnBackgroundColor else Color.Transparent,
                     )
