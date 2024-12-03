@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +20,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,12 +32,23 @@ import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 @Composable
-fun SearchBar(modifier: Modifier = Modifier) {
+fun SearchBar(
+    modifier: Modifier = Modifier,
+    isFilter: Boolean = false,
+    onFilterClicked: () -> Unit = {},
+) {
     val customColors = MaterialTheme.customColors
     var searchText by remember { mutableStateOf("") }
 
+    val focusRequester = remember { FocusRequester() }
+    var isFocused by remember { mutableStateOf(false) }
+
     BasicTextField(
         modifier = modifier
+            .focusRequester(focusRequester)
+            .onFocusChanged { focusState ->
+                isFocused = focusState.isFocused
+            }
             .height(40.dp)
             .fillMaxWidth()
             .background(
@@ -42,19 +57,20 @@ fun SearchBar(modifier: Modifier = Modifier) {
             ),
         value = searchText,
         onValueChange = { searchText = it },
+
         singleLine = true,
         cursorBrush = SolidColor(customColors.TextOnBackgroundColor),
         textStyle = MaterialTheme.typography.bodySmall.copy(color = customColors.TextOnBackgroundColor),
         decorationBox = { innerTextField ->
             Row(
-                modifier = Modifier.padding(horizontal = 8.dp),
+                modifier = Modifier.padding(start = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
                     modifier = Modifier.padding(end = 8.dp),
                     painter = painterResource(id = R.drawable.ic_search),
                     contentDescription = "Search Icon",
-                    tint = customColors.onSecondBackgroundColor
+                    tint = if (!isFocused) customColors.onSecondBackgroundColor else customColors.onBackgroundColor
                 )
                 Box(Modifier.weight(1f)) {
                     if (searchText.isEmpty()) {
@@ -66,12 +82,17 @@ fun SearchBar(modifier: Modifier = Modifier) {
                     }
                     innerTextField()
                 }
-                Icon(
-                    modifier = Modifier.padding(start = 8.dp),
-                    painter = painterResource(id = R.drawable.ic_filter),
-                    contentDescription = "Filter Icon",
-                    tint = customColors.onSecondBackgroundColor
-                )
+                IconButton(
+                    onClick = { onFilterClicked() },
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_filter),
+                        contentDescription = "Filter Icon",
+                        tint = if (!isFilter) customColors.onSecondBackgroundColor else customColors.onBackgroundColor
+                    )
+                }
+
             }
         },
     )

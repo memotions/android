@@ -29,7 +29,8 @@ data class Journal(
     val title: String,
     val content: String,
     val date: String,
-    val Tag: List<String> = emptyList(),
+    val Tags: List<String> = emptyList(),
+    val emotion: String,
     val isStarred: Boolean = false
 )
 
@@ -40,8 +41,15 @@ fun JournalCard(
     modifier: Modifier = Modifier
 ) {
     val customColors = MaterialTheme.customColors
-    val tags = journal.Tag.joinToString(" ") { "#$it" }
-    val painter = painterResource(id = R.drawable.emo_angry)
+    val tags = journal.Tags.joinToString(" ") { "#$it" }
+    val painter = when (journal.emotion) {
+        "happy" -> painterResource(id = R.drawable.emo_happy)
+        "angry" -> painterResource(id = R.drawable.emo_angry)
+        "sad" -> painterResource(id = R.drawable.emo_sad)
+        "neutral" -> painterResource(id = R.drawable.emo_netral)
+        "scared" -> painterResource(id = R.drawable.emo_scared)
+        else -> painterResource(id = R.drawable.emo_netral)
+    }
     val icon = painterResource(id = R.drawable.ic_star)
     Surface(
         modifier = modifier
@@ -85,7 +93,7 @@ fun JournalCard(
                     }
                     Icon(
                         painter = icon,
-                        contentDescription = "Angry Icon",
+                        contentDescription = "Star Icon",
                         modifier = Modifier.size(12.dp),
                         tint = if (journal.isStarred) customColors.TextOnBackgroundColor else Color.Transparent,
                     )
@@ -123,7 +131,8 @@ fun JournalCardPreview() {
             "bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla",
             "Date",
             listOf("Sekolah", "Kerja", "Belajar"),
-            true
+            "happy",
+            false
         )
         JournalCard(journal)
 //        Text(text = journal.Tag.joinToString(" "))
@@ -139,6 +148,7 @@ fun JournalCardPreviewDark() {
             "bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla",
             "Date",
             listOf("Sekolah", "Kerja", "Belajar"),
+            "happy",
             true
         )
         JournalCard(journal)
