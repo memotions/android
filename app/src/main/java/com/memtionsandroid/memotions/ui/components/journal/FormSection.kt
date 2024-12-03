@@ -4,11 +4,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.CardDefaults
@@ -21,6 +27,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -28,16 +35,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.memtionsandroid.memotions.ui.components.home.Tag
+import com.memtionsandroid.memotions.ui.components.home.TagChip
 import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
 import com.memtionsandroid.memotions.ui.theme.Poppins
 import com.memtionsandroid.memotions.ui.theme.customColors
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun FormSection(
     dateInfo: String,
     titleState: MutableState<TextFieldValue>,
     journalState: MutableState<TextFieldValue>,
-    tag: String,
+    tags: List<Tag>,
+    onTagRemove: (Int) -> Unit,
     inView: Boolean
 ) {
     val customColors = MaterialTheme.customColors
@@ -134,20 +145,33 @@ fun FormSection(
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight()
+                        .wrapContentHeight()
+                        .defaultMinSize(minHeight = 200.dp)
                 )
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Spacer(modifier = Modifier.weight(1f))
-                    Text(text = tag, style = TextStyle(
-                        fontFamily = Poppins,
-                        fontSize = 10.sp,
-                        color = customColors.onSecondBackgroundColor.copy(alpha = 0.9f),
-                        textAlign = TextAlign.End
-                    ))
+                if (tags.isNotEmpty()) {
+                    FlowRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        tags.forEachIndexed { index, tag ->
+                            if(inView){
+                                TagChip(
+                                    tag = tag,
+                                    onRemove = { onTagRemove(index) },
+                                    viewOnly = true
+                                )
+                            }else{
+                                TagChip(
+                                    tag = tag,
+                                    onRemove = { onTagRemove(index) },
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -160,14 +184,18 @@ fun FormSection(
 private fun DefaultPreview() {
     val titleState = remember { mutableStateOf(TextFieldValue()) }
     val journalState = remember { mutableStateOf(TextFieldValue()) }
+    val tags = remember { mutableStateOf(listOf(Tag("Sekolah"), Tag("Pribadi"))) }
 
     MemotionsTheme {
         FormSection(
             dateInfo = "Today",
             titleState = titleState,
             journalState = journalState,
-            tag = "#Sekolah",
-            inView = true
+            tags = tags.value,
+            onTagRemove = { index ->
+                tags.value = tags.value.toMutableList().apply { removeAt(index) }
+            },
+            inView = false
         )
     }
 }
