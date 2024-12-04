@@ -113,7 +113,7 @@ fun MainScreen() {
             composable("home") { HomeScreen() }
             composable("starred") { StarredScreen() }
             composable("statistic") { StatisticScreen() }
-            composable("Profile") { ProfileScreen() }
+            composable("profile") { ProfileScreen() }
         }
     }
 }
