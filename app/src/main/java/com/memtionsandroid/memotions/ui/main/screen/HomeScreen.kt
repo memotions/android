@@ -10,6 +10,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.ui.components.home.HomeTopBar
 import com.memtionsandroid.memotions.ui.components.main.Journals

@@ -24,16 +24,16 @@ import com.memtionsandroid.memotions.ui.theme.customColors
 fun ChoiceButton(
     modifier: Modifier = Modifier,
     options: List<String>,
-    selectedOption: Int,
-    onSelected: (Int) -> Unit,
+    selectedOption: String,
+    onSelected: (String) -> Unit,
 ) {
     val customColors = MaterialTheme.customColors
     Box(modifier = modifier) {
         Row {
             options.forEachIndexed { index, label ->
-                val isSelected = selectedOption == index
+                val isSelected = selectedOption == label
                 TextButton(
-                    onClick = { onSelected(index) },
+                    onClick = { onSelected(label) },
                     shape = SegmentedButtonDefaults.itemShape(index = index, count = options.size),
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {

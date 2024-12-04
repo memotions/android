@@ -24,7 +24,9 @@ import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 @Composable
-fun EmositonStatistic(modifier: Modifier) {
+fun EmositonStatistic(
+    modifier: Modifier,
+    emotions: List<String>) {
     val customColors = MaterialTheme.customColors
 
     val angryImage = painterResource(R.drawable.emo_angry)
@@ -33,11 +35,22 @@ fun EmositonStatistic(modifier: Modifier) {
     val netralImage = painterResource(R.drawable.emo_netral)
     val scaredImage = painterResource(R.drawable.emo_scared)
 
-    val angry = "30%"
-    val happy = "35%"
-    val sad = "15%"
-    val netral = "10%"
-    val scared = "10%"
+    val total = emotions.size
+    val emotionCounts = emotions.groupingBy { it }.eachCount()
+
+    // Fungsi untuk menghitung persentase dan memformat hasilnya
+    fun formatPercentage(count: Int, total: Int): String {
+        val percentage = (count.toDouble() / total) * 100
+        return "${"%.0f".format(percentage)}%"
+    }
+
+// Hitung dan format persentase untuk setiap emosi
+    val happy = formatPercentage(emotionCounts["happy"] ?: 0, total)
+    val sad = formatPercentage(emotionCounts["sad"] ?: 0, total)
+    val neutral = formatPercentage(emotionCounts["neutral"] ?: 0, total)
+    val angry = formatPercentage(emotionCounts["angry"] ?: 0, total)
+    val scared = formatPercentage(emotionCounts["scared"] ?: 0, total)
+
 
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -135,7 +148,7 @@ fun EmositonStatistic(modifier: Modifier) {
                 ) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
-                        text = netral,
+                        text = neutral,
                         color = customColors.onBarColor,
                         style = MaterialTheme.typography.titleSmall.copy(
                             fontSize = 9.sp,

@@ -31,15 +31,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.memtionsandroid.memotions.data.local.entity.Emotion
 import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 @Composable
-fun StatisticTopBar() {
+fun StatisticTopBar(
+    selectedMode: String,
+    onSelectedMode: (String) -> Unit,
+    emotions: List<String>
+) {
     val customColors = MaterialTheme.customColors
     var isExchange by remember { mutableStateOf(false) }
-    var selectedMode by remember { mutableStateOf(0) }
+//    var selectedMode by remember { mutableStateOf(0) }
     val options = listOf("Semua", "Hari", "Minggu", "Bulan")
+
+    // Hitung jumlah setiap emosi
+    val emotionCounts = emotions.groupingBy { it }.eachCount()
 
     Surface(
         modifier = Modifier
@@ -62,7 +70,7 @@ fun StatisticTopBar() {
                     style = MaterialTheme.typography.titleLarge
                 )
 
-                EmositonStatistic(modifier = Modifier.padding(top = 12.dp))
+                EmositonStatistic(modifier = Modifier.padding(top = 12.dp), emotions = emotions)
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -76,16 +84,16 @@ fun StatisticTopBar() {
                             JournalChart(
                                 modifier = Modifier.padding(20.dp),
                                 chartData = listOf(
-                                    ChartData("Happy", 10, Color(0xFFFDD438)),
-                                    ChartData("Sad", 20, Color(0xFF493DEB)),
-                                    ChartData("Netral", 10, Color(0xFF9AA6A7)),
-                                    ChartData("Angry", 10, Color(0xFFEA543A)),
-                                    ChartData("Scared", 10, Color(0xFF6F4CB6)),
+                                    ChartData("Happy", emotionCounts["happy"] ?: 0, Color(0xFFFDD438)),
+                                    ChartData("Sad", emotionCounts["sad"] ?: 0, Color(0xFF493DEB)),
+                                    ChartData("Netral", emotionCounts["neutral"] ?: 0, Color(0xFF9AA6A7)),
+                                    ChartData("Angry", emotionCounts["angry"] ?: 0, Color(0xFFEA543A)),
+                                    ChartData("Scared",  emotionCounts["scared"] ?: 0, Color(0xFF6F4CB6)),
                                 )
                             ) {
                                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                     Text(
-                                        text = "12",
+                                        text = emotions.size.toString(),
                                         style = MaterialTheme.typography.titleLarge.copy(fontSize = 36.sp),
                                         color = customColors.onBackgroundColor
                                     )
@@ -103,7 +111,7 @@ fun StatisticTopBar() {
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         ChoiceButton(options = options, selectedOption = selectedMode) {
-                            selectedMode = it
+                            onSelectedMode(it)
                         }
                         IconButton(
                             onClick = { isExchange = !isExchange },
@@ -115,15 +123,6 @@ fun StatisticTopBar() {
                                 contentDescription = if (isExchange) "Sembunyikan" else "Lihat Selengkapnya"
                             )
                         }
-//                        TextButton(
-//                            onClick = { isExchange = !isExchange },
-//                        ) {
-//                            Text(
-//                                text = if (!isExchange) "Lihat Selengkapnya" else "Sembunyikan",
-//                                color = customColors.onSecondBackgroundColor,
-//                                style = MaterialTheme.typography.labelMedium,
-//                            )
-//                        }
                     }
                 }
 
@@ -136,7 +135,7 @@ fun StatisticTopBar() {
 @Composable
 fun StatisticTopBarPreview() {
     MemotionsTheme() {
-        StatisticTopBar()
+//        StatisticTopBar()
     }
 }
 
@@ -144,6 +143,6 @@ fun StatisticTopBarPreview() {
 @Composable
 fun StatisticTopBarPreviewDark() {
     MemotionsTheme(darkTheme = true) {
-        StatisticTopBar()
+//        StatisticTopBar()
     }
 }

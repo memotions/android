@@ -56,7 +56,7 @@ fun JournalInfo(modifier: Modifier = Modifier) {
                     )
                 )
             }
-            EmositonStatistic(modifier = Modifier.padding(top = 8.dp))
+            EmositonStatistic(modifier = Modifier.padding(top = 8.dp), emotions = emptyList())
         }
     )
 }
