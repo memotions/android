@@ -56,18 +56,17 @@ fun StatisticScreen() {
 
     val groupedJournalListDate = journalList.groupBy { journal ->
         val localDate = LocalDate.parse(journal.date, dateFormatter)
-        localDate.format(DateTimeFormatter.ofPattern("yyyy MM")) // Grup pertama: bulan dan tahun
+        localDate.format(DateTimeFormatter.ofPattern("yyyy MM"))
     }.toSortedMap(reverseOrder()).mapValues { entry ->
         entry.value.groupBy { journal ->
             val localDate = LocalDate.parse(journal.date, dateFormatter)
-            localDate.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")) // Grup kedua: tanggal
+            localDate.format(DateTimeFormatter.ofPattern("dd MMMM yyyy"))
         }.toSortedMap(reverseOrder())
     }
 
-
     val groupedJournalListMonthWeek = journalList.groupBy { journal ->
         val localDate = LocalDate.parse(journal.date, dateFormatter)
-        localDate.format(DateTimeFormatter.ofPattern("yyyy MM")) // Grup pertama: bulan dan tahun
+        localDate.format(DateTimeFormatter.ofPattern("yyyy MM"))
     }.toSortedMap(reverseOrder()).mapValues { entry ->
         entry.value.groupBy { journal ->
             val localDate = LocalDate.parse(journal.date, dateFormatter)

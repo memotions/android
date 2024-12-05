@@ -26,6 +26,8 @@ androidxTestRunner = "1.6.2"
 coroutines = "1.9.0"
 ksp = "2.0.21-1.0.27"
 material3 = "1.4.0-alpha04"
+composeIcon = "1.7.5"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -64,6 +66,7 @@ androidx-test-runner = { module = "androidx.test:runner", version.ref = "android
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "composeIcon" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

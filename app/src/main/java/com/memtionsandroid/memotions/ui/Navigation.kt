@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.memtionsandroid.memotions.ui.achievement.AchivementScreen
 import com.memtionsandroid.memotions.ui.main.MainScreen
 
 @Composable
@@ -13,7 +14,7 @@ fun MainNavigation() {
     NavHost(navController = navController, startDestination = "main") {
         composable("main") {
 //            HomeScreen(modifier = Modifier.padding(16.dp))
-            MainScreen()
+            AchivementScreen()
         }
 //        composable("home") { HomeScreen() }
 //        composable("starred") { StarredScreen() }
