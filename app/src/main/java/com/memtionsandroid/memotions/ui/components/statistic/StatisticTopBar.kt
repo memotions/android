@@ -31,7 +31,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.memtionsandroid.memotions.data.local.entity.Emotion
 import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
 import com.memtionsandroid.memotions.ui.theme.customColors
 
@@ -43,11 +42,21 @@ fun StatisticTopBar(
 ) {
     val customColors = MaterialTheme.customColors
     var isExchange by remember { mutableStateOf(false) }
-//    var selectedMode by remember { mutableStateOf(0) }
     val options = listOf("Semua", "Hari", "Minggu", "Bulan")
-
-    // Hitung jumlah setiap emosi
     val emotionCounts = emotions.groupingBy { it }.eachCount()
+
+    val total = emotions.size
+
+    fun formatPercentage(count: Int, total: Int): String {
+        val percentage = (count.toDouble() / total) * 100
+        return "${"%.0f".format(percentage)}%"
+    }
+
+    val happy = formatPercentage(emotionCounts["happy"] ?: 0, total)
+    val sad = formatPercentage(emotionCounts["sad"] ?: 0, total)
+    val neutral = formatPercentage(emotionCounts["neutral"] ?: 0, total)
+    val angry = formatPercentage(emotionCounts["angry"] ?: 0, total)
+    val scared = formatPercentage(emotionCounts["scared"] ?: 0, total)
 
     Surface(
         modifier = Modifier
@@ -70,7 +79,14 @@ fun StatisticTopBar(
                     style = MaterialTheme.typography.titleLarge
                 )
 
-                EmositonStatistic(modifier = Modifier.padding(top = 12.dp), emotions = emotions)
+                EmositonStatistic(
+                    modifier = Modifier.padding(top = 12.dp),
+                    happy = happy,
+                    sad = sad,
+                    neutral = neutral,
+                    angry = angry,
+                    scared = scared
+                )
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -84,11 +100,27 @@ fun StatisticTopBar(
                             JournalChart(
                                 modifier = Modifier.padding(20.dp),
                                 chartData = listOf(
-                                    ChartData("Happy", emotionCounts["happy"] ?: 0, Color(0xFFFDD438)),
+                                    ChartData(
+                                        "Happy",
+                                        emotionCounts["happy"] ?: 0,
+                                        Color(0xFFFDD438)
+                                    ),
                                     ChartData("Sad", emotionCounts["sad"] ?: 0, Color(0xFF493DEB)),
-                                    ChartData("Netral", emotionCounts["neutral"] ?: 0, Color(0xFF9AA6A7)),
-                                    ChartData("Angry", emotionCounts["angry"] ?: 0, Color(0xFFEA543A)),
-                                    ChartData("Scared",  emotionCounts["scared"] ?: 0, Color(0xFF6F4CB6)),
+                                    ChartData(
+                                        "Netral",
+                                        emotionCounts["neutral"] ?: 0,
+                                        Color(0xFF9AA6A7)
+                                    ),
+                                    ChartData(
+                                        "Angry",
+                                        emotionCounts["angry"] ?: 0,
+                                        Color(0xFFEA543A)
+                                    ),
+                                    ChartData(
+                                        "Scared",
+                                        emotionCounts["scared"] ?: 0,
+                                        Color(0xFF6F4CB6)
+                                    ),
                                 )
                             ) {
                                 Column(horizontalAlignment = Alignment.CenterHorizontally) {

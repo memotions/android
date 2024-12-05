@@ -56,67 +56,17 @@ fun JournalInfo(modifier: Modifier = Modifier) {
                     )
                 )
             }
-            EmositonStatistic(modifier = Modifier.padding(top = 8.dp), emotions = emptyList())
+            EmositonStatistic(
+                modifier = Modifier.padding(top = 8.dp),
+                happy = "5",
+                sad = "5",
+                neutral = "5",
+                angry = "5",
+                scared = "5"
+            )
         }
     )
 }
-//
-//@Composable
-//fun JournalInfo(modifier: Modifier = Modifier) {
-//    val customColors = MaterialTheme.customColors
-//    val journalCount = 30
-//
-//    Box(
-//        modifier = modifier
-//            .fillMaxWidth()
-//            .height(
-//                240.dp
-//            )
-//            .border(
-//                width = 0.5.dp,
-//                color = customColors.outlineColor,
-//                shape = RoundedCornerShape(12.dp)
-//            )
-//            .background(
-//                color = customColors.backgroundColor,
-//                shape = RoundedCornerShape(12.dp),
-//
-//                )
-//    ) {
-//        Column(
-//            modifier = Modifier
-//                .padding(12.dp)
-//        ) {
-//            TitleCardWithIcon(
-//                title = "Jurnal"
-//            ) {
-//                Icon(
-//                    painter = painterResource(id = R.drawable.ic_pen),
-//                    contentDescription = "Journal Icon",
-//                    modifier = Modifier.size(20.dp),
-//                    tint = customColors.onBackgroundColor
-//                )
-//            }
-//            Row(
-//                horizontalArrangement = Arrangement.Center,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(8.dp),
-//            ) {
-//                Text(
-//                    modifier = Modifier.padding(16.dp),
-//                    text = journalCount.toString(),
-//                    color = customColors.onBackgroundColor,
-//                    style = MaterialTheme.typography.titleLarge.copy(
-//                        fontSize = 40.sp,
-//                        fontWeight = FontWeight.ExtraBold
-//                    )
-//                )
-//            }
-//            EmositonStatistic(modifier = Modifier.padding(top = 8.dp))
-//        }
-//    }
-//}
 
 @Preview
 @Composable
