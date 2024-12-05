@@ -2,7 +2,6 @@ package com.memtionsandroid.memotions.ui.components.achievement
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,14 +33,14 @@ fun AchievementTopBar(
     val customColors = MaterialTheme.customColors
 
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth(),
         shadowElevation = 4.dp,
         tonalElevation = 8.dp,
         border = BorderStroke(0.5.dp, customColors.outlineColor),
         shape = RoundedCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp),
     ) {
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(customColors.backgroundColor)
@@ -72,7 +71,8 @@ fun AchievementTopBar(
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(vertical = 12.dp)
+                modifier = Modifier
+                    .padding(vertical = 12.dp)
                     .align(Alignment.CenterHorizontally)
             ) {
                 Icon(
