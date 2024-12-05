@@ -3,11 +3,14 @@ package com.memtionsandroid.memotions.ui
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.memtionsandroid.memotions.ui.addjournal.AddJournalScreen
 import com.memtionsandroid.memotions.ui.login.LoginScreen
+import com.memtionsandroid.memotions.ui.login.LoginViewModel
 import com.memtionsandroid.memotions.ui.main.MainScreen
 import com.memtionsandroid.memotions.ui.onboarding.OnBoardingScreen
 import com.memtionsandroid.memotions.ui.register.RegisterScreen
@@ -16,15 +19,25 @@ import com.memtionsandroid.memotions.ui.viewjournal.ViewJournalScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MainNavigation() {
+fun MainNavigation(viewModel: LoginViewModel = hiltViewModel()) {
     val navController = rememberNavController()
+    val isFirstLaunch = viewModel.isFirstLaunch.collectAsStateWithLifecycle()
+    val authToken = viewModel.authToken.collectAsStateWithLifecycle()
 
-    NavHost(navController = navController, startDestination = NavigationRoutes.ADD_JOURNAL) {
+    val startRoute = if (isFirstLaunch.value == true) {
+        NavigationRoutes.ONBOARDING
+    } else if (authToken.value.isNullOrEmpty()) {
+        NavigationRoutes.LOGIN
+    } else {
+        NavigationRoutes.MAIN
+    }
+
+    NavHost(navController = navController, startDestination = startRoute) {
         composable(NavigationRoutes.LOGIN) {
-            LoginScreen()
+            LoginScreen(navController)
         }
         composable(NavigationRoutes.REGISTER) {
-            RegisterScreen()
+            RegisterScreen(navController)
         }
         composable(NavigationRoutes.MAIN) {
             MainScreen()
@@ -36,7 +49,7 @@ fun MainNavigation() {
             ViewJournalScreen()
         }
         composable(NavigationRoutes.ONBOARDING) {
-            OnBoardingScreen()
+            OnBoardingScreen(navController)
         }
 //        composable(NavigationRoutes.ACHIEVEMENT) {
 //            AchievementScreen()
