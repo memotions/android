@@ -45,7 +45,6 @@ fun HomeScreen() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(innerPadding)
-//                    .padding(bottom = 80.dp)
             )
             {
                 Journals(journalList)

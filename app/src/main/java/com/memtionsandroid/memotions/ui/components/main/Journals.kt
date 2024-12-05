@@ -45,7 +45,6 @@ fun Journals(journals: List<Journal>) {
                     journal,
                     modifier = Modifier.padding(top = 4.dp,bottom = bottomPadding)
                 )
-//                JournalCard(journal, modifier = Modifier.padding(vertical = 4.dp))
             }
         }
     }
