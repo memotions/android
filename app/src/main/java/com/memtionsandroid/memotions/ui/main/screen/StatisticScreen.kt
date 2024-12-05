@@ -87,12 +87,6 @@ fun StatisticScreen() {
         }
     }
 
-    val journalsMode = when (modeSelected) {
-        MODE_HARI -> groupedJournalListDate
-        MODE_BULAN -> groupedJournalListMonth
-        MODE_MINGGU -> groupedJournalListMonthWeek
-        else -> emptyMap()
-    }
 
     if (modeSelected == MODE_SEMUA) {
         emotionsSelected = journalList.map { it.emotion }
