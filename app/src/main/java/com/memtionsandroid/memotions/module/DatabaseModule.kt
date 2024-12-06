@@ -3,7 +3,7 @@ package com.memtionsandroid.memotions.module
 import android.content.Context
 import androidx.room.Room
 import com.memtionsandroid.memotions.data.local.room.AppDatabase
-import com.memtionsandroid.memotions.data.local.room.EmotionDao
+import com.memtionsandroid.memotions.data.local.room.JournalDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,8 +16,8 @@ import javax.inject.Singleton
 class DatabaseModule {
 
     @Provides
-    fun provideEmotionDao(appDatabase: AppDatabase): EmotionDao {
-        return appDatabase.emotionDao()
+    fun provideJournalDao(appDatabase: AppDatabase): JournalDao {
+        return appDatabase.journalDao()
     }
 
     @Provides

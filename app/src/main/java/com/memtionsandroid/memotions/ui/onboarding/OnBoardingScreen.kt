@@ -29,8 +29,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavHostController
+import com.memtionsandroid.memotions.ui.NavigationRoutes
 import com.memtionsandroid.memotions.ui.onboarding.screen.OnBoardingScreen1
 import com.memtionsandroid.memotions.ui.onboarding.screen.OnBoardingScreen2
 import com.memtionsandroid.memotions.ui.onboarding.screen.OnBoardingScreen3
@@ -40,8 +40,9 @@ import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
 @Composable
-fun OnBoardingScreen() {
-    val navController = rememberNavController()
+fun OnBoardingScreen(
+    navController: NavHostController,
+) {
     val pagerState = rememberPagerState(pageCount = { 4 })
     val coroutineScope = rememberCoroutineScope()
 
@@ -81,7 +82,8 @@ fun OnBoardingScreen() {
             horizontalArrangement = Arrangement.Center
         ) {
             repeat(pagerState.pageCount) { iteration ->
-                val color = if (pagerState.currentPage == iteration) Color(0xFF292828) else Color(0xFFD1BE89)
+                val color =
+                    if (pagerState.currentPage == iteration) Color(0xFF292828) else Color(0xFFD1BE89)
                 Box(
                     modifier = Modifier
                         .padding(6.dp)
@@ -93,14 +95,17 @@ fun OnBoardingScreen() {
         }
 
         Row(
-            modifier = Modifier.width(340.dp)
+            modifier = Modifier
+                .width(340.dp)
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             TextButton(
                 onClick = {
-                    onStart(navController)
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(3)
+                    }
                 },
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier.size(125.dp, 34.dp)
@@ -117,13 +122,17 @@ fun OnBoardingScreen() {
             }
 
             Button(
-                onClick = { if (pagerState.currentPage == 3) {
-                    onStart(navController)
-                } else {
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                onClick = {
+                    if (pagerState.currentPage == 3) {
+                        navController.navigate(NavigationRoutes.REGISTER) {
+                            popUpTo(0) { inclusive = true }
+                            launchSingleTop = true
+                        }
+                    } else {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                        }
                     }
-                }
                 },
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier.size(125.dp, 34.dp),
@@ -144,8 +153,4 @@ fun OnBoardingScreen() {
         }
 
     }
-}
-
-fun onStart(navController: NavController) {
-    navController.navigate("login")
 }

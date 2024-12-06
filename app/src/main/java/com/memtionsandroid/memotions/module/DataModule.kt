@@ -1,9 +1,13 @@
 package com.memtionsandroid.memotions.module
 
-import com.memtionsandroid.memotions.data.repository.DefaultEmotionRepository
-import com.memtionsandroid.memotions.data.repository.DefaultPostRepository
-import com.memtionsandroid.memotions.data.repository.EmotionRepository
-import com.memtionsandroid.memotions.data.repository.PostRepository
+import com.memtionsandroid.memotions.data.repository.AuthRepository
+import com.memtionsandroid.memotions.data.repository.DefaultAuthRepository
+import com.memtionsandroid.memotions.data.repository.DefaultJournalsRepository
+import com.memtionsandroid.memotions.data.repository.DefaultLocalRepository
+import com.memtionsandroid.memotions.data.repository.DefaultStatisticsRepository
+import com.memtionsandroid.memotions.data.repository.JournalsRepository
+import com.memtionsandroid.memotions.data.repository.LocalRepository
+import com.memtionsandroid.memotions.data.repository.StatisticsRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,15 +20,25 @@ interface DataModule {
 
     @Singleton
     @Binds
-    fun bindsEmotionRepository(
-        emotionRepository: DefaultEmotionRepository
-    ): EmotionRepository
+    fun bindsAuthRepository(
+        authRepository: DefaultAuthRepository
+    ): AuthRepository
 
     @Singleton
     @Binds
-    fun bindsPostRepository(
-        postRepository: DefaultPostRepository
-    ): PostRepository
+    fun bindsJournalsRepository(
+        journalsRepository: DefaultJournalsRepository
+    ): JournalsRepository
 
-    // TODO: add another repository
+    @Singleton
+    @Binds
+    fun bindsStatisticsRepository(
+        statisticsRepository: DefaultStatisticsRepository
+    ): StatisticsRepository
+
+    @Singleton
+    @Binds
+    fun bindsLocalRepository(
+        localRepository: DefaultLocalRepository
+    ): LocalRepository
 }

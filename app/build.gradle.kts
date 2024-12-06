@@ -20,7 +20,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "BASE_URL", "\"https://jsonplaceholder.typicode.com\"")
+        buildConfigField("String", "BASE_URL", "\"https://backend-api-635053273661.asia-southeast2.run.app\"")
 
         vectorDrawables {
             useSupportLibrary = true
