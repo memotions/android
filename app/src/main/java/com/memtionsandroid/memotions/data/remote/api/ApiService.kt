@@ -123,7 +123,8 @@ interface ApiService {
         @Path("tagId") tagId: Int
     ): TagResponse
 
-    // *** Statistic Endpoint *** Belum
+    // *** Statistic Endpoint ***
+    // TODO: (Unfinished Endpoint)
 
     @GET("achievements")
     suspend fun getUserAchievements(
