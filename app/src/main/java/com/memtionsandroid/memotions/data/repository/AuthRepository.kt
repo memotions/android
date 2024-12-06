@@ -5,9 +5,9 @@ import com.memtionsandroid.memotions.data.local.datastore.UserPreference
 import com.memtionsandroid.memotions.data.remote.api.ApiService
 import com.memtionsandroid.memotions.data.remote.api.LoginRequest
 import com.memtionsandroid.memotions.data.remote.api.RegisterRequest
-import com.memtionsandroid.memotions.data.remote.response.AuthResponse
-import com.memtionsandroid.memotions.data.remote.response.CommonErrorResponse
-import com.memtionsandroid.memotions.data.remote.response.ValidationErrorResponse
+import com.memtionsandroid.memotions.data.remote.response.auth.AuthResponse
+import com.memtionsandroid.memotions.data.remote.response.auth.CommonErrorResponse
+import com.memtionsandroid.memotions.data.remote.response.auth.ValidationErrorResponse
 import com.memtionsandroid.memotions.utils.DataResult
 import com.memtionsandroid.memotions.utils.Event
 import kotlinx.coroutines.flow.Flow

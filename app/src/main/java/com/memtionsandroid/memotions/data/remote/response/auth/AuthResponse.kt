@@ -1,11 +1,11 @@
-package com.memtionsandroid.memotions.data.remote.response
+package com.memtionsandroid.memotions.data.remote.response.auth
 
 import com.google.gson.annotations.SerializedName
 
 data class AuthResponse(
 
 	@field:SerializedName("data")
-	val data: Data,
+	val data: AuthData,
 
 	@field:SerializedName("errors")
 	val errors: Any?,
@@ -14,7 +14,7 @@ data class AuthResponse(
 	val status: String
 )
 
-data class Data(
+data class AuthData(
 
 	@field:SerializedName("user")
 	val user: User,

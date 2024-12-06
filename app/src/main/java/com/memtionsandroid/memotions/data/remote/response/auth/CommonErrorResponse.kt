@@ -1,4 +1,4 @@
-package com.memtionsandroid.memotions.data.remote.response
+package com.memtionsandroid.memotions.data.remote.response.auth
 
 import com.google.gson.annotations.SerializedName
 

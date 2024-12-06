@@ -1,4 +1,4 @@
-package com.memtionsandroid.memotions.data.remote.response
+package com.memtionsandroid.memotions.data.remote.response.auth
 
 import com.google.gson.annotations.SerializedName
 
@@ -14,13 +14,16 @@ data class ValidationErrorResponse(
     val status: String
 )
 
-data class Details(
+data class ValidationErrorDetails(
 
     @field:SerializedName("expected")
-    val expected: String,
+    val expected: String?,
 
     @field:SerializedName("received")
-    val received: String
+    val received: String?,
+
+    @field:SerializedName("validation")
+    val validation: String?
 )
 
 data class ValidationErrorsItem(
@@ -32,7 +35,7 @@ data class ValidationErrorsItem(
     val code: String,
 
     @field:SerializedName("details")
-    val details: Details?,
+    val details: ValidationErrorDetails?,
 
     @field:SerializedName("message")
     val message: String

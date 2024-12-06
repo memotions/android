@@ -2,11 +2,11 @@ package com.memtionsandroid.memotions.module
 
 import com.memtionsandroid.memotions.data.repository.AuthRepository
 import com.memtionsandroid.memotions.data.repository.DefaultAuthRepository
-import com.memtionsandroid.memotions.data.repository.DefaultEmotionRepository
-import com.memtionsandroid.memotions.data.repository.EmotionRepository
 import com.memtionsandroid.memotions.data.repository.DefaultJournalsRepository
+import com.memtionsandroid.memotions.data.repository.DefaultLocalRepository
 import com.memtionsandroid.memotions.data.repository.DefaultStatisticsRepository
 import com.memtionsandroid.memotions.data.repository.JournalsRepository
+import com.memtionsandroid.memotions.data.repository.LocalRepository
 import com.memtionsandroid.memotions.data.repository.StatisticsRepository
 import dagger.Binds
 import dagger.Module
@@ -17,12 +17,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 interface DataModule {
-
-    @Singleton
-    @Binds
-    fun bindsEmotionRepository(
-        emotionRepository: DefaultEmotionRepository
-    ): EmotionRepository
 
     @Singleton
     @Binds
@@ -41,4 +35,10 @@ interface DataModule {
     fun bindsStatisticsRepository(
         statisticsRepository: DefaultStatisticsRepository
     ): StatisticsRepository
+
+    @Singleton
+    @Binds
+    fun bindsLocalRepository(
+        localRepository: DefaultLocalRepository
+    ): LocalRepository
 }

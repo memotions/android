@@ -1,17 +1,17 @@
 package com.memtionsandroid.memotions.data.remote.api
 
-import com.memtionsandroid.memotions.data.local.entity.JournalStatus
-import com.memtionsandroid.memotions.data.remote.response.AchievementsResponse
-import com.memtionsandroid.memotions.data.remote.response.AchievementsResponseItem
-import com.memtionsandroid.memotions.data.remote.response.AuthResponse
-import com.memtionsandroid.memotions.data.remote.response.EmotionsResponse
-import com.memtionsandroid.memotions.data.remote.response.JournalDataItem
-import com.memtionsandroid.memotions.data.remote.response.JournalResponse
-import com.memtionsandroid.memotions.data.remote.response.JournalsResponse
-import com.memtionsandroid.memotions.data.remote.response.StatisticResponse
-import com.memtionsandroid.memotions.data.remote.response.StreakResponse
-import com.memtionsandroid.memotions.data.remote.response.TagResponse
-import com.memtionsandroid.memotions.data.remote.response.TagsResponse
+import com.memtionsandroid.memotions.data.remote.response.statistics.AchievementsResponse
+import com.memtionsandroid.memotions.data.remote.response.statistics.AchievementsResponseItem
+import com.memtionsandroid.memotions.data.remote.response.auth.AuthResponse
+import com.memtionsandroid.memotions.data.remote.response.statistics.EmotionsResponse
+import com.memtionsandroid.memotions.data.remote.response.journals.JournalResponse
+import com.memtionsandroid.memotions.data.remote.response.journals.JournalTagsResponse
+import com.memtionsandroid.memotions.data.remote.response.journals.JournalsResponse
+import com.memtionsandroid.memotions.data.remote.response.statistics.StatisticResponse
+import com.memtionsandroid.memotions.data.remote.response.statistics.StreakResponse
+import com.memtionsandroid.memotions.data.remote.response.journals.TagResponse
+import com.memtionsandroid.memotions.data.remote.response.journals.TagsResponse
+import com.memtionsandroid.memotions.data.repository.JournalStatus
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -22,6 +22,8 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
+
+    // *** Auth Endpoint ***
 
     @POST("auth/register")
     suspend fun registerUser(
@@ -38,7 +40,7 @@ interface ApiService {
         @Header("Authorization") token: String
     ): AuthResponse
 
-    // Not Fixed V========================================V
+    // *** Journals Endpoint ***
 
     @GET("journals")
     suspend fun getJournals(
@@ -62,17 +64,23 @@ interface ApiService {
     suspend fun getJournalById(
         @Header("Authorization") token: String,
         @Path("journalId") journalId: Int
-    ): JournalDataItem
+    ): JournalResponse
 
     @PATCH("journals/{journalId}")
     suspend fun updateJournalById(
         @Header("Authorization") token: String,
         @Path("journalId") journalId: Int,
         @Body request: UpdateJournalRequest
-    ): JournalDataItem
+    ): JournalResponse
+
+    @DELETE("journals/{journalId}")
+    suspend fun deleteJournalById(
+        @Header("Authorization") token: String,
+        @Path("journalId") journalId: Int
+    )
 
     @PATCH("journals/{journalId}/star")
-    suspend fun toggleJournalStar(
+    suspend fun toggleStarStatusJournal(
         @Header("Authorization") token: String,
         @Path("journalId") journalId: Int
     )
@@ -81,7 +89,7 @@ interface ApiService {
     suspend fun getAllTagsByJournalId(
         @Header("Authorization") token: String,
         @Path("journalId") journalId: Int
-    ): TagsResponse
+    ): JournalTagsResponse
 
     @PATCH("journals/{journalId}/tags/{tagId}")
     suspend fun addOrRemoveTagFromJournal(
@@ -90,8 +98,10 @@ interface ApiService {
         @Path("tagId") tagId: Int
     )
 
+    // *** Tags Endpoint ***
+
     @GET("tags")
-    suspend fun getAllUserTags(
+    suspend fun getCurrentUserTags(
         @Header("Authorization") token: String
     ): TagsResponse
 
@@ -111,7 +121,9 @@ interface ApiService {
     suspend fun deleteTagById(
         @Header("Authorization") token: String,
         @Path("tagId") tagId: Int
-    )
+    ): TagResponse
+
+    // *** Statistic Endpoint *** Belum
 
     @GET("achievements")
     suspend fun getUserAchievements(
@@ -135,7 +147,7 @@ interface ApiService {
     ): EmotionsResponse
 
     @GET("stats")
-    suspend fun getStatistic(
+    suspend fun getStatistics(
         @Header("Authorization") token: String,
     ): StatisticResponse
 }
@@ -154,19 +166,19 @@ data class LoginRequest(
 data class PostJournalRequest(
     val title: String,
     val content: String,
-    val datetime: String,
+    val datetime: String?,
     val starred: Boolean,
     val status: JournalStatus,
-    val tagIds: List<String?>,
+    val tags: List<String>?,
 )
 
 data class UpdateJournalRequest(
-    val title: String?,
-    val content: String?,
+    val title: String,
+    val content: String,
     val datetime: String?,
-    val starred: Boolean?,
-    val status: JournalStatus?,
-    val tagIds: List<String?>?,
+    val starred: Boolean,
+    val status: JournalStatus,
+    val tags: List<String>?,
 )
 
 data class PostTagRequest(
