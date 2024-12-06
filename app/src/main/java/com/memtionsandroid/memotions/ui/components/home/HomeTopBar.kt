@@ -150,7 +150,6 @@ fun HomeTopBar(
     }
 }
 
-
 @Preview
 @Composable
 fun HomeTopBarPreview() {

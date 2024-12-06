@@ -1,5 +1,6 @@
 package com.memtionsandroid.memotions.ui.main.screen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -13,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.ui.components.profile.AchievementInfo
 import com.memtionsandroid.memotions.ui.components.profile.BoxContent
@@ -22,7 +24,9 @@ import com.memtionsandroid.memotions.ui.components.profile.TitleCardWithIcon
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(
+    navHostController: NavHostController
+) {
     val customColors = MaterialTheme.customColors
     Scaffold(
         topBar = {
@@ -37,7 +41,12 @@ fun ProfileScreen() {
                     .verticalScroll(rememberScrollState())
             ) {
                 JournalInfo(modifier = Modifier.padding(top = 8.dp))
-                AchievementInfo(modifier = Modifier.padding(top = 8.dp))
+                AchievementInfo(modifier = Modifier
+                    .padding(top = 8.dp)
+                    .clickable {
+                        navHostController.navigate("achievement")
+                    }
+                )
                 BoxContent(
                     modifier = Modifier.padding(top = 8.dp),
                     header = {
@@ -55,7 +64,10 @@ fun ProfileScreen() {
                     content = {}
                 )
                 BoxContent(
-                    modifier = Modifier.padding(top = 8.dp),
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .clickable {
+                        },
                     header = {
                         TitleCardWithIcon(
                             title = "Keluar"
