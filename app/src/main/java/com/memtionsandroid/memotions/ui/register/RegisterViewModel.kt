@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.memtionsandroid.memotions.data.local.datastore.UserPreference
-import com.memtionsandroid.memotions.data.remote.response.AuthResponse
+import com.memtionsandroid.memotions.data.remote.response.auth.AuthResponse
 import com.memtionsandroid.memotions.data.repository.AuthRepository
 import com.memtionsandroid.memotions.utils.DataResult
 import dagger.hilt.android.lifecycle.HiltViewModel
