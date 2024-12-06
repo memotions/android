@@ -26,6 +26,7 @@ data class Tag(
 @Composable
 fun TagChip(
     modifier: Modifier = Modifier,
+    viewOnly: Boolean = false,
     tag: Tag,
     onRemove: () -> Unit
 ) {
@@ -49,13 +50,15 @@ fun TagChip(
                 style = MaterialTheme.typography.labelSmall,
                 color = customColors.onSecondBackgroundColor
             )
-            Icon(
-                imageVector = Icons.Default.Clear,
-                tint = customColors.onSecondBackgroundColor,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(12.dp)
-            )
+            if(!viewOnly){
+                Icon(
+                    imageVector = Icons.Default.Clear,
+                    tint = customColors.onSecondBackgroundColor,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(12.dp)
+                )
+            }
         }
 
     }
