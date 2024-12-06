@@ -24,7 +24,14 @@ import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 @Composable
-fun EmositonStatistic(modifier: Modifier) {
+fun EmositonStatistic(
+    modifier: Modifier,
+    happy: String,
+    sad: String,
+    neutral: String,
+    angry: String,
+    scared: String
+) {
     val customColors = MaterialTheme.customColors
 
     val angryImage = painterResource(R.drawable.emo_angry)
@@ -32,12 +39,6 @@ fun EmositonStatistic(modifier: Modifier) {
     val sadImage = painterResource(R.drawable.emo_sad)
     val netralImage = painterResource(R.drawable.emo_netral)
     val scaredImage = painterResource(R.drawable.emo_scared)
-
-    val angry = "30%"
-    val happy = "35%"
-    val sad = "15%"
-    val netral = "10%"
-    val scared = "10%"
 
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -135,7 +136,7 @@ fun EmositonStatistic(modifier: Modifier) {
                 ) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
-                        text = netral,
+                        text = neutral,
                         color = customColors.onBarColor,
                         style = MaterialTheme.typography.titleSmall.copy(
                             fontSize = 9.sp,

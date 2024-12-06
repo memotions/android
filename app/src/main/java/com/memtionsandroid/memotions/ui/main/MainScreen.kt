@@ -1,5 +1,7 @@
 package com.memtionsandroid.memotions.ui.main
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -10,13 +12,13 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,6 +30,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -39,12 +42,18 @@ import com.memtionsandroid.memotions.ui.main.screen.StatisticScreen
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 
-//@OptIn(ExperimentalMaterial3Api::class)
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MainScreen() {
+fun MainScreen(navHostController: NavHostController) {
     val navController = rememberNavController()
     var selectedRoute by remember { mutableStateOf("home") }
 
+
+    LaunchedEffect(navController) {
+        navController.currentBackStackEntryFlow.collect { backStackEntry ->
+            selectedRoute = backStackEntry.destination.route ?: "home"
+        }
+    }
 
     val isBarVisible = remember { mutableStateOf(true) }
     val scrollOffset = remember { mutableStateOf(0f) }
@@ -93,7 +102,6 @@ fun MainScreen() {
                     }
                 }
             }
-
         },
         modifier = Modifier.nestedScroll(nestedScrollConnection)
     ) { innerPadding ->
@@ -106,15 +114,13 @@ fun MainScreen() {
             composable("home") { HomeScreen() }
             composable("starred") { StarredScreen() }
             composable("statistic") { StatisticScreen() }
-            composable("Profile") { ProfileScreen() }
+            composable("profile") { ProfileScreen(navHostController) }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavigationBar(
-//    navController: NavController,
     selectedRoute: String,
     onSelectRoute: (itemRoute: String) -> Unit
 ) {
@@ -126,9 +132,6 @@ fun BottomNavigationBar(
         BottomNavItem.Statistic,
         BottomNavItem.Profile
     )
-
-    // Remember the selected route to ensure the correct icon is selected
-//    val selectedRoute = remember { mutableStateOf("home") }
 
     NavigationBar(
         modifier = Modifier
@@ -170,15 +173,6 @@ fun BottomNavigationBar(
                 selected = false,
                 onClick = {
                     onSelectRoute(item.route)
-//                    // Update the selected route and navigate
-//                    selectedRoute.value = item.route
-//                    navController.navigate(item.route) {
-//                        popUpTo(navController.graph.startDestinationId) {
-//                            saveState = true
-//                        }
-//                        launchSingleTop = true
-//                        restoreState = true
-//                    }
                 }
             )
         }

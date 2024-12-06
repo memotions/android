@@ -22,3 +22,8 @@ val LightGrey = Color(0xFFF0F0F0)
 
 val SlateBLue = Color(0xFF2E2F35)
 val OnyxGrey = Color(0xFF3F4046)
+
+val DarkBlue = Color(0xFF1C1C24)
+val DarkBlueSo = Color(0xFF202029)
+val SoftDarkBlue = Color(0xFF25252F)
+val OnyxBlue = Color(0xFF30303C)
