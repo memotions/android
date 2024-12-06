@@ -2,37 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "70ff9f3adc39e383eea921f649ba52a1",
+    "identityHash": "f03a22bdbefb27fb83161e84a946b819",
     "entities": [
       {
-        "tableName": "emotion",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `description` TEXT NOT NULL)",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "description",
-            "columnName": "description",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": true,
-          "columnNames": [
-            "id"
-          ]
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
         "tableName": "journal",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `feedback` TEXT NOT NULL, `createdAt` TEXT NOT NULL, `datetime` TEXT NOT NULL, `status` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `datetime` TEXT NOT NULL, `createdAt` TEXT NOT NULL, `status` TEXT NOT NULL, `deleted` INTEGER NOT NULL, `starred` INTEGER NOT NULL, `feedback` TEXT, `tags` TEXT, `emotionAnalysis` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -59,8 +33,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "feedback",
-            "columnName": "feedback",
+            "fieldPath": "datetime",
+            "columnName": "datetime",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -71,16 +45,40 @@
             "notNull": true
           },
           {
-            "fieldPath": "datetime",
-            "columnName": "datetime",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
             "fieldPath": "status",
             "columnName": "status",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "deleted",
+            "columnName": "deleted",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "starred",
+            "columnName": "starred",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "feedback",
+            "columnName": "feedback",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tags",
+            "columnName": "tags",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "emotionAnalysis",
+            "columnName": "emotionAnalysis",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -96,7 +94,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '70ff9f3adc39e383eea921f649ba52a1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f03a22bdbefb27fb83161e84a946b819')"
     ]
   }
 }
