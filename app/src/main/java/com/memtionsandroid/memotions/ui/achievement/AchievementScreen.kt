@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.ui.components.achievement.AchievementCard
@@ -39,8 +40,7 @@ val achievements = listOf(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun AchivementScreen() {
-    val navController = rememberNavController()
+fun AchivementScreen(navController: NavHostController) {
 
     Scaffold(
         modifier = Modifier,

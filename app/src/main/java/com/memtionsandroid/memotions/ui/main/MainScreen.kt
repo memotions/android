@@ -30,6 +30,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -43,7 +44,7 @@ import com.memtionsandroid.memotions.ui.theme.customColors
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MainScreen() {
+fun MainScreen(navHostController: NavHostController) {
     val navController = rememberNavController()
     var selectedRoute by remember { mutableStateOf("home") }
 
@@ -113,7 +114,7 @@ fun MainScreen() {
             composable("home") { HomeScreen() }
             composable("starred") { StarredScreen() }
             composable("statistic") { StatisticScreen() }
-            composable("profile") { ProfileScreen() }
+            composable("profile") { ProfileScreen(navHostController) }
         }
     }
 }

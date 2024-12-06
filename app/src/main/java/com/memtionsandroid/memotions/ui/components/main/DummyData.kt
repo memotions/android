@@ -7,7 +7,8 @@ val journalList = listOf(
         date = "2024-12-01",
         Tags = listOf("perjalanan", "kehidupan"),
         emotion = "happy",
-        isStarred = true
+        isStarred = true,
+        status = "Published"
     ),
     Journal(
         title = "Kerja Keras",
@@ -23,7 +24,8 @@ val journalList = listOf(
         date = "2024-12-01",
         Tags = listOf("cuaca", "hujan"),
         emotion = "sad",
-        isStarred = false
+        isStarred = false,
+        status = "Draft"
     ),
     Journal(
         title = "Malam Tenang",
@@ -68,7 +70,8 @@ val journalList = listOf(
         date = "2024-09-01",
         Tags = listOf("rutinitas", "biasa"),
         emotion = "scared",
-        isStarred = false
+        isStarred = false,
+        status = "Draft"
     ),
     Journal(
         title = "Waktu Bersama Keluarga",
@@ -76,7 +79,8 @@ val journalList = listOf(
         date = "2024-11-28",
         Tags = listOf("keluarga", "bahagia"),
         emotion = "happy",
-        isStarred = true
+        isStarred = true,
+        status = "Draft"
     ),
     Journal(
         title = "Refleksi Diri",
@@ -84,7 +88,8 @@ val journalList = listOf(
         date = "2024-11-29",
         Tags = listOf("refleksi", "kehidupan"),
         emotion = "neutral",
-        isStarred = false
+        isStarred = false,
+        status = "Published"
     ),
     Journal(
         title = "Hari yang Sibuk",
