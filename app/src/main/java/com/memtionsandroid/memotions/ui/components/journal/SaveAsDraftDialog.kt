@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,19 +22,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DateTimeAskDialog(
+fun SaveAsDraftDialog(
     onDismiss: () -> Unit,
-    onSetDate: () -> Unit,
-    onSetTime: () -> Unit
+    onSaveDraft: () -> Unit,
+    onBack: () -> Unit,
 ) {
     BasicAlertDialog(
         modifier = Modifier
@@ -58,36 +56,36 @@ fun DateTimeAskDialog(
             ) {
                 Text(
                     text =
-                    "Tentukan hari dan jam jurnal kamu",
+                    "Jika kamu kembali sekarang, jurnal kamu akan hilang, apakah kamu yakin?",
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.height(40.dp))
                 Row(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
-                    horizontalArrangement = Arrangement.SpaceEvenly
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     OutlinedButton(
-                        onClick = { onSetDate() },
+                        onClick = { onSaveDraft() },
                         border = BorderStroke(1.dp, MaterialTheme.customColors.outlineColor),
                         shape = RoundedCornerShape(10.dp)
                     ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_date),
-                            contentDescription = "Date Icon",
-                            tint = MaterialTheme.customColors.TextOnBackgroundColor
+                        Text(
+                            text = "Simpan draft",
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.customColors.TextOnBackgroundColor
                         )
                     }
-                    Spacer(modifier = Modifier.width(60.dp))
+                    Spacer(modifier = Modifier.weight(1f))
                     OutlinedButton(
-                        onClick = { onSetTime() },
+                        onClick = { onBack() },
                         border = BorderStroke(1.dp, MaterialTheme.customColors.outlineColor),
                         shape = RoundedCornerShape(10.dp)
                     ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_access_time),
-                            contentDescription = "Date Icon",
-                            tint = MaterialTheme.customColors.TextOnBackgroundColor
+                        Text(
+                            text = "Ya, hapus",
+                            style = MaterialTheme.typography.titleSmall,
+                            color = Color.Red
                         )
                     }
                 }

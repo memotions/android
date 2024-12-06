@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -38,7 +39,7 @@ fun BottomBar(
         shadowElevation = 6.dp,
         shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         contentColor = Color(0xFF292828),
-        modifier = Modifier.imePadding()
+        modifier = Modifier.navigationBarsPadding().imePadding()
     ) {
         Row(
             modifier = Modifier

@@ -28,7 +28,6 @@ ksp = "2.0.21-1.0.27"
 material3 = "1.4.0-alpha04"
 composeIcon = "1.7.5"
 
-
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
