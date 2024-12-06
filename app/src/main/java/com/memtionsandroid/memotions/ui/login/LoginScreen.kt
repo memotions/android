@@ -32,7 +32,6 @@ import androidx.navigation.NavHostController
 import com.memtionsandroid.memotions.ui.NavigationRoutes
 import com.memtionsandroid.memotions.ui.components.auth.AuthCard
 import com.memtionsandroid.memotions.ui.components.auth.Constant.gradientBackground
-import com.memtionsandroid.memotions.ui.components.auth.GoogleButton
 import com.memtionsandroid.memotions.ui.components.auth.TitleApp
 import com.memtionsandroid.memotions.utils.DataResult
 
@@ -96,8 +95,6 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hi
                     onNameChange = null,
                     nameValue = null
                 )
-                Spacer(modifier = Modifier.height(20.dp))
-                GoogleButton(buttonText = "Masuk dengan Google", onClick = {})
             }
             if (loginResult.value is DataResult.Loading) {
                 Box(

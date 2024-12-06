@@ -38,6 +38,10 @@ class DefaultAuthRepository @Inject constructor(
         email: String,
         password: String
     ): Flow<DataResult<AuthResponse>> = flow {
+        if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            emit(DataResult.Error(Event("Semua field harus diisi")))
+            return@flow
+        }
         emit(DataResult.Loading)
         try {
             val request = RegisterRequest(name, email, password)
@@ -46,10 +50,18 @@ class DefaultAuthRepository @Inject constructor(
         } catch (e: HttpException) {
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, ValidationErrorResponse::class.java)
-            val errorMessage = "${errorBody.errors[0].path[0]}: ${errorBody.errors[0].message}"
+            val errorCode = errorBody.errors[0].code
+            val errorPath = errorBody.errors[0].path[0]
+            val errorMessage = if (errorCode == "INVALID_STRING" && errorPath == "email") {
+                "Email tidak valid"
+            } else if (errorCode == "TOO_SMALL" && errorPath == "password") {
+                "Password minimal 6 karakter"
+            } else {
+                "Terjadi kesalahan saat register, [${e.code()}]: ${errorBody.errors[0].message}"
+            }
             emit(DataResult.Error(Event(errorMessage)))
         } catch (e: Exception) {
-            emit(DataResult.Error(Event("Terjadi kesalahan saat register user, coba lagi atau cek koneksi internet")))
+            emit(DataResult.Error(Event("Terjadi kesalahan saat register, coba lagi atau cek koneksi internet")))
         }
     }
 
@@ -58,6 +70,10 @@ class DefaultAuthRepository @Inject constructor(
         password: String
     ): Flow<DataResult<AuthResponse>> =
         flow {
+            if (email.isEmpty() || password.isEmpty()) {
+                emit(DataResult.Error(Event("Semua field harus diisi")))
+                return@flow
+            }
             emit(DataResult.Loading)
             try {
                 val request = LoginRequest(email, password)
@@ -65,11 +81,15 @@ class DefaultAuthRepository @Inject constructor(
                 emit(DataResult.Success(response))
             } catch (e: HttpException) {
                 val jsonInString = e.response()?.errorBody()?.string()
-                val errorBody = Gson().fromJson(jsonInString, ValidationErrorResponse::class.java)
-                val errorMessage = "${errorBody.errors[0].path[0]}: ${errorBody.errors[0].message}"
+                val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
+                val errorMessage = if (e.code() in 400 until 500) {
+                    "Email atau password salah"
+                } else {
+                    "Terjadi kesalahan saat login, [${e.code()}]: ${errorBody.errors[0].message}"
+                }
                 emit(DataResult.Error(Event(errorMessage)))
             } catch (e: Exception) {
-                emit(DataResult.Error(Event("Terjadi kesalahan saat login user, coba lagi atau cek koneksi internet")))
+                emit(DataResult.Error(Event("Terjadi kesalahan saat login, coba lagi atau cek koneksi internet")))
             }
         }
 
@@ -82,10 +102,10 @@ class DefaultAuthRepository @Inject constructor(
         } catch (e: HttpException) {
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
-            val errorMessage = errorBody.errors[0].message
+            val errorMessage = "Terjadi kesalahan saat mendapatkan profile, [${e.code()}]: ${errorBody.errors[0].message}"
             emit(DataResult.Error(Event(errorMessage)))
         } catch (e: Exception) {
-            emit(DataResult.Error(Event("Terjadi kesalahan saat mendapatkan profile user, coba lagi atau cek koneksi internet")))
+            emit(DataResult.Error(Event("Terjadi kesalahan saat mendapatkan profile, coba lagi atau cek koneksi internet")))
         }
     }
 

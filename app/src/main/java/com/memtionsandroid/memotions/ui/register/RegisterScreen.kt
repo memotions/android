@@ -32,7 +32,6 @@ import androidx.navigation.NavHostController
 import com.memtionsandroid.memotions.ui.NavigationRoutes
 import com.memtionsandroid.memotions.ui.components.auth.AuthCard
 import com.memtionsandroid.memotions.ui.components.auth.Constant.gradientBackground
-import com.memtionsandroid.memotions.ui.components.auth.GoogleButton
 import com.memtionsandroid.memotions.ui.components.auth.TitleApp
 import com.memtionsandroid.memotions.utils.DataResult
 
@@ -53,6 +52,7 @@ fun RegisterScreen(
                 duration = SnackbarDuration.Short,
                 withDismissAction = true
             )
+            viewModel.setFirstLaunch(false)
             navController.navigate(NavigationRoutes.LOGIN) {
                 popUpTo(0) { inclusive = true }
                 launchSingleTop = true
@@ -103,8 +103,6 @@ fun RegisterScreen(
                     onEmailChange = viewModel::setEmail,
                     onPasswordChange = viewModel::setPassword,
                 )
-                Spacer(modifier = Modifier.height(20.dp))
-                GoogleButton(buttonText = "Masuk dengan Google", onClick = {})
             }
             if (registerResult.value is DataResult.Loading) {
                 Box(

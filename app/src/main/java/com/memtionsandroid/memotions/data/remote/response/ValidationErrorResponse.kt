@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class ValidationErrorResponse(
 
     @field:SerializedName("data")
-    val data: Any,
+    val data: Any?,
 
     @field:SerializedName("errors")
     val errors: List<ValidationErrorsItem>,
@@ -32,7 +32,7 @@ data class ValidationErrorsItem(
     val code: String,
 
     @field:SerializedName("details")
-    val details: Details,
+    val details: Details?,
 
     @field:SerializedName("message")
     val message: String

@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.memtionsandroid.memotions.data.local.datastore.UserPreference
 import com.memtionsandroid.memotions.data.remote.response.AuthResponse
 import com.memtionsandroid.memotions.data.repository.AuthRepository
 import com.memtionsandroid.memotions.utils.DataResult
@@ -16,6 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
+    private val userPreference: UserPreference,
     private val authRepository: AuthRepository
 ): ViewModel() {
     var nameValue by mutableStateOf("")
@@ -37,6 +39,12 @@ class RegisterViewModel @Inject constructor(
 
     fun setPassword(value: String) {
         passwordValue = value
+    }
+
+    fun setFirstLaunch(value: Boolean) {
+        viewModelScope.launch {
+            userPreference.setFirstLaunch(value)
+        }
     }
 
     private val _registerResult = MutableStateFlow<DataResult<AuthResponse>>(DataResult.Idle)

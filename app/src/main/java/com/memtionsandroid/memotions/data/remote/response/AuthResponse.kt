@@ -8,7 +8,7 @@ data class AuthResponse(
 	val data: Data,
 
 	@field:SerializedName("errors")
-	val errors: Any,
+	val errors: Any?,
 
 	@field:SerializedName("status")
 	val status: String
