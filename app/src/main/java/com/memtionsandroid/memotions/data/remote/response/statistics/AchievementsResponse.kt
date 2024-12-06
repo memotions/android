@@ -1,0 +1,42 @@
+package com.memtionsandroid.memotions.data.remote.response.statistics
+
+import com.google.gson.annotations.SerializedName
+
+data class AchievementsResponse(
+
+	@field:SerializedName("data")
+	val data: List<AchievementsResponseItem>,
+
+	@field:SerializedName("errors")
+	val errors: Any?,
+
+	@field:SerializedName("status")
+	val status: String
+)
+
+data class AchievementsResponseItem(
+
+	@field:SerializedName("tier")
+	val tier: Int,
+
+	@field:SerializedName("criteria")
+	val criteria: Int,
+
+	@field:SerializedName("name")
+	val name: String,
+
+	@field:SerializedName("description")
+	val description: String,
+
+	@field:SerializedName("pointsAwarded")
+	val pointsAwarded: Int,
+
+	@field:SerializedName("id")
+	val id: Int,
+
+	@field:SerializedName("completed")
+	val completed: Boolean,
+
+	@field:SerializedName("type")
+	val type: String
+)
