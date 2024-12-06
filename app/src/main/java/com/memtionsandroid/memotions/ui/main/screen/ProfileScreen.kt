@@ -14,18 +14,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.memtionsandroid.memotions.R
+import com.memtionsandroid.memotions.ui.NavigationRoutes
 import com.memtionsandroid.memotions.ui.components.profile.AchievementInfo
 import com.memtionsandroid.memotions.ui.components.profile.BoxContent
 import com.memtionsandroid.memotions.ui.components.profile.JournalInfo
 import com.memtionsandroid.memotions.ui.components.profile.ProfileTopBar
 import com.memtionsandroid.memotions.ui.components.profile.TitleCardWithIcon
+import com.memtionsandroid.memotions.ui.login.LoginViewModel
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 @Composable
 fun ProfileScreen(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
     val customColors = MaterialTheme.customColors
     Scaffold(
@@ -48,7 +52,11 @@ fun ProfileScreen(
                     }
                 )
                 BoxContent(
-                    modifier = Modifier.padding(top = 8.dp),
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .clickable {
+                            navHostController.navigate(NavigationRoutes.SETTING)
+                        },
                     header = {
                         TitleCardWithIcon(
                             title = "Pengaturan"
@@ -67,6 +75,11 @@ fun ProfileScreen(
                     modifier = Modifier
                         .padding(top = 8.dp)
                         .clickable {
+                            viewModel.logout()
+                            navHostController.navigate(NavigationRoutes.LOGIN) {
+                                popUpTo(0) { inclusive = true }
+                                launchSingleTop = true
+                            }
                         },
                     header = {
                         TitleCardWithIcon(

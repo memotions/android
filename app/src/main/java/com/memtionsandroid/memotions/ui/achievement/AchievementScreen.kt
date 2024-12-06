@@ -14,11 +14,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.ui.components.achievement.AchievementCard
 import com.memtionsandroid.memotions.ui.components.achievement.AchievementTopBar
-
 
 data class Achievement(
     val tier: Int,
@@ -40,7 +38,7 @@ val achievements = listOf(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun AchivementScreen(navController: NavHostController) {
+fun AchievementScreen(navController: NavHostController) {
 
     Scaffold(
         modifier = Modifier,

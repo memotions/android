@@ -71,4 +71,10 @@ class LoginViewModel @Inject constructor(
             }
         }
     }
+
+    fun logout() {
+        viewModelScope.launch {
+            userPreference.logout()
+        }
+    }
 }

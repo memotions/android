@@ -8,6 +8,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.memtionsandroid.memotions.ui.achievement.AchievementScreen
 import com.memtionsandroid.memotions.ui.addjournal.AddJournalScreen
 import com.memtionsandroid.memotions.ui.login.LoginScreen
 import com.memtionsandroid.memotions.ui.login.LoginViewModel
@@ -40,22 +41,22 @@ fun MainNavigation(viewModel: LoginViewModel = hiltViewModel()) {
             RegisterScreen(navController)
         }
         composable(NavigationRoutes.MAIN) {
-            MainScreen()
+            MainScreen(navController)
         }
         composable(NavigationRoutes.ADD_JOURNAL) {
-            AddJournalScreen()
+            AddJournalScreen(navController)
         }
         composable(NavigationRoutes.VIEW_JOURNAL) {
-            ViewJournalScreen()
+            ViewJournalScreen(navController)
         }
         composable(NavigationRoutes.ONBOARDING) {
             OnBoardingScreen(navController)
         }
-//        composable(NavigationRoutes.ACHIEVEMENT) {
-//            AchievementScreen()
-//        }
+        composable(NavigationRoutes.ACHIEVEMENT) {
+            AchievementScreen(navController)
+        }
         composable(NavigationRoutes.SETTING) {
-            SettingScreen()
+            SettingScreen(navController)
         }
     }
 }
