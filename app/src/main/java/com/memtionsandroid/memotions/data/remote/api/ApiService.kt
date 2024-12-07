@@ -1,16 +1,16 @@
 package com.memtionsandroid.memotions.data.remote.api
 
 import com.memtionsandroid.memotions.data.remote.response.statistics.AchievementsResponse
-import com.memtionsandroid.memotions.data.remote.response.statistics.AchievementsResponseItem
 import com.memtionsandroid.memotions.data.remote.response.auth.AuthResponse
 import com.memtionsandroid.memotions.data.remote.response.statistics.EmotionsResponse
 import com.memtionsandroid.memotions.data.remote.response.journals.JournalResponse
 import com.memtionsandroid.memotions.data.remote.response.journals.JournalTagsResponse
 import com.memtionsandroid.memotions.data.remote.response.journals.JournalsResponse
-import com.memtionsandroid.memotions.data.remote.response.statistics.StatisticResponse
 import com.memtionsandroid.memotions.data.remote.response.statistics.StreakResponse
 import com.memtionsandroid.memotions.data.remote.response.journals.TagResponse
 import com.memtionsandroid.memotions.data.remote.response.journals.TagsResponse
+import com.memtionsandroid.memotions.data.remote.response.statistics.AchievementResponse
+import com.memtionsandroid.memotions.data.remote.response.statistics.StatisticsResponse
 import com.memtionsandroid.memotions.data.repository.JournalStatus
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -123,7 +123,7 @@ interface ApiService {
         @Path("tagId") tagId: Int
     ): TagResponse
 
-    // *** Statistic Endpoint *** Belum
+    // *** Statistic Endpoint ***
 
     @GET("achievements")
     suspend fun getUserAchievements(
@@ -134,7 +134,7 @@ interface ApiService {
     suspend fun getAchievementById(
         @Header("Authorization") token: String,
         @Path("achievementId") achievementId: Int
-    ): AchievementsResponseItem
+    ): AchievementResponse
 
     @GET("streak")
     suspend fun getStreak(
@@ -149,7 +149,7 @@ interface ApiService {
     @GET("stats")
     suspend fun getStatistics(
         @Header("Authorization") token: String,
-    ): StatisticResponse
+    ): StatisticsResponse
 }
 
 data class RegisterRequest(
