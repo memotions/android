@@ -29,7 +29,6 @@ data class ChartData(
 
 data class ArcData(
     val animation: Animatable<Float, AnimationVector1D>,
-//    val startAngle: Float,
     val sweepAngle: Float,
     val color: Color,
 )
@@ -99,13 +98,12 @@ private fun JournalChartPreview() {
         JournalChart(
             modifier = Modifier.padding(20.dp),
             chartData = listOf(
-                ChartData("Happy", 10, Color.Yellow),
-                ChartData("Sad", 20, Color.Blue),
-                ChartData("Netral", 10, Color.Gray),
-                ChartData("Angry", 10, Color.Red),
-                ChartData("Scared", 10, Color.Magenta),
+                ChartData("Happy", 0, Color.Yellow),
+                ChartData("Sad", 0, Color.Blue),
+                ChartData("Netral", 0 , Color.Gray),
+                ChartData("Angry", 0, Color.Red),
+                ChartData("Scared", 0, Color.Magenta),
             )
         )
     }
-
 }

@@ -14,7 +14,7 @@ private val DarkColorScheme = darkColorScheme(
     primary = PureWhite,
     secondary = PurpleGrey80,
     tertiary = Pink80,
-    background = SlateBLue
+    background = DarkBlue
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -55,14 +55,16 @@ private val LightCustomColor = CustomColors(
 )
 
 private val DarkCustomColor = CustomColors(
-    barColor = Charcoal,
+    barColor = SoftDarkBlue,
     onBarColor = PureWhite,
     onBarSecondColor = SteelGrey,
     outlineColor = Taupe,
     processColor = LightGrey,
     processBackgroundColor = OnyxGrey,
-    backgroundColor = SlateBLue,
-    secondBackgroundColor = OnyxGrey,
+    backgroundColor = DarkBlueSo,
+//    backgroundColor = DarkBlue,
+    secondBackgroundColor = OnyxBlue,
+//    secondBackgroundColor = OnyxGrey,
     onBackgroundColor = PureWhite,
     TextOnBackgroundColor = LightGrey,
     onSecondBackgroundColor = SteelGrey

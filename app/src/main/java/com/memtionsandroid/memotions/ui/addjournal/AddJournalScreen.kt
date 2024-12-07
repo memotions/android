@@ -2,6 +2,7 @@ package com.memtionsandroid.memotions.ui.addjournal
 
 import android.os.Build
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -56,6 +58,7 @@ import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.ui.components.home.SearchTagModal
 import com.memtionsandroid.memotions.ui.components.home.Tag
 import com.memtionsandroid.memotions.ui.components.journal.DateTimeAskDialog
+import com.memtionsandroid.memotions.ui.components.journal.SaveAsDraftDialog
 import com.memtionsandroid.memotions.ui.components.journal.TimePickerDialog
 import com.memtionsandroid.memotions.ui.theme.customColors
 import java.time.Instant
@@ -74,7 +77,6 @@ val tagsJurnal = listOf(
     Tag(name = "Produktivitas"),
     Tag(name = "Perenungan"),
     Tag(name = "Momen Bahagia"),
-    Tag(name = "Inspirasi Harian")
 )
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -91,6 +93,7 @@ fun AddJournalScreen(viewModel: AddJournalViewModel = hiltViewModel()) {
     var showTimeDialog by remember { mutableStateOf(false) }
     var showTimeDial by remember { mutableStateOf(true) }
     var showTagModal by remember { mutableStateOf(false) }
+    var showSaveDraftModal by remember { mutableStateOf(false) }
 
     val toggleIcon = if (showTimeDial) {
         painterResource(id = R.drawable.ic_keyboard)
@@ -122,7 +125,9 @@ fun AddJournalScreen(viewModel: AddJournalViewModel = hiltViewModel()) {
             AppBar(
                 title = "Tambah Jurnal",
                 inView = false,
-                onBack = {},
+                onBack = {
+                    showSaveDraftModal = true
+                },
                 onAction = {},
                 starredState = starredState
             )
@@ -167,20 +172,26 @@ fun AddJournalScreen(viewModel: AddJournalViewModel = hiltViewModel()) {
                             showTagModal = false
                         },
                         shape = RoundedCornerShape(10.dp),
-                        modifier = Modifier.padding(16.dp),
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth(),
                         border = BorderStroke(width = 1.dp, customColors.onBackgroundColor)
                     ) {
                         Text(
-                            text = "Tambah Tag \"$searchQuery\"",
+                            text = "Buat Tag \"$searchQuery\"",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 },
                 onItemClicked = { selectedTagName ->
-                    tags.value += Tag(selectedTagName)
-                    showTagModal = false
-                }
+                    if (tags.value.none { it.name == selectedTagName }) {
+                        tags.value += Tag(selectedTagName)
+                        showTagModal = false
+                    }
+                },
+                onEmptyTagInputHint = "Buat Tag",
+                onEmptyTagInputIcon = painterResource(id = R.drawable.ic_add_tag)
             )
         }
 
@@ -194,6 +205,22 @@ fun AddJournalScreen(viewModel: AddJournalViewModel = hiltViewModel()) {
                 onSetTime = {
                     showTimeDialog = true
                     showDialog = false
+                }
+            )
+        }
+
+        BackHandler(enabled = true) {
+            showSaveDraftModal = true
+        }
+
+        if (showSaveDraftModal) {
+            SaveAsDraftDialog(
+                onDismiss = { showSaveDraftModal = false },
+                onSaveDraft = {
+                    showSaveDraftModal = false
+                },
+                onBack = {
+                    showSaveDraftModal = false
                 }
             )
         }
