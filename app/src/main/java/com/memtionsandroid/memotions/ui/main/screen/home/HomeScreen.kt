@@ -16,6 +16,7 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,8 +31,10 @@ import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.data.local.entity.EmotionAnalysis
 import com.memtionsandroid.memotions.data.local.entity.Journal
 import com.memtionsandroid.memotions.ui.NavigationRoutes
+import com.memtionsandroid.memotions.ui.components.home.EmptyState
 import com.memtionsandroid.memotions.ui.components.home.HomeTopBar
 import com.memtionsandroid.memotions.ui.components.main.Journals
+import com.memtionsandroid.memotions.ui.main.MainViewModel
 import com.memtionsandroid.memotions.ui.theme.customColors
 import com.memtionsandroid.memotions.utils.DataResult
 
@@ -40,22 +43,28 @@ import com.memtionsandroid.memotions.utils.DataResult
 @Composable
 fun HomeScreen(
     navHostController: NavHostController,
-    viewModel: HomeViewModel = hiltViewModel()
+    mainViewModel: MainViewModel = hiltViewModel(),
+    homeViewModel: HomeViewModel = hiltViewModel()
 ) {
-    val journalsState by viewModel.journals.collectAsStateWithLifecycle()
-    var journals by remember { mutableStateOf<List<Journal>>(emptyList()) }
+    val journalsState by mainViewModel.journals.collectAsStateWithLifecycle()
+    val currentTags by mainViewModel.currentTags.collectAsStateWithLifecycle()
+
+    val filteredJournal by homeViewModel.filteredJournals.collectAsState()
+    val filterCriteria by homeViewModel.filterCriteria.collectAsState()
+
     var isRefreshing by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
 
-
     val state = rememberPullToRefreshState()
     val onRefresh: () -> Unit = {
-        viewModel.getJournals()
+        mainViewModel.getJournals()
+        mainViewModel.getCurrentTags()
     }
 
-//    LaunchedEffect(Unit) {
-//        viewModel.getJournals()
-//    }
+    LaunchedEffect(Unit) {
+        mainViewModel.getJournals()
+        mainViewModel.getCurrentTags()
+    }
 
     LaunchedEffect(journalsState) {
         when (journalsState) {
@@ -73,7 +82,8 @@ fun HomeScreen(
 
             is DataResult.Success -> {
                 isRefreshing = false
-                journals = (journalsState as DataResult.Success<List<Journal>>).data
+                val journals = (journalsState as DataResult.Success).data
+                homeViewModel.setJournals(journals)
             }
         }
     }
@@ -97,7 +107,12 @@ fun HomeScreen(
             }
         },
         topBar = {
-            HomeTopBar()
+            HomeTopBar(
+                searchText = filterCriteria.name,
+                onSearchValueChange = {value ->
+                    homeViewModel.setFilterCriteria(homeViewModel.filterCriteria.value.copy(name = value))
+                }
+            )
         },
         content = { innerPadding ->
             Box(
@@ -112,16 +127,15 @@ fun HomeScreen(
                     onRefresh = onRefresh,
                     isRefreshing = isRefreshing,
                 ) {
-                    if (journals.isEmpty()) {
+                    if (filteredJournal.isEmpty()) {
                         EmptyState(
                             modifier = Modifier.align(Alignment.Center),
                             title = "Tidak ada Jurnal",
                             onRefresh = { onRefresh() }
                         )
                     } else {
-                        Journals(journals)
+                        Journals(filteredJournal)
                     }
-//                    Journals(dummyList)
                 }
             }
         }

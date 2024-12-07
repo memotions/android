@@ -57,11 +57,11 @@ fun JournalCard(
     val tags = journal.tags?.joinToString(" ") { "#$it" }
     val painter = journal.emotionAnalysis?.let {
         when (journal.emotionAnalysis[0].emotion) {
-            "happy" -> painterResource(id = R.drawable.emo_happy)
-            "angry" -> painterResource(id = R.drawable.emo_angry)
-            "sad" -> painterResource(id = R.drawable.emo_sad)
-            "neutral" -> painterResource(id = R.drawable.emo_netral)
-            "scared" -> painterResource(id = R.drawable.emo_scared)
+            "HAPPY" -> painterResource(id = R.drawable.emo_happy)
+            "ANGRY" -> painterResource(id = R.drawable.emo_angry)
+            "SAD" -> painterResource(id = R.drawable.emo_sad)
+            "NEUTRAL" -> painterResource(id = R.drawable.emo_netral)
+            "SCARED" -> painterResource(id = R.drawable.emo_scared)
             else -> painterResource(id = R.drawable.emo_netral)
         }
     } ?: run {
@@ -128,14 +128,14 @@ fun JournalCard(
                                 status = "Analyze", modifier = Modifier.padding(top = 4.dp)
                             )
                         }
-//
-//                        "ANALYZED" -> {
-//                            Image(
-//                                painter = painter,
-//                                contentDescription = "Angry Icon",
-//                                modifier = Modifier.size(37.dp)
-//                            )
-//                        }
+
+                        "ANALYZED" -> {
+                            Image(
+                                painter = painter,
+                                contentDescription = "Emotion Image",
+                                modifier = Modifier.size(37.dp)
+                            )
+                        }
                     }
 
                     Column(

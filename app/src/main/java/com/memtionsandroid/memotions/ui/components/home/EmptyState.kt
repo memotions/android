@@ -1,4 +1,4 @@
-package com.memtionsandroid.memotions.ui.main.screen.home
+package com.memtionsandroid.memotions.ui.components.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

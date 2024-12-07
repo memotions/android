@@ -35,10 +35,12 @@ import com.memtionsandroid.memotions.ui.theme.customColors
 fun SearchBar(
     modifier: Modifier = Modifier,
     isFilter: Boolean = false,
+    searchText: String = "",
+    onValueChange: (String )-> Unit = {},
     onFilterClicked: () -> Unit = {},
 ) {
     val customColors = MaterialTheme.customColors
-    var searchText by remember { mutableStateOf("") }
+//    var searchText by remember { mutableStateOf("") }
 
     val focusRequester = remember { FocusRequester() }
     var isFocused by remember { mutableStateOf(false) }
@@ -56,7 +58,7 @@ fun SearchBar(
                 color = customColors.secondBackgroundColor
             ),
         value = searchText,
-        onValueChange = { searchText = it },
+        onValueChange = { onValueChange(it)},
 
         singleLine = true,
         cursorBrush = SolidColor(customColors.TextOnBackgroundColor),

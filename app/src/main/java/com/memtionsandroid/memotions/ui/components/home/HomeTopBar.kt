@@ -39,6 +39,8 @@ fun HomeTopBar(
 //    nextLevelEXP: Int,
 //    level: Int,
 //    username: String,
+    searchText: String,
+    onSearchValueChange: (String) -> Unit
 
 ) {
     val customColors = MaterialTheme.customColors
@@ -144,9 +146,13 @@ fun HomeTopBar(
                         )
                     }
                 }
-                SearchBar(modifier = Modifier.padding(top = 24.dp), isFilter = isFilter) {
-                    isFilter = !isFilter
-                }
+                SearchBar(
+                    modifier = Modifier.padding(top = 24.dp),
+                    isFilter = isFilter,
+                    searchText = searchText,
+                    onValueChange = onSearchValueChange,
+                    onFilterClicked = {isFilter = !isFilter}
+                )
                 AnimatedVisibility(isFilter) {
                     SearchFilter()
                 }
@@ -154,11 +160,11 @@ fun HomeTopBar(
         }
     }
 }
-
-@Preview
-@Composable
-fun HomeTopBarPreview() {
-    MemotionsTheme(darkTheme = true) {
-        HomeTopBar()
-    }
-}
+//
+//@Preview
+//@Composable
+//fun HomeTopBarPreview() {
+//    MemotionsTheme(darkTheme = true) {
+//        HomeTopBar()
+//    }
+//}
