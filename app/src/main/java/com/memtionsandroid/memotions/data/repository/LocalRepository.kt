@@ -36,6 +36,12 @@ class DefaultLocalRepository @Inject constructor(
         emit(DataResult.Loading)
         try {
             val journals = journalsResponse.data?.map { it.toJournalEntity(userId) }
+
+            if (journals == null) {
+                emit(DataResult.Error(Event("Failed to save and get journals")))
+                return@flow
+            }
+
             withContext(Dispatchers.IO) {
                 journalDao.insertOrUpdateJournals(journals)
             }

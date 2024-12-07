@@ -15,7 +15,7 @@ interface JournalDao {
     fun getJournalById(id: Int): Flow<Journal?>
 
     @Upsert
-    suspend fun insertOrUpdateJournals(journals: List<Journal>?)
+    suspend fun insertOrUpdateJournals(journals: List<Journal>)
 
     @Query("DELETE FROM journal WHERE id = :journalId")
     suspend fun deleteJournalById(journalId: Int)
