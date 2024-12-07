@@ -1,8 +1,6 @@
 package com.memtionsandroid.memotions.data.local.room
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
 import com.memtionsandroid.memotions.data.local.entity.Journal
@@ -17,7 +15,7 @@ interface JournalDao {
     fun getJournalById(id: Int): Flow<Journal?>
 
     @Upsert
-    suspend fun insertOrUpdateJournals(journals: List<Journal>)
+    suspend fun insertOrUpdateJournals(journals: List<Journal>?)
 
     @Query("DELETE FROM journal WHERE id = :journalId")
     suspend fun deleteJournalById(journalId: Int)

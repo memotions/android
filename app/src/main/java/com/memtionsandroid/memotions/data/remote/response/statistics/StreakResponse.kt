@@ -8,7 +8,7 @@ data class StreakResponse(
 	val data: StreakData,
 
 	@field:SerializedName("errors")
-	val errors: Any,
+	val errors: Any?,
 
 	@field:SerializedName("status")
 	val status: String

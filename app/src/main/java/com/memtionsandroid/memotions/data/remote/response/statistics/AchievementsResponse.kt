@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class AchievementsResponse(
 
     @field:SerializedName("data")
-    val data: List<AchievementsResponseItem>,
+    val data: List<AchievementsResponseItem>?,
 
     @field:SerializedName("errors")
     val errors: Any?,

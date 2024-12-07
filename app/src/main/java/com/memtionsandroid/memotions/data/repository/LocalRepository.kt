@@ -35,7 +35,7 @@ class DefaultLocalRepository @Inject constructor(
     ): Flow<DataResult<JournalsResponse>> = flow {
         emit(DataResult.Loading)
         try {
-            val journals = journalsResponse.data.map { it.toJournalEntity(userId) }
+            val journals = journalsResponse.data?.map { it.toJournalEntity(userId) }
             withContext(Dispatchers.IO) {
                 journalDao.insertOrUpdateJournals(journals)
             }

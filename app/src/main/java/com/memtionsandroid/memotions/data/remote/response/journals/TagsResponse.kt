@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class TagsResponse(
 
 	@field:SerializedName("data")
-	val data: List<TagsItem>,
+	val data: List<TagsItem>?,
 
 	@field:SerializedName("errors")
 	val errors: Any?,

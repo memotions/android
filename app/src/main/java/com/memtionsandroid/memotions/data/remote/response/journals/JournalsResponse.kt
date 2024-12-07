@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class JournalsResponse(
 
 	@field:SerializedName("data")
-	val data: List<JournalsDataItem>,
+	val data: List<JournalsDataItem>?,
 
 	@field:SerializedName("errors")
 	val errors: Any?,
