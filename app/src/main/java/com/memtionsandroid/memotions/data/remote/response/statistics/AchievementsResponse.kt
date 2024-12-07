@@ -4,39 +4,45 @@ import com.google.gson.annotations.SerializedName
 
 data class AchievementsResponse(
 
-	@field:SerializedName("data")
-	val data: List<AchievementsResponseItem>,
+    @field:SerializedName("data")
+    val data: List<AchievementsResponseItem>,
 
-	@field:SerializedName("errors")
-	val errors: Any?,
+    @field:SerializedName("errors")
+    val errors: Any?,
 
-	@field:SerializedName("status")
-	val status: String
+    @field:SerializedName("status")
+    val status: String
 )
 
 data class AchievementsResponseItem(
 
-	@field:SerializedName("tier")
-	val tier: Int,
+    @field:SerializedName("code")
+    val code: String,
 
-	@field:SerializedName("criteria")
-	val criteria: Int,
+    @field:SerializedName("tier")
+    val tier: Int,
 
-	@field:SerializedName("name")
-	val name: String,
+    @field:SerializedName("criteria")
+    val criteria: Int,
 
-	@field:SerializedName("description")
-	val description: String,
+    @field:SerializedName("name")
+    val name: String,
 
-	@field:SerializedName("pointsAwarded")
-	val pointsAwarded: Int,
+    @field:SerializedName("description")
+    val description: String,
 
-	@field:SerializedName("id")
-	val id: Int,
+    @field:SerializedName("pointsAwarded")
+    val pointsAwarded: Int,
 
-	@field:SerializedName("completed")
-	val completed: Boolean,
+    @field:SerializedName("id")
+    val id: Int,
 
-	@field:SerializedName("type")
-	val type: String
+    @field:SerializedName("iconUrl")
+    val iconUrl: String,
+
+    @field:SerializedName("completed")
+    val completed: Boolean,
+
+    @field:SerializedName("type")
+    val type: String
 )
