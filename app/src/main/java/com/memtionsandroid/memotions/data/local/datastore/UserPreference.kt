@@ -104,9 +104,12 @@ class UserPreference @Inject constructor(@ApplicationContext private val context
             preferences[USER_EMAIL_KEY]
         }
 
-    suspend fun clear() {
+    suspend fun logout() {
         context.dataStore.edit { preferences ->
-            preferences.clear()
+            preferences[AUTH_TOKEN_KEY] = ""
+            preferences[USER_ID_KEY] = 0
+            preferences[USER_NAME_KEY] = ""
+            preferences[USER_EMAIL_KEY] = ""
         }
     }
 }

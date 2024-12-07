@@ -111,7 +111,7 @@ fun MainScreen(navHostController: NavHostController) {
             startDestination = "home",
             Modifier.padding(bottom = contentPd)
         ) {
-            composable("home") { HomeScreen() }
+            composable("home") { HomeScreen(navHostController) }
             composable("starred") { StarredScreen() }
             composable("statistic") { StatisticScreen() }
             composable("profile") { ProfileScreen(navHostController) }

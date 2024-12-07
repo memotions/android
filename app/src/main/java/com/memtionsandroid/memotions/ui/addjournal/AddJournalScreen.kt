@@ -54,6 +54,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.ui.components.home.SearchTagModal
 import com.memtionsandroid.memotions.ui.components.home.Tag
@@ -82,7 +83,7 @@ val tagsJurnal = listOf(
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddJournalScreen(viewModel: AddJournalViewModel = hiltViewModel()) {
+fun AddJournalScreen(navController: NavHostController, viewModel: AddJournalViewModel = hiltViewModel()) {
     val titleState = remember { mutableStateOf(TextFieldValue()) }
     val journalState = remember { mutableStateOf(TextFieldValue()) }
     val starredState = remember { mutableStateOf(false) }
@@ -221,6 +222,7 @@ fun AddJournalScreen(viewModel: AddJournalViewModel = hiltViewModel()) {
                 },
                 onBack = {
                     showSaveDraftModal = false
+                    navController.popBackStack()
                 }
             )
         }
