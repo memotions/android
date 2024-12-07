@@ -66,7 +66,8 @@ fun AuthCard(
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
                     fontFamily = Poppins,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    color = Color(0xFF292828)
                 ),
                 modifier = Modifier.width(148.dp)
             )
@@ -93,12 +94,13 @@ fun AuthCard(
                     },
                     modifier = Modifier.size(303.dp, 48.dp),
                     shape = RoundedCornerShape(8.dp),
-                    textStyle = TextStyle(fontSize = 12.sp),
+                    textStyle = TextStyle(fontSize = 12.sp, color = Color(0xFF292828)),
                     colors = OutlinedTextFieldDefaults.colors(
                         unfocusedBorderColor = Color(0xFF7D7A78).copy(alpha = 0.5f),
                         unfocusedContainerColor = Color(0xFFFFFFFF).copy(alpha = 0.3f),
                         unfocusedLeadingIconColor = Color(0xFF7B7B7B),
-                        focusedContainerColor = Color(0xFFFFFFFF).copy(alpha = 0.3f),
+                        focusedLeadingIconColor = Color(0xFF7B7B7B),
+                        focusedBorderColor = Color(0xFF292828)
                     ),
                 )
             }
@@ -125,12 +127,13 @@ fun AuthCard(
                 },
                 modifier = Modifier.size(303.dp, 48.dp),
                 shape = RoundedCornerShape(8.dp),
-                textStyle = TextStyle(fontSize = 12.sp),
+                textStyle = TextStyle(fontSize = 12.sp, color = Color(0xFF292828)),
                 colors = OutlinedTextFieldDefaults.colors(
                     unfocusedBorderColor = Color(0xFF7D7A78).copy(alpha = 0.5f),
                     unfocusedContainerColor = Color(0xFFFFFFFF).copy(alpha = 0.3f),
                     unfocusedLeadingIconColor = Color(0xFF7B7B7B),
-                    focusedContainerColor = Color(0xFFFFFFFF).copy(alpha = 0.3f),
+                    focusedLeadingIconColor = Color(0xFF7B7B7B),
+                    focusedBorderColor = Color(0xFF292828)
                 )
             )
 
@@ -156,12 +159,13 @@ fun AuthCard(
                 },
                 modifier = Modifier.size(303.dp, 48.dp),
                 shape = RoundedCornerShape(8.dp),
-                textStyle = TextStyle(fontSize = 12.sp),
+                textStyle = TextStyle(fontSize = 12.sp, color = Color(0xFF292828)),
                 colors = OutlinedTextFieldDefaults.colors(
                     unfocusedBorderColor = Color(0xFF7D7A78).copy(alpha = 0.5f),
                     unfocusedContainerColor = Color(0xFFFFFFFF).copy(alpha = 0.3f),
                     unfocusedLeadingIconColor = Color(0xFF7B7B7B),
-                    focusedContainerColor = Color(0xFFFFFFFF).copy(alpha = 0.3f),
+                    focusedLeadingIconColor = Color(0xFF7B7B7B),
+                    focusedBorderColor = Color(0xFF292828)
                 ),
                 visualTransformation = PasswordVisualTransformation()
             )

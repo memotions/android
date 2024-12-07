@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -30,12 +31,10 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.ui.components.auth.Constant.gradientBackground
-import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
 import com.memtionsandroid.memotions.ui.theme.Poppins
 import kotlinx.coroutines.delay
 
@@ -79,7 +78,8 @@ fun OnBoardingScreen4() {
                     fontSize = 36.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = Poppins,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    color = Color(0xFF292828)
                 ),
                 modifier = Modifier.width(231.dp)
             )
@@ -111,19 +111,12 @@ fun OnBoardingScreen4() {
                 style = TextStyle(
                     fontSize = 20.sp,
                     fontFamily = Poppins,
+                    color = Color(0xFF292828)
                 ),
                 modifier = Modifier.size(width = 317.dp, height = 225.dp)
             )
         }
 
         Spacer(modifier = Modifier.height(64.dp))
-    }
-}
-
-@Composable
-@Preview(showBackground = true)
-private fun DefaultPreview() {
-    MemotionsTheme {
-        OnBoardingScreen4()
     }
 }
