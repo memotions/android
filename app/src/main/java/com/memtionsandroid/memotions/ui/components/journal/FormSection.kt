@@ -35,7 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.memtionsandroid.memotions.ui.components.home.Tag
+import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
 import com.memtionsandroid.memotions.ui.components.home.TagChip
 import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
 import com.memtionsandroid.memotions.ui.theme.Poppins
@@ -47,7 +47,7 @@ fun FormSection(
     dateInfo: String,
     titleState: MutableState<TextFieldValue>,
     journalState: MutableState<TextFieldValue>,
-    tags: List<Tag>,
+    tags: List<TagsItem>,
     onTagRemove: (Int) -> Unit,
     inView: Boolean
 ) {
@@ -178,24 +178,24 @@ fun FormSection(
 
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-private fun DefaultPreview() {
-    val titleState = remember { mutableStateOf(TextFieldValue()) }
-    val journalState = remember { mutableStateOf(TextFieldValue()) }
-    val tags = remember { mutableStateOf(listOf(Tag("Sekolah"), Tag("Pribadi"))) }
-
-    MemotionsTheme {
-        FormSection(
-            dateInfo = "Today",
-            titleState = titleState,
-            journalState = journalState,
-            tags = tags.value,
-            onTagRemove = { index ->
-                tags.value = tags.value.toMutableList().apply { removeAt(index) }
-            },
-            inView = false
-        )
-    }
-}
+//
+//@Preview(showBackground = true)
+//@Composable
+//private fun DefaultPreview() {
+//    val titleState = remember { mutableStateOf(TextFieldValue()) }
+//    val journalState = remember { mutableStateOf(TextFieldValue()) }
+//    val tags = remember { mutableStateOf(listOf(Tag("Sekolah"), Tag("Pribadi"))) }
+//
+//    MemotionsTheme {
+//        FormSection(
+//            dateInfo = "Today",
+//            titleState = titleState,
+//            journalState = journalState,
+//            tags = tags.value,
+//            onTagRemove = { index ->
+//                tags.value = tags.value.toMutableList().apply { removeAt(index) }
+//            },
+//            inView = false
+//        )
+//    }
+//}

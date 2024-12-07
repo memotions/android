@@ -3,14 +3,30 @@ package com.memtionsandroid.memotions.utils
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.memtionsandroid.memotions.data.local.entity.Journal
+import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
 import java.time.LocalDate
 
 data class FilterCriteria(
     val name: String = "",
-    val tags: List<String> = emptyList(),
+    val tags: List<TagsItem> = emptyList(),
     val startDate: LocalDate? = null,
     val endDate: LocalDate? = null
 ) {
+
+    fun addTag(tag: TagsItem): FilterCriteria {
+        if (!tags.contains(tag)) {
+            return copy(tags = tags + tag)
+        }
+        return this
+    }
+
+    fun removeTag(tag: TagsItem): FilterCriteria {
+        if (tags.contains(tag)) {
+            return copy(tags = tags - tag)
+        }
+        return this
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun matches(journal: Journal): Boolean {
@@ -23,7 +39,7 @@ data class FilterCriteria(
         val isTagMatching = tags.isEmpty() || tags.any { tag ->
             journal.tags?.any {
                 it.contains(
-                    tag,
+                    tag.name,
                     ignoreCase = true
                 )
             } == true

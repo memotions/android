@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.memtionsandroid.memotions.R
+import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
 import com.memtionsandroid.memotions.ui.components.main.SearchBar
 import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
 import com.memtionsandroid.memotions.ui.theme.customColors
@@ -40,6 +41,10 @@ fun HomeTopBar(
 //    level: Int,
 //    username: String,
     searchText: String,
+    tags: List<TagsItem>,
+    activeTags: List<TagsItem>,
+    onTagAdded: (TagsItem) -> Unit,
+    onTagRemoved: (TagsItem) -> Unit,
     onSearchValueChange: (String) -> Unit
 
 ) {
@@ -154,7 +159,12 @@ fun HomeTopBar(
                     onFilterClicked = {isFilter = !isFilter}
                 )
                 AnimatedVisibility(isFilter) {
-                    SearchFilter()
+                    SearchFilter(
+                        tags = tags,
+                        activeTags = activeTags,
+                        onTagAdded = {onTagAdded(it)},
+                        onTagRemoved = {onTagRemoved(it)},
+                    )
                 }
             }
         }

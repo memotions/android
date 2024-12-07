@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.memtionsandroid.memotions.data.local.datastore.UserPreference
 import com.memtionsandroid.memotions.data.local.entity.Journal
+import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
 import com.memtionsandroid.memotions.data.remote.response.journals.TagsResponse
 import com.memtionsandroid.memotions.data.repository.JournalsRepository
 import com.memtionsandroid.memotions.data.repository.LocalRepository
@@ -30,13 +31,18 @@ class MainViewModel @Inject constructor(
     private val _journals = MutableStateFlow<DataResult<List<Journal>>>(DataResult.Idle)
     val journals = _journals.asStateFlow()
 
-    private val _currentTags = MutableStateFlow<DataResult<TagsResponse>>(DataResult.Idle)
+    private val _currentTags = MutableStateFlow<List<TagsItem>>(emptyList())
     val currentTags = _currentTags.asStateFlow()
 
     fun getCurrentTags() {
         viewModelScope.launch {
             journalsRepository.getCurrentUserTags().collect {
-                _currentTags.value = it
+                when(it){
+                    is DataResult.Error -> _currentTags.value = emptyList()
+                    DataResult.Idle -> _currentTags.value = emptyList()
+                    DataResult.Loading -> _currentTags.value = emptyList()
+                    is DataResult.Success -> _currentTags.value = it.data.data ?: emptyList()
+                }
             }
         }
     }

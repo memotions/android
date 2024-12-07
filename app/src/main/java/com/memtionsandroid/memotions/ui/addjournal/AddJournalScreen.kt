@@ -1,27 +1,17 @@
 package com.memtionsandroid.memotions.ui.addjournal
 
 import android.os.Build
-import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
@@ -51,16 +41,17 @@ import com.memtionsandroid.memotions.ui.components.journal.FormSection
 import com.memtionsandroid.memotions.ui.components.journal.rememberImeState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.memtionsandroid.memotions.R
+import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
 import com.memtionsandroid.memotions.ui.components.home.SearchTagModal
-import com.memtionsandroid.memotions.ui.components.home.Tag
 import com.memtionsandroid.memotions.ui.components.journal.DateTimeAskDialog
 import com.memtionsandroid.memotions.ui.components.journal.SaveAsDraftDialog
 import com.memtionsandroid.memotions.ui.components.journal.TimePickerDialog
+import com.memtionsandroid.memotions.ui.components.main.TagDummy
+import com.memtionsandroid.memotions.ui.components.main.tagsJurnal
 import com.memtionsandroid.memotions.ui.theme.customColors
 import java.time.Instant
 import java.time.LocalDateTime
@@ -68,17 +59,7 @@ import java.time.LocalTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-val tagsJurnal = listOf(
-    Tag(name = "Refleksi Harian"),
-    Tag(name = "Rasa Syukur"),
-    Tag(name = "Pelacakan Mood"),
-    Tag(name = "Catatan Impian"),
-    Tag(name = "Target Harian"),
-    Tag(name = "Kesehatan Mental"),
-    Tag(name = "Produktivitas"),
-    Tag(name = "Perenungan"),
-    Tag(name = "Momen Bahagia"),
-)
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -87,7 +68,7 @@ fun AddJournalScreen(navController: NavHostController, viewModel: AddJournalView
     val titleState = remember { mutableStateOf(TextFieldValue()) }
     val journalState = remember { mutableStateOf(TextFieldValue()) }
     val starredState = remember { mutableStateOf(false) }
-    val tags = remember { mutableStateOf(listOf<Tag>()) }
+    val tags = remember { mutableStateOf(listOf<TagDummy>()) }
 
     var showDialog by remember { mutableStateOf(false) }
     var showDateDialog by remember { mutableStateOf(false) }
@@ -154,7 +135,7 @@ fun AddJournalScreen(navController: NavHostController, viewModel: AddJournalView
                 dateInfo = selectedDateTime.format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm")),
                 titleState = titleState,
                 journalState = journalState,
-                tags = tags.value,
+                tags = listOf(TagsItem("K",1)),
                 onTagRemove = { index ->
                     tags.value = tags.value.toMutableList().apply { removeAt(index) }
                 },
@@ -164,12 +145,12 @@ fun AddJournalScreen(navController: NavHostController, viewModel: AddJournalView
 
         if (showTagModal) {
             SearchTagModal(
-                tags = tagsJurnal,
+                tags = emptyList(),
                 onDismissRequest = { showTagModal = false },
                 onEmptyTagContent = { searchQuery ->
                     TextButton(
                         onClick = {
-                            tags.value += Tag(searchQuery)
+                            tags.value += TagDummy(searchQuery)
                             showTagModal = false
                         },
                         shape = RoundedCornerShape(10.dp),
@@ -186,10 +167,10 @@ fun AddJournalScreen(navController: NavHostController, viewModel: AddJournalView
                     }
                 },
                 onItemClicked = { selectedTagName ->
-                    if (tags.value.none { it.name == selectedTagName }) {
-                        tags.value += Tag(selectedTagName)
-                        showTagModal = false
-                    }
+//                    if (tags.value.none { it.name == selectedTagName }) {
+//                        tags.value += TagDummy(selectedTagName)
+//                        showTagModal = false
+//                    }
                 },
                 onEmptyTagInputHint = "Buat Tag",
                 onEmptyTagInputIcon = painterResource(id = R.drawable.ic_add_tag)

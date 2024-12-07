@@ -16,18 +16,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
 import com.memtionsandroid.memotions.ui.theme.customColors
 
-data class Tag(
-    val name: String
-)
+
 
 
 @Composable
 fun TagChip(
     modifier: Modifier = Modifier,
     viewOnly: Boolean = false,
-    tag: Tag,
+    tag: TagsItem,
     onRemove: () -> Unit
 ) {
     val customColors = MaterialTheme.customColors

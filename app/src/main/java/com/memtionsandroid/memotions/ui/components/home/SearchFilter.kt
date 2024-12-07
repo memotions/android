@@ -24,27 +24,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.memtionsandroid.memotions.R
+import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 
-val tagsJurnal = listOf(
-    Tag(name = "Refleksi Harian"),
-    Tag(name = "Rasa Syukur"),
-    Tag(name = "Pelacakan Mood"),
-    Tag(name = "Catatan Impian"),
-    Tag(name = "Target Harian"),
-    Tag(name = "Kesehatan Mental"),
-    Tag(name = "Produktivitas"),
-    Tag(name = "Perenungan"),
-    Tag(name = "Momen Bahagia"),
-    Tag(name = "Inspirasi Harian")
-)
+//val tagsJurnal = listOf(
+//    Tag(name = "Refleksi Harian"),
+//    Tag(name = "Rasa Syukur"),
+//    Tag(name = "Pelacakan Mood"),
+//    Tag(name = "Catatan Impian"),
+//    Tag(name = "Target Harian"),
+//    Tag(name = "Kesehatan Mental"),
+//    Tag(name = "Produktivitas"),
+//    Tag(name = "Perenungan"),
+//    Tag(name = "Momen Bahagia"),
+//    Tag(name = "Inspirasi Harian")
+//)
 
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun SearchFilter() {
-    var tags by remember { mutableStateOf(listOf<Tag>()) }
+fun SearchFilter(
+    tags: List<TagsItem>,
+    activeTags: List<TagsItem>,
+    onTagAdded: (TagsItem) -> Unit,
+    onTagRemoved: (TagsItem) -> Unit
+) {
+//    var tags by remember { mutableStateOf(listOf<Tag>()) }
     var openDialog by remember { mutableStateOf(false) }
     val customColors = MaterialTheme.customColors
 
@@ -77,7 +83,7 @@ fun SearchFilter() {
                 }
             }
             TextButton(
-                onClick = { tags = tags.toMutableList().apply { add(Tag("Kerja")) } }
+                onClick = {  }
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
@@ -105,28 +111,28 @@ fun SearchFilter() {
             verticalArrangement = Arrangement.spacedBy(8.dp),
 
             ) {
-            tags.forEachIndexed { index, tag ->
+            activeTags.forEach { tag ->
                 TagChip(
                     tag = tag,
-                    onRemove = {
-                        tags = tags.toMutableList().apply { removeAt(index) }
-                    })
+                    onRemove = { onTagRemoved(tag) }
+                )
             }
+//            tags.forEach { tag ->
+//                TagChip(
+//                    tag = tag,
+//                    onRemove = {
+////                        tags = tags.toMutableList().apply { removeAt(index) }
+//                    })
+//            }
         }
     }
 
     if (openDialog) {
         SearchTagModal(
-            tags = tagsJurnal,
+            tags = tags,
             onDismissRequest = { openDialog = false },
-            onItemClicked = {selectedTag ->
-                tags = tags
-                .toMutableList()
-                .apply {
-                    if (!any { it.name == selectedTag }) {
-                        add(Tag(selectedTag))
-                    }
-                }
+            onItemClicked = {
+                onTagAdded(it)
                 openDialog = false
             },
             onEmptyTagContent = {

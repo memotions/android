@@ -28,8 +28,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.memtionsandroid.memotions.R
-import com.memtionsandroid.memotions.data.local.entity.EmotionAnalysis
-import com.memtionsandroid.memotions.data.local.entity.Journal
 import com.memtionsandroid.memotions.ui.NavigationRoutes
 import com.memtionsandroid.memotions.ui.components.home.EmptyState
 import com.memtionsandroid.memotions.ui.components.home.HomeTopBar
@@ -109,7 +107,19 @@ fun HomeScreen(
         topBar = {
             HomeTopBar(
                 searchText = filterCriteria.name,
-                onSearchValueChange = {value ->
+                tags = currentTags,
+                activeTags = filterCriteria.tags,
+                onTagAdded = { tag ->
+                    homeViewModel.setFilterCriteria(
+                        homeViewModel.filterCriteria.value.addTag(tag)
+                    )
+                },
+                onTagRemoved = {tag ->
+                    homeViewModel.setFilterCriteria(
+                        homeViewModel.filterCriteria.value.removeTag(tag)
+                    )
+                },
+                onSearchValueChange = { value ->
                     homeViewModel.setFilterCriteria(homeViewModel.filterCriteria.value.copy(name = value))
                 }
             )
@@ -141,33 +151,6 @@ fun HomeScreen(
         }
     )
 }
-
-val dummyEmotionAnalysis = listOf(
-    EmotionAnalysis(emotion = "happy", confidence = 0.85f),
-    EmotionAnalysis(emotion = "neutral", confidence = 0.65f)
-)
-
-val dummyJournal = Journal(
-    id = 1,
-    userId = 123,
-    title = "A Day in the Life",
-    content = "Today was a good day. I learned new things and felt happy throughout.",
-    datetime = "2024-12-07T10:30:00",
-    createdAt = "2024-12-07T09:00:00",
-    status = "DRAFT",
-    deleted = false,
-    starred = true,
-    feedback = "Keep up the good work!",
-    tags = listOf("personal", "motivation", "learning"),
-    emotionAnalysis = dummyEmotionAnalysis
-)
-
-// Membuat list dengan beberapa salinan dummyJournal yang memiliki ID berbeda
-val dummyList = listOf(
-    dummyJournal.copy(id = 1),
-    dummyJournal.copy(id = 2, status = "PUBLISHED"),
-    dummyJournal.copy(id = 3)
-)
 
 
 
