@@ -7,7 +7,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.memtionsandroid.memotions.ui.components.main.Journals
-import com.memtionsandroid.memotions.ui.components.main.journalList
 import com.memtionsandroid.memotions.ui.components.starred.StarredTopBar
 
 
@@ -24,8 +23,8 @@ fun StarredScreen() {
                     .padding(innerPadding)
             ) {
 
-                val filteredList = journalList.filter { it.isStarred }
-                Journals(filteredList)
+//                val filteredList = journalList.filter { it.isStarred }
+                Journals(emptyList())
             }
         }
     )

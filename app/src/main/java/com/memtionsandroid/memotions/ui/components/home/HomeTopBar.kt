@@ -34,6 +34,11 @@ import com.memtionsandroid.memotions.ui.theme.customColors
 
 @Composable
 fun HomeTopBar(
+//    streak: Int,
+//    currentEXP: Int,
+//    nextLevelEXP: Int,
+//    level: Int,
+//    username: String,
 
 ) {
     val customColors = MaterialTheme.customColors

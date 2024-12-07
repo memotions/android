@@ -1,5 +1,7 @@
 package com.memtionsandroid.memotions.ui.components.main
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -29,37 +31,43 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.memtionsandroid.memotions.R
-import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
+import com.memtionsandroid.memotions.data.local.entity.Journal
 import com.memtionsandroid.memotions.ui.theme.customColors
+import com.memtionsandroid.memotions.utils.formatDateTime
 
-data class Journal(
-    val title: String,
-    val content: String,
-    val date: String,
-    val Tags: List<String> = emptyList(),
-    val emotion: String,
-    val isStarred: Boolean = false,
-    val status: String = "Analyzed"
-)
+//data class Journal(
+//    val title: String,
+//    val content: String,
+//    val date: String,
+//    val Tags: List<String> = emptyList(),
+//    val emotion: String,
+//    val isStarred: Boolean = false,
+//    val status: String = "Analyzed"
+//)
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun JournalCard(
     journal: Journal, modifier: Modifier = Modifier
 ) {
     val customColors = MaterialTheme.customColors
-    val tags = journal.Tags.joinToString(" ") { "#$it" }
-    val painter = when (journal.emotion) {
-        "happy" -> painterResource(id = R.drawable.emo_happy)
-        "angry" -> painterResource(id = R.drawable.emo_angry)
-        "sad" -> painterResource(id = R.drawable.emo_sad)
-        "neutral" -> painterResource(id = R.drawable.emo_netral)
-        "scared" -> painterResource(id = R.drawable.emo_scared)
-        else -> painterResource(id = R.drawable.emo_netral)
+    val tags = journal.tags?.joinToString(" ") { "#$it" }
+    val painter = journal.emotionAnalysis?.let {
+        when (journal.emotionAnalysis[0].emotion) {
+            "happy" -> painterResource(id = R.drawable.emo_happy)
+            "angry" -> painterResource(id = R.drawable.emo_angry)
+            "sad" -> painterResource(id = R.drawable.emo_sad)
+            "neutral" -> painterResource(id = R.drawable.emo_netral)
+            "scared" -> painterResource(id = R.drawable.emo_scared)
+            else -> painterResource(id = R.drawable.emo_netral)
+        }
+    } ?: run {
+        painterResource(id = R.drawable.emo_netral)
     }
+
     val icon = painterResource(id = R.drawable.ic_star)
     Surface(
         modifier = modifier
@@ -76,13 +84,14 @@ fun JournalCard(
                 Row(
                     modifier = Modifier.weight(1f)
                 ) {
+
                     when (journal.status) {
-                        "Draft" -> {
+                        "DRAFT" -> {
                             Column(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 Box(
-                                    modifier = modifier
+                                    modifier = Modifier
                                         .background(
                                             color = customColors.secondBackgroundColor,
                                             shape = RoundedCornerShape(50.dp),
@@ -102,31 +111,31 @@ fun JournalCard(
                             }
                         }
 
-                        "Published" -> Column(
+                        "PUBLISHED" -> Column(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Box (
-                                modifier = modifier
+                            Box(
+                                modifier = Modifier
                                     .background(
                                         color = customColors.secondBackgroundColor,
                                         shape = RoundedCornerShape(50.dp),
                                     )
                                     .padding(12.dp)
-                            ){
+                            ) {
                                 CombinedAnimationIcon(isGenerating = true)
                             }
                             StatusTag(
                                 status = "Analyze", modifier = Modifier.padding(top = 4.dp)
                             )
                         }
-
-                        "Analyzed" -> {
-                            Image(
-                                painter = painter,
-                                contentDescription = "Angry Icon",
-                                modifier = Modifier.size(37.dp)
-                            )
-                        }
+//
+//                        "ANALYZED" -> {
+//                            Image(
+//                                painter = painter,
+//                                contentDescription = "Angry Icon",
+//                                modifier = Modifier.size(37.dp)
+//                            )
+//                        }
                     }
 
                     Column(
@@ -153,7 +162,7 @@ fun JournalCard(
                         painter = icon,
                         contentDescription = "Star Icon",
                         modifier = Modifier.size(12.dp),
-                        tint = if (journal.isStarred) customColors.TextOnBackgroundColor else Color.Transparent,
+                        tint = if (journal.starred) customColors.TextOnBackgroundColor else Color.Transparent,
                     )
                 }
                 Row(
@@ -161,14 +170,14 @@ fun JournalCard(
                 ) {
                     Text(
                         modifier = Modifier.weight(1f),
-                        text = tags,
+                        text = tags ?: "",
                         maxLines = 1,
                         style = MaterialTheme.typography.labelSmall,
                         overflow = TextOverflow.Ellipsis,
                         color = customColors.onSecondBackgroundColor,
                     )
                     Text(
-                        text = journal.date,
+                        text = journal.datetime.formatDateTime(),
                         maxLines = 1,
                         style = MaterialTheme.typography.labelSmall,
                         overflow = TextOverflow.Ellipsis,
@@ -239,41 +248,41 @@ fun StatusTag(
     }
 
 }
-
-@Preview
-@Composable
-fun JournalCardPreview() {
-    MemotionsTheme() {
-        val journal = Journal(
-            "Hari yang sangat melelahkan hingga saya ingin membunuh semua orang",
-            "bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla",
-            "Date",
-            listOf("Sekolah", "Kerja", "Belajar"),
-            "happy",
-            false,
-            "Draft"
-        )
-        JournalCard(journal)
-//        Text(text = journal.Tag.joinToString(" "))
-    }
-}
-
-@Preview
-@Composable
-fun JournalCardPreviewDark() {
-    MemotionsTheme(darkTheme = true) {
-        val journal = Journal(
-            "Hari yang sangat melelahkan hingga saya ingin membunuh semua orang",
-            "bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla",
-            "Date",
-            listOf("Sekolah", "Kerja", "Belajar"),
-            "happy",
-            true,
-            "Draft"
-        )
-        JournalCard(journal)
-//        Text(text = journal.Tag.joinToString(" "))
-    }
-}
+//
+//@Preview
+//@Composable
+//fun JournalCardPreview() {
+//    MemotionsTheme() {
+//        val journal = Journal(
+//            "Hari yang sangat melelahkan hingga saya ingin membunuh semua orang",
+//            "bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla",
+//            "Date",
+//            listOf("Sekolah", "Kerja", "Belajar"),
+//            "happy",
+//            false,
+//            "Draft"
+//        )
+//        JournalCard(journal)
+////        Text(text = journal.Tag.joinToString(" "))
+//    }
+//}
+//
+//@Preview
+//@Composable
+//fun JournalCardPreviewDark() {
+//    MemotionsTheme(darkTheme = true) {
+//        val journal = Journal(
+//            "Hari yang sangat melelahkan hingga saya ingin membunuh semua orang",
+//            "bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla",
+//            "Date",
+//            listOf("Sekolah", "Kerja", "Belajar"),
+//            "happy",
+//            true,
+//            "Draft"
+//        )
+//        JournalCard(journal)
+////        Text(text = journal.Tag.joinToString(" "))
+//    }
+//}
 
 

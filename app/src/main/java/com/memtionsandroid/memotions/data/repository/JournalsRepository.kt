@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
+import timber.log.Timber
 import javax.inject.Inject
 
 enum class JournalStatus(val status: String) {
@@ -109,7 +110,9 @@ class DefaultJournalsRepository @Inject constructor(
             val errorMessage =
                 "Terjadi kesalahan saat mendapatkan data journal, [${e.code()}]: ${errorBody.errors[0].message}"
             emit(DataResult.Error(Event(errorMessage)))
+            Timber.tag("DefaultJournalsRepository").e("getJournals: " + e.message)
         } catch (e: Exception) {
+            Timber.tag("DefaultJournalsRepository").e("getJournals: " + e.message)
             emit(DataResult.Error(Event("Terjadi kesalahan saat mendapatkan data journal, coba lagi atau cek koneksi internet")))
         }
     }

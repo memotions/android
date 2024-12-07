@@ -11,6 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 interface LocalRepository {
@@ -47,6 +48,7 @@ class DefaultLocalRepository @Inject constructor(
             }
             emit(DataResult.Success(journalsResponse))
         } catch (e: Exception) {
+            Timber.tag("DefaultLocalRepository").e("saveAndGetJournals: " + e.message)
             emit(DataResult.Error(Event("Failed to save and get journals")))
         }
     }

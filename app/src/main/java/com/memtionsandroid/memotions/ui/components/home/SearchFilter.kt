@@ -46,7 +46,6 @@ val tagsJurnal = listOf(
 fun SearchFilter() {
     var tags by remember { mutableStateOf(listOf<Tag>()) }
     var openDialog by remember { mutableStateOf(false) }
-
     val customColors = MaterialTheme.customColors
 
     Column {
