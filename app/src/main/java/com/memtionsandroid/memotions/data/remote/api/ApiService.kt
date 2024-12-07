@@ -2,7 +2,6 @@ package com.memtionsandroid.memotions.data.remote.api
 
 import com.memtionsandroid.memotions.data.remote.response.statistics.AchievementsResponse
 import com.memtionsandroid.memotions.data.remote.response.auth.AuthResponse
-import com.memtionsandroid.memotions.data.remote.response.statistics.EmotionsResponse
 import com.memtionsandroid.memotions.data.remote.response.journals.JournalResponse
 import com.memtionsandroid.memotions.data.remote.response.journals.JournalTagsResponse
 import com.memtionsandroid.memotions.data.remote.response.journals.JournalsResponse
@@ -10,6 +9,7 @@ import com.memtionsandroid.memotions.data.remote.response.statistics.StreakRespo
 import com.memtionsandroid.memotions.data.remote.response.journals.TagResponse
 import com.memtionsandroid.memotions.data.remote.response.journals.TagsResponse
 import com.memtionsandroid.memotions.data.remote.response.statistics.AchievementResponse
+import com.memtionsandroid.memotions.data.remote.response.statistics.EmotionAnalysisResponse
 import com.memtionsandroid.memotions.data.remote.response.statistics.StatisticsResponse
 import com.memtionsandroid.memotions.data.repository.JournalStatus
 import retrofit2.http.Body
@@ -141,10 +141,10 @@ interface ApiService {
         @Header("Authorization") token: String,
     ): StreakResponse
 
-    @GET("emotions")
-    suspend fun getUserEmotions(
+    @GET("emotion-analysis")
+    suspend fun getUserEmotionAnalysis(
         @Header("Authorization") token: String,
-    ): EmotionsResponse
+    ): EmotionAnalysisResponse
 
     @GET("stats")
     suspend fun getStatistics(
