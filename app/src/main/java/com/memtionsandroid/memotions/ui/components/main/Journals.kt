@@ -1,5 +1,7 @@
 package com.memtionsandroid.memotions.ui.components.main
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,10 +18,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.memtionsandroid.memotions.data.local.entity.Journal
+import com.memtionsandroid.memotions.ui.main.screen.home.EmptyState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Journals(journals: List<Journal>) {

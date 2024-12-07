@@ -32,16 +32,16 @@ class HomeViewModel  @Inject constructor(
             journalsRepository.getJournals().collect { remoteState ->
                 when (remoteState) {
                     is DataResult.Error -> {
-                        _journals.value = DataResult.Error(remoteState.error)
-//                        userId?.let { userId ->
-//                            localRepository.getJournals(userId)
-//                                .collect { localJournals ->
-//                                    _journals.value =
-//                                        DataResult.Success(localJournals)
-//                                }
-//                        } ?: run {
-//                            _journals.value = DataResult.Error(Event("User ID not found"))
-//                        }
+//                        _journals.value = DataResult.Error(remoteState.error)
+                        userId?.let { userId ->
+                            localRepository.getJournals(userId)
+                                .collect { localJournals ->
+                                    _journals.value =
+                                        DataResult.Success(localJournals)
+                                }
+                        } ?: run {
+                            _journals.value = DataResult.Error(Event("User ID not found"))
+                        }
                     }
 
                     DataResult.Idle -> {}

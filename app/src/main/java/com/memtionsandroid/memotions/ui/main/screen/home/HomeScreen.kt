@@ -1,5 +1,8 @@
 package com.memtionsandroid.memotions.ui.main.screen.home
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -33,6 +37,7 @@ import com.memtionsandroid.memotions.ui.components.main.Journals
 import com.memtionsandroid.memotions.ui.theme.customColors
 import com.memtionsandroid.memotions.utils.DataResult
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
@@ -50,14 +55,15 @@ fun HomeScreen(
         viewModel.getJournals()
     }
 
-    LaunchedEffect(Unit) {
-        viewModel.getJournals()
-    }
+//    LaunchedEffect(Unit) {
+//        viewModel.getJournals()
+//    }
 
     LaunchedEffect(journalsState) {
         when (journalsState) {
             is DataResult.Error -> {
-                val errorMessage = (journalsState as DataResult.Error).error.getContentIfNotHandled()
+                val errorMessage =
+                    (journalsState as DataResult.Error).error.getContentIfNotHandled()
                 isRefreshing = false
                 snackbarHostState.showSnackbar(errorMessage!!)
             }
@@ -98,7 +104,7 @@ fun HomeScreen(
         content = { innerPadding ->
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxSize()
                     .padding(innerPadding)
             )
             {
@@ -108,7 +114,16 @@ fun HomeScreen(
                     onRefresh = onRefresh,
                     isRefreshing = isRefreshing,
                 ) {
-                    Journals(journals)
+                    if (journals.isEmpty()) {
+                        EmptyState(
+                            modifier = Modifier.align(Alignment.Center),
+                            title = "Tidak ada Jurnal",
+                            onRefresh = {onRefresh()}
+                        )
+                    } else {
+                        Journals(journals)
+                    }
+//                    Journals(dummyList)
                 }
             }
         }
