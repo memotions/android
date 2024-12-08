@@ -24,13 +24,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
 import com.memtionsandroid.memotions.ui.components.main.SearchBar
-import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 @Composable
@@ -156,25 +154,17 @@ fun HomeTopBar(
                     isFilter = isFilter,
                     searchText = searchText,
                     onValueChange = onSearchValueChange,
-                    onFilterClicked = {isFilter = !isFilter}
+                    onFilterClicked = { isFilter = !isFilter }
                 )
                 AnimatedVisibility(isFilter) {
                     SearchFilter(
                         tags = tags,
                         activeTags = activeTags,
-                        onTagAdded = {onTagAdded(it)},
-                        onTagRemoved = {onTagRemoved(it)},
+                        onTagAdded = { onTagAdded(it) },
+                        onTagRemoved = { onTagRemoved(it) },
                     )
                 }
             }
         }
     }
 }
-//
-//@Preview
-//@Composable
-//fun HomeTopBarPreview() {
-//    MemotionsTheme(darkTheme = true) {
-//        HomeTopBar()
-//    }
-//}

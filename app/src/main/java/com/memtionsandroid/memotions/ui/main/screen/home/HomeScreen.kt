@@ -10,6 +10,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -53,6 +54,8 @@ fun HomeScreen(
     var isRefreshing by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
 
+
+
     val state = rememberPullToRefreshState()
     val onRefresh: () -> Unit = {
         mainViewModel.getJournals()
@@ -70,7 +73,11 @@ fun HomeScreen(
                 val errorMessage =
                     (journalsState as DataResult.Error).error.getContentIfNotHandled()
                 isRefreshing = false
-                snackbarHostState.showSnackbar(errorMessage!!)
+                snackbarHostState.showSnackbar(
+                    message = errorMessage!!,
+                    actionLabel = "Error",
+                    duration = SnackbarDuration.Indefinite
+                )
             }
 
             DataResult.Idle -> {}
@@ -114,7 +121,7 @@ fun HomeScreen(
                         homeViewModel.filterCriteria.value.addTag(tag)
                     )
                 },
-                onTagRemoved = {tag ->
+                onTagRemoved = { tag ->
                     homeViewModel.setFilterCriteria(
                         homeViewModel.filterCriteria.value.removeTag(tag)
                     )

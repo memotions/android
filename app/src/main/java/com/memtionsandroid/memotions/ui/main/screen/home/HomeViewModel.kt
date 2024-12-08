@@ -7,7 +7,6 @@ import com.memtionsandroid.memotions.data.local.datastore.UserPreference
 import com.memtionsandroid.memotions.data.local.entity.Journal
 import com.memtionsandroid.memotions.data.repository.JournalsRepository
 import com.memtionsandroid.memotions.data.repository.LocalRepository
-import com.memtionsandroid.memotions.utils.DataResult
 import com.memtionsandroid.memotions.utils.FilterCriteria
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
