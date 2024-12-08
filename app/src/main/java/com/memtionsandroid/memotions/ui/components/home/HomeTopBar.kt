@@ -37,6 +37,7 @@ fun HomeTopBar(
     currentEXP: Int = 0,
     nextLevelEXP: Int = 0,
     level: Int = 1,
+    filterCount: Int = 0,
     username: String = "Guest",
     searchText: String,
     tags: List<TagsItem>,
@@ -141,6 +142,7 @@ fun HomeTopBar(
                     }
                 }
                 SearchBar(
+                    filterCount = filterCount,
                     modifier = Modifier.padding(top = 24.dp),
                     isFilter = isFilter,
                     searchText = searchText,

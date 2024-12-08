@@ -27,6 +27,14 @@ data class FilterCriteria(
         return this
     }
 
+    fun countFilter(): Int {
+        var count = 0
+        if (tags.isNotEmpty()) count += tags.size
+        if (startDate != null) count++
+
+        return count
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun matches(journal: Journal): Boolean {

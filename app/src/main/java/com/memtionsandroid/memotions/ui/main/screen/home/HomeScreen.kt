@@ -111,21 +111,22 @@ fun HomeScreen(
         },
         topBar = {
             HomeTopBar(
+                filterCount = filterCriteria.countFilter(),
                 searchText = filterCriteria.name,
                 tags = currentTags,
                 activeTags = filterCriteria.tags,
                 onTagAdded = { tag ->
                     homeViewModel.setFilterCriteria(
-                        homeViewModel.filterCriteria.value.addTag(tag)
+                       filterCriteria.addTag(tag)
                     )
                 },
                 onTagRemoved = { tag ->
                     homeViewModel.setFilterCriteria(
-                        homeViewModel.filterCriteria.value.removeTag(tag)
+                        filterCriteria.removeTag(tag)
                     )
                 },
                 onSearchValueChange = { value ->
-                    homeViewModel.setFilterCriteria(homeViewModel.filterCriteria.value.copy(name = value))
+                    homeViewModel.setFilterCriteria(filterCriteria.copy(name = value))
                 }
             )
         },

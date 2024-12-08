@@ -26,6 +26,7 @@ import com.memtionsandroid.memotions.ui.theme.customColors
 
 @Composable
 fun StarredTopBar(
+    filterCount: Int = 0,
     searchText: String,
     tags: List<TagsItem>,
     activeTags: List<TagsItem>,
@@ -58,6 +59,7 @@ fun StarredTopBar(
                     style = MaterialTheme.typography.titleLarge
                 )
                 SearchBar(
+                    filterCount = filterCount,
                     modifier = Modifier.padding(top = 24.dp),
                     isFilter = isFilter,
                     searchText = searchText,

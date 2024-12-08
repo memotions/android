@@ -96,21 +96,22 @@ fun StarredScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             StarredTopBar(
+                filterCount = filterCriteria.countFilter(),
                 searchText = filterCriteria.name,
                 tags = currentTags,
                 activeTags = filterCriteria.tags,
                 onTagAdded = { tag ->
                     starredViewModel.setFilterCriteria(
-                        starredViewModel.filterCriteria.value.addTag(tag)
+                        filterCriteria.addTag(tag)
                     )
                 },
                 onTagRemoved = { tag ->
                     starredViewModel.setFilterCriteria(
-                        starredViewModel.filterCriteria.value.removeTag(tag)
+                        filterCriteria.removeTag(tag)
                     )
                 },
                 onSearchValueChange = { value ->
-                    starredViewModel.setFilterCriteria(starredViewModel.filterCriteria.value.copy(name = value))
+                    starredViewModel.setFilterCriteria(filterCriteria.copy(name = value))
                 })
         },
         content = { innerPadding ->
