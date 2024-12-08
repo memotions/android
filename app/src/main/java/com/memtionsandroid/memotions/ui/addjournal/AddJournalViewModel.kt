@@ -2,13 +2,14 @@ package com.memtionsandroid.memotions.ui.addjournal
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.Network
 import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
@@ -22,6 +23,9 @@ import com.memtionsandroid.memotions.utils.DataResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -94,8 +98,7 @@ class AddJournalViewModel @Inject constructor(
     var errorMessages by mutableStateOf("")
 
     fun fetchDraftJournal(journalId: Int) = viewModelScope.launch {
-        val isConnected = isInternetAvailable(context)
-        if (isConnected) {
+        if (isConnected.value) {
             journalsRepository.getJournalById(journalId).collect { result ->
                 when (result) {
                     is DataResult.Success -> {
@@ -138,24 +141,26 @@ class AddJournalViewModel @Inject constructor(
     }
 
     fun fetchUserTags() = viewModelScope.launch {
-        journalsRepository.getCurrentUserTags().collect { result ->
-            when (result) {
-                is DataResult.Success -> {
-                    userTags = result.data.data?.map { Tag(name = it.name) } ?: emptyList()
-                    isLoading = false
-                }
+        if (isConnected.value) {
+            journalsRepository.getCurrentUserTags().collect { result ->
+                when (result) {
+                    is DataResult.Success -> {
+                        userTags = result.data.data?.map { Tag(name = it.name) } ?: emptyList()
+                        isLoading = false
+                    }
 
-                is DataResult.Error -> {
-                    isLoading = false
-                    errorMessages = result.error.getContentIfNotHandled()
-                        ?: "Terjadi kesalahan saat mendapatkan tags, coba lagi atau cek koneksi internet"
-                }
+                    is DataResult.Error -> {
+                        isLoading = false
+                        errorMessages = result.error.getContentIfNotHandled()
+                            ?: "Terjadi kesalahan saat mendapatkan tags, coba lagi atau cek koneksi internet"
+                    }
 
-                is DataResult.Loading -> {
-                    isLoading = true
-                }
+                    is DataResult.Loading -> {
+                        isLoading = true
+                    }
 
-                else -> {}
+                    else -> {}
+                }
             }
         }
     }
@@ -412,16 +417,53 @@ class AddJournalViewModel @Inject constructor(
         }
     }
 
-    private fun isInternetAvailable(context: Context): Boolean {
-        val connectivityManager = getSystemService(context, ConnectivityManager::class.java)
-        val networkCapabilities = connectivityManager?.activeNetwork ?: return false
-        val activeNetwork = connectivityManager.getNetworkCapabilities(networkCapabilities)
-        return activeNetwork?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
-    }
-
     private fun stringToLocalDateTime(datetime: String): LocalDateTime {
         val formatter = DateTimeFormatter.ISO_DATE_TIME
         val datetimeWithoutZ = datetime.removeSuffix("Z")
         return LocalDateTime.parse(datetimeWithoutZ, formatter)
+    }
+
+    private val connectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+    private val _isConnected = MutableStateFlow(isInternetAvailable())
+    val isConnected: StateFlow<Boolean> = _isConnected.asStateFlow()
+
+    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
+        override fun onAvailable(network: Network) {
+            _isConnected.value = true
+        }
+
+        override fun onLost(network: Network) {
+            _isConnected.value = isInternetAvailable()
+        }
+
+        override fun onCapabilitiesChanged(
+            network: Network,
+            networkCapabilities: NetworkCapabilities
+        ) {
+            _isConnected.value =
+                networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+        }
+    }
+
+    init {
+        val networkRequest = NetworkRequest.Builder()
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .build()
+
+        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
+    }
+
+    private fun isInternetAvailable(): Boolean {
+        val network = connectivityManager.activeNetwork ?: return false
+        val networkCapabilities =
+            connectivityManager.getNetworkCapabilities(network) ?: return false
+        return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    }
+
+    override fun onCleared() {
+        connectivityManager.unregisterNetworkCallback(networkCallback)
+        super.onCleared()
     }
 }

@@ -54,6 +54,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.ui.components.home.SearchTagModal
@@ -105,6 +106,8 @@ fun AddJournalScreen(
     val scrollState = rememberScrollState()
     val customColors = MaterialTheme.customColors
     val title = if (journalId == "add") "Tambah Jurnal" else "Edit Jurnal"
+    val isConnected by viewModel.isConnected.collectAsStateWithLifecycle()
+    val isConnectedInfo = if (isConnected) "" else " [Koneksi Terputus] "
 
     LaunchedEffect(key1 = imeState.value) {
         if (imeState.value) {
@@ -137,11 +140,13 @@ fun AddJournalScreen(
                 title = title,
                 inView = false,
                 onBack = {
-                    if ((viewModel.titleValue.isNotEmpty() && viewModel.contentValue.isNotEmpty()) || journalId != "add") {
-                        showSaveAsDraftDialog = true
-                    } else {
-                        navController.popBackStack()
-                    }
+                    if (isConnected) {
+                        if ((viewModel.titleValue.isNotEmpty() && viewModel.contentValue.isNotEmpty()) || journalId != "add") {
+                            showSaveAsDraftDialog = true
+                        } else {
+                            navController.popBackStack()
+                        }
+                    } else navController.popBackStack()
                 },
                 onAction = {},
                 starredValue = null,
@@ -149,16 +154,26 @@ fun AddJournalScreen(
             )
         },
         bottomBar = {
-            BottomBar(
-                onTagClick = { showTagsDialog = true },
-                onClockClick = { showAskDateTimeDialog = true },
-                onSaveClick = {
-                    focusManager.clearFocus()
-                    showConfirmDialog = true
-                },
-                starredValue = viewModel.starredValue,
-                onStarredChange = viewModel::setStarred
-            )
+            if (isConnected) {
+                BottomBar(
+                    onTagClick = { showTagsDialog = true },
+                    onClockClick = { showAskDateTimeDialog = true },
+                    onSaveClick = {
+                        focusManager.clearFocus()
+                        showConfirmDialog = true
+                    },
+                    starredValue = viewModel.starredValue,
+                    onStarredChange = viewModel::setStarred
+                )
+            } else {
+                BottomBar(
+                    onTagClick = { },
+                    onClockClick = { },
+                    onSaveClick = { },
+                    starredValue = viewModel.starredValue,
+                    onStarredChange = { }
+                )
+            }
         }
     ) { innerPadding ->
         Column(
@@ -170,7 +185,7 @@ fun AddJournalScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             FormSection(
-                datetime = viewModel.datetimeValue.format(DateTimeFormatter.ofPattern("HH:mm • dd MMMM yyyy")),
+                datetime = "$isConnectedInfo${viewModel.datetimeValue.format(DateTimeFormatter.ofPattern("HH:mm • dd MMMM yyyy"))}",
                 titleValue = viewModel.titleValue,
                 onTitleChange = viewModel::setTitle,
                 contentValue = viewModel.contentValue,
@@ -180,7 +195,7 @@ fun AddJournalScreen(
                     viewModel.updateTagsValue(
                         viewModel.tagsValue.toMutableList().apply { removeAt(index) })
                 },
-                inView = false
+                inView = !isConnected
             )
         }
 
