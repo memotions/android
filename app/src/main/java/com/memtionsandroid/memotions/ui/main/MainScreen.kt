@@ -5,10 +5,8 @@ import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandIn
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
@@ -153,7 +151,7 @@ fun BottomNavigationBar(
             visible = !isConnected,
             exit = slideOutVertically(
                 targetOffsetY = { it },
-                animationSpec = tween(durationMillis = 800)
+                animationSpec = tween(durationMillis = 400, delayMillis = 800)
             )
         ) {
             Row(
@@ -176,7 +174,7 @@ fun BottomNavigationBar(
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(start = 4.dp),
                     style = MaterialTheme.typography.bodySmall,
-                    color = customColors.onBarColor
+                    color = if (!isConnected) customColors.onBarColor else customColors.barColor
                 )
             }
         }

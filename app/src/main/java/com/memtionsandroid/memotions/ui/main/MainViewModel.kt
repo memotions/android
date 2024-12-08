@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.memtionsandroid.memotions.data.local.datastore.UserPreference
 import com.memtionsandroid.memotions.data.local.entity.Journal
 import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
-import com.memtionsandroid.memotions.data.remote.response.journals.TagsResponse
 import com.memtionsandroid.memotions.data.repository.JournalsRepository
 import com.memtionsandroid.memotions.data.repository.LocalRepository
 import com.memtionsandroid.memotions.utils.DataResult
@@ -53,7 +52,7 @@ class MainViewModel @Inject constructor(
     fun getCurrentTags() {
         viewModelScope.launch {
             journalsRepository.getCurrentUserTags().collect {
-                when(it){
+                when (it) {
                     is DataResult.Error -> _currentTags.value = emptyList()
                     DataResult.Idle -> _currentTags.value = emptyList()
                     DataResult.Loading -> _currentTags.value = emptyList()
@@ -62,7 +61,6 @@ class MainViewModel @Inject constructor(
             }
         }
     }
-
 
 
     @RequiresApi(Build.VERSION_CODES.O)

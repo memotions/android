@@ -58,7 +58,7 @@ fun JournalCard(
     val painter = journal.emotionAnalysis?.let {
         when (journal.emotionAnalysis[0].emotion) {
             "HAPPY" -> painterResource(id = R.drawable.emo_happy)
-            "ANGRY" -> painterResource(id = R.drawable.emo_angry)
+            "ANGER" -> painterResource(id = R.drawable.emo_angry)
             "SAD" -> painterResource(id = R.drawable.emo_sad)
             "NEUTRAL" -> painterResource(id = R.drawable.emo_netral)
             "SCARED" -> painterResource(id = R.drawable.emo_scared)
