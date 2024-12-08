@@ -84,7 +84,7 @@ fun AchievementScreen(
                 isRefreshing = false
                 snackbarHostState.showSnackbar(
                     message = errorMessage!!,
-                    duration = SnackbarDuration.Indefinite
+                    duration = SnackbarDuration.Short,
                 )
             }
 
@@ -130,15 +130,13 @@ fun AchievementScreen(
                     FlowRow(
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp),
-                        modifier = Modifier
+//                        modifier = Modifier
                     ) {
                         if (unlockedAchievement.isEmpty()) {
                             EmptyState(
-                                Modifier.padding(top = 24.dp),
+                                Modifier.padding(top = 64.dp),
                                 title = "Pencapaian Kosong"
-                            ) {
-                                onRefresh()
-                            }
+                            )
                         }
                         unlockedAchievement.forEach { achievement ->
                             AchievementCard(

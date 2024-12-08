@@ -110,28 +110,20 @@ fun StarredScreen(
                 })
         },
         content = { innerPadding ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-            )
-            {
-                PullToRefreshBox(
-                    modifier = Modifier.fillMaxSize(),
-                    state = state,
-                    onRefresh = onRefresh,
-                    isRefreshing = isRefreshing,
-                ) {
-                    if (filteredJournal.isEmpty()) {
-                        EmptyState(
-                            modifier = Modifier.align(Alignment.Center),
-                            title = "Tidak ada Jurnal",
-                            onRefresh = { onRefresh() }
-                        )
-                    } else {
-                        Journals(filteredJournal)
-                    }
+            PullToRefreshBox(
+                modifier = Modifier.fillMaxSize()
+                    .padding(innerPadding),
+                state = state,
+                onRefresh = onRefresh,
+                isRefreshing = isRefreshing,
+            ) {
+                if (filteredJournal.isEmpty()) {
+                    EmptyState(
+                        modifier = Modifier.align(Alignment.Center),
+                        title = "Tidak ada Jurnal"
+                    )
                 }
+                Journals(filteredJournal)
             }
         }
     )

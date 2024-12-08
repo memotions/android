@@ -5,6 +5,8 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -25,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -32,6 +35,7 @@ import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.ui.NavigationRoutes
 import com.memtionsandroid.memotions.ui.components.home.EmptyState
 import com.memtionsandroid.memotions.ui.components.home.HomeTopBar
+import com.memtionsandroid.memotions.ui.components.main.JournalCard
 import com.memtionsandroid.memotions.ui.components.main.Journals
 import com.memtionsandroid.memotions.ui.main.MainViewModel
 import com.memtionsandroid.memotions.ui.theme.customColors
@@ -140,14 +144,9 @@ fun HomeScreen(
             )
         },
         content = { innerPadding ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-            )
-            {
                 PullToRefreshBox(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize()
+                        .padding(innerPadding),
                     state = state,
                     onRefresh = onRefresh,
                     isRefreshing = isRefreshing,
@@ -155,14 +154,11 @@ fun HomeScreen(
                     if (filteredJournal.isEmpty()) {
                         EmptyState(
                             modifier = Modifier.align(Alignment.Center),
-                            title = "Tidak ada Jurnal",
-                            onRefresh = { onRefresh() }
+                            title = "Tidak ada Jurnal"
                         )
-                    } else {
-                        Journals(filteredJournal)
                     }
+                    Journals(filteredJournal)
                 }
-            }
         }
     )
 }
