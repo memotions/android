@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.memtionsandroid.memotions.R
@@ -45,7 +46,6 @@ fun HomeTopBar(
     onTagAdded: (TagsItem) -> Unit,
     onTagRemoved: (TagsItem) -> Unit,
     onSearchValueChange: (String) -> Unit
-
 ) {
     val customColors = MaterialTheme.customColors
     val streakImage = painterResource(id = R.drawable.streak)
@@ -87,6 +87,8 @@ fun HomeTopBar(
                                 .padding(start = 8.dp)
                                 .weight(1f),
                             text = username,
+                            maxLines = 1,
+                            overflow = TextOverflow.Clip,
                             style = MaterialTheme.typography.titleMedium,
                         )
                     }
@@ -96,6 +98,7 @@ fun HomeTopBar(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
+                            modifier = Modifier.padding(end = 4.dp),
                             color = customColors.TextOnBackgroundColor,
                             style = MaterialTheme.typography.titleSmall,
                             text = "${currentEXP}/${nextLevelEXP}"
@@ -105,10 +108,9 @@ fun HomeTopBar(
                                 painter = expImage,
                                 contentDescription = "Streak Icon",
                                 modifier = Modifier
-                                    .padding(start = 4.dp)
                                     .size(24.dp)
-
                             )
+
                             Text(
                                 modifier = Modifier.align(Alignment.Center),
                                 color = customColors.TextOnBackgroundColor,
@@ -116,7 +118,7 @@ fun HomeTopBar(
                                     fontSize = 10.sp,
                                     textAlign = TextAlign.Center
                                 ),
-                                text = " ${level}"
+                                text = "${level}"
                             )
                         }
                     }

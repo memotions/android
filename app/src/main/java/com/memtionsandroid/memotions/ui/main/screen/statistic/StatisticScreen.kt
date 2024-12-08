@@ -1,4 +1,4 @@
-package com.memtionsandroid.memotions.ui.main.screen
+package com.memtionsandroid.memotions.ui.main.screen.statistic
 
 import android.os.Build
 import androidx.annotation.RequiresApi

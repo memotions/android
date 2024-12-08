@@ -19,13 +19,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.memtionsandroid.memotions.data.remote.response.statistics.StatisticsResponse
 import com.memtionsandroid.memotions.ui.components.main.SearchBar
 import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 
 @Composable
-fun ProfileTopBar() {
+fun ProfileTopBar(
+    username: String?,
+    userStatistic: StatisticsResponse?,
+) {
     val customColors = MaterialTheme.customColors
     Surface(
         modifier = Modifier
@@ -44,30 +48,19 @@ fun ProfileTopBar() {
                 .statusBarsPadding()
         ) {
             Column {
-                PersonalInfo(user = User(name = "Liangga", yearCreated = "2024"))
+                PersonalInfo(
+                    name = username ?: "Guest",
+                    desc = ""
+                )
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxWidth().padding(top = 24.dp)
                     ) {
-                    PersonalProgress()
+                    PersonalProgress(
+                        userStatistic = userStatistic
+                    )
                 }
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun ProfileTopBarPreview() {
-    MemotionsTheme {
-        ProfileTopBar()
-    }
-}
-
-@Preview
-@Composable
-fun ProfileTopBarPreviewDark() {
-    MemotionsTheme(darkTheme = true) {
-        ProfileTopBar()
     }
 }

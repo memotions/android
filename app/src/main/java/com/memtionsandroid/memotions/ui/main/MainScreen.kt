@@ -45,9 +45,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.memtionsandroid.memotions.R
-import com.memtionsandroid.memotions.ui.main.screen.ProfileScreen
+import com.memtionsandroid.memotions.ui.main.screen.profile.ProfileScreen
 import com.memtionsandroid.memotions.ui.main.screen.starred.StarredScreen
-import com.memtionsandroid.memotions.ui.main.screen.StatisticScreen
+import com.memtionsandroid.memotions.ui.main.screen.statistic.StatisticScreen
 import com.memtionsandroid.memotions.ui.main.screen.home.HomeScreen
 import com.memtionsandroid.memotions.ui.theme.customColors
 

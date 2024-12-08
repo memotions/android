@@ -3,22 +3,28 @@ package com.memtionsandroid.memotions.ui.main.screen.home
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
-import com.memtionsandroid.memotions.data.local.datastore.UserPreference
+import androidx.lifecycle.viewModelScope
 import com.memtionsandroid.memotions.data.local.entity.Journal
-import com.memtionsandroid.memotions.data.repository.JournalsRepository
-import com.memtionsandroid.memotions.data.repository.LocalRepository
+import com.memtionsandroid.memotions.data.remote.response.statistics.CurrentLevel
+import com.memtionsandroid.memotions.data.repository.StatisticsRepository
+import com.memtionsandroid.memotions.utils.DataResult
 import com.memtionsandroid.memotions.utils.FilterCriteria
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val journalsRepository: JournalsRepository,
-    private val localRepository: LocalRepository,
-    private val userPreference: UserPreference
+    private val statisticsRepository: StatisticsRepository,
 ) : ViewModel() {
+
+    private val _currentStreak = MutableStateFlow(1)
+    val currentStreak = _currentStreak.asStateFlow()
+
+    private val _currentLevel = MutableStateFlow(CurrentLevel(1, 0, 0, 2))
+    val currentLevel = _currentLevel.asStateFlow()
 
     private val _filterCriteria = MutableStateFlow(FilterCriteria())
     val filterCriteria = _filterCriteria.asStateFlow()
@@ -28,6 +34,22 @@ class HomeViewModel @Inject constructor(
 
     private val _journals = MutableStateFlow<List<Journal>>(emptyList())
     val journals = _journals.asStateFlow()
+
+    fun getUserStatistics() {
+        viewModelScope.launch {
+            statisticsRepository.getStatistics().collect {
+                when (it) {
+                    is DataResult.Error -> {}
+                    DataResult.Idle -> {}
+                    DataResult.Loading -> {}
+                    is DataResult.Success -> {
+                        _currentStreak.value = it.data.data.currentStreak.streakLength
+                        _currentLevel.value = it.data.data.currentLevel
+                    }
+                }
+            }
+        }
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun setFilterCriteria(newFilter: FilterCriteria) {
@@ -48,6 +70,4 @@ class HomeViewModel @Inject constructor(
         }
         _filteredJournals.value = filtered
     }
-
-
 }

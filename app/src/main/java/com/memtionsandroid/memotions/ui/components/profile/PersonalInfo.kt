@@ -11,23 +11,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.ui.theme.customColors
 
-
-data class User(
-    val name: String,
-    val yearCreated: String,
-)
-
 @Composable
-fun PersonalInfo(user: User) {
+fun PersonalInfo(
+    name: String,
+    desc: String,
+) {
     val customColors = MaterialTheme.customColors
-    Row (
+    Row(
         verticalAlignment = Alignment.CenterVertically
-    ){
+    ) {
         Image(
             painter = painterResource(id = R.drawable.profile),
             contentDescription = "Profile Picture",
@@ -39,22 +37,17 @@ fun PersonalInfo(user: User) {
                 .padding(start = 8.dp)
         ) {
             Text(
-                text = user.name,
+                text = name,
                 style = MaterialTheme.typography.titleMedium,
-                color = customColors.onBackgroundColor
+                color = customColors.onBackgroundColor,
+                maxLines = 1,
+                overflow = TextOverflow.Clip
             )
             Text(
-                text = "Bergabung sejak ${user.yearCreated}",
+                text = "Streak sejak ${desc}",
                 style = MaterialTheme.typography.bodySmall,
                 color = customColors.onSecondBackgroundColor
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun PersonalInfoPreview() {
-    val user = User(name = "Liangga", yearCreated = "2024")
-    PersonalInfo(user)
 }

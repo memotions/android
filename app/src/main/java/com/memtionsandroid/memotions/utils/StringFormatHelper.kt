@@ -12,6 +12,16 @@ fun String.toLocalDateTime(): LocalDateTime {
     return LocalDateTime.parse(this, formatter)
 }
 
+fun String.toNickname(): String {
+    val words = this.split(" ").take(2)
+    return when {
+        words[0].length > 10 -> words[0]
+        words.size > 1 && words[1].length > 10 -> words[1]
+        else -> words.joinToString(" ")
+    }
+}
+
+
 @RequiresApi(Build.VERSION_CODES.O)
 fun String.formatDateTime(): String {
     val inputFormatter = DateTimeFormatter.ISO_DATE_TIME // ISO_DATE_TIME mendukung zona waktu

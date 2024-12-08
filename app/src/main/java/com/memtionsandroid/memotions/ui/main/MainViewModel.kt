@@ -34,8 +34,15 @@ class MainViewModel @Inject constructor(
     private val localRepository: LocalRepository,
     private val userPreference: UserPreference
 ) : ViewModel() {
-    private val firstLaunchedex = MutableStateFlow(false)
+    private val firstLaunched = MutableStateFlow(false)
     private val connectivityObserver = ConnectivityObserver(context)
+
+    private val _username = userPreference.userNamePreference
+    val username = _username.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = "Guest"
+    )
 
     val isConnected: StateFlow<Boolean> = connectivityObserver.isConnected
         .stateIn(
@@ -66,8 +73,8 @@ class MainViewModel @Inject constructor(
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun getJournals() {
-        if (firstLaunchedex.value) return
-        firstLaunchedex.value = true
+        if (firstLaunched.value) return
+        firstLaunched.value = true
         viewModelScope.launch {
             val userId = userPreference.userIdPreference.first()
             journalsRepository.getJournals().collect { remoteState ->

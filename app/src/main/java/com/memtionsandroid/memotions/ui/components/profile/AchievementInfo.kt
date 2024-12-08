@@ -20,9 +20,11 @@ import com.memtionsandroid.memotions.ui.theme.customColors
 
 
 @Composable
-fun AchievementInfo(modifier: Modifier) {
+fun AchievementInfo(
+    modifier: Modifier,
+    achievementsCount: Int?
+) {
     val customColors = MaterialTheme.customColors
-    val achievementCount = 30
 
     BoxContent(
         modifier = modifier.height(240.dp),
@@ -47,7 +49,7 @@ fun AchievementInfo(modifier: Modifier) {
             ) {
                 Text(
                     modifier = Modifier.padding(16.dp),
-                    text = achievementCount.toString(),
+                    text = (achievementsCount ?: 0).toString(),
                     color = customColors.onBackgroundColor,
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontSize = 40.sp,

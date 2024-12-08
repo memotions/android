@@ -1,5 +1,6 @@
 package com.memtionsandroid.memotions.ui.components.profile
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,18 +14,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.memtionsandroid.memotions.R
+import com.memtionsandroid.memotions.data.remote.response.statistics.StatisticsResponse
 import com.memtionsandroid.memotions.ui.components.statistic.EmositonStatistic
 import com.memtionsandroid.memotions.ui.theme.customColors
+import timber.log.Timber
 
 
 @Composable
-fun JournalInfo(modifier: Modifier = Modifier) {
+fun JournalInfo(
+    modifier: Modifier = Modifier,
+    userStatistic: StatisticsResponse?
+) {
     val customColors = MaterialTheme.customColors
-    val journalCount = 30
+    Timber.tag("Journal Info").d(userStatistic.toString())
+
     BoxContent(
         modifier = modifier.height(240.dp),
         header = {
@@ -48,7 +54,7 @@ fun JournalInfo(modifier: Modifier = Modifier) {
             ) {
                 Text(
                     modifier = Modifier.padding(16.dp),
-                    text = journalCount.toString(),
+                    text = (userStatistic?.data?.journalCount ?: 0).toString(),
                     color = customColors.onBackgroundColor,
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontSize = 40.sp,
@@ -58,18 +64,12 @@ fun JournalInfo(modifier: Modifier = Modifier) {
             }
             EmositonStatistic(
                 modifier = Modifier.padding(top = 8.dp),
-                happy = "5",
-                sad = "5",
-                neutral = "5",
-                angry = "5",
-                scared = "5"
+                happy = (userStatistic?.data?.emotionCount?.happy ?: 0).toString(),
+                sad = (userStatistic?.data?.emotionCount?.sad ?: 0).toString(),
+                neutral = (userStatistic?.data?.emotionCount?.neutral ?: 0).toString(),
+                angry = (userStatistic?.data?.emotionCount?.anger ?: 0).toString(),
+                scared = (userStatistic?.data?.emotionCount?.scared ?: 0).toString()
             )
         }
     )
-}
-
-@Preview
-@Composable
-fun JournalInfoPreview() {
-    JournalInfo()
 }

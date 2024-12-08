@@ -36,6 +36,7 @@ import com.memtionsandroid.memotions.ui.components.main.Journals
 import com.memtionsandroid.memotions.ui.main.MainViewModel
 import com.memtionsandroid.memotions.ui.theme.customColors
 import com.memtionsandroid.memotions.utils.DataResult
+import com.memtionsandroid.memotions.utils.toNickname
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,9 +50,12 @@ fun HomeScreen(
 
     val journalsState by mainViewModel.journals.collectAsStateWithLifecycle()
     val currentTags by mainViewModel.currentTags.collectAsStateWithLifecycle()
+    val username by mainViewModel.username.collectAsState()
 
     val filteredJournal by homeViewModel.filteredJournals.collectAsState()
     val filterCriteria by homeViewModel.filterCriteria.collectAsState()
+    val currentLevel by homeViewModel.currentLevel.collectAsState()
+    val currentStreak by homeViewModel.currentStreak.collectAsState()
 
     var isRefreshing by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
@@ -60,6 +64,11 @@ fun HomeScreen(
     val onRefresh: () -> Unit = {
         mainViewModel.getJournals()
         mainViewModel.getCurrentTags()
+        homeViewModel.getUserStatistics()
+    }
+
+    LaunchedEffect(Unit) {
+        homeViewModel.getUserStatistics()
     }
 
     LaunchedEffect(journalsState) {
@@ -106,6 +115,11 @@ fun HomeScreen(
         },
         topBar = {
             HomeTopBar(
+                username = username?.toNickname() ?: "Guest",
+                streak = currentStreak,
+                currentEXP = currentLevel.totalPoints,
+                nextLevelEXP = currentLevel.pointsRequired,
+                level = currentLevel.currentLevel,
                 filterCount = filterCriteria.countFilter(),
                 searchText = filterCriteria.name,
                 tags = currentTags,
