@@ -2,9 +2,7 @@ package com.memtionsandroid.memotions.ui.main.screen.starred
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -30,7 +28,6 @@ import com.memtionsandroid.memotions.ui.components.home.EmptyState
 import com.memtionsandroid.memotions.ui.components.main.Journals
 import com.memtionsandroid.memotions.ui.components.starred.StarredTopBar
 import com.memtionsandroid.memotions.ui.main.MainViewModel
-import com.memtionsandroid.memotions.ui.main.screen.home.HomeViewModel
 import com.memtionsandroid.memotions.ui.theme.customColors
 import com.memtionsandroid.memotions.utils.DataResult
 
@@ -111,7 +108,8 @@ fun StarredScreen(
         },
         content = { innerPadding ->
             PullToRefreshBox(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
                     .padding(innerPadding),
                 state = state,
                 onRefresh = onRefresh,

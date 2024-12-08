@@ -32,24 +32,6 @@ import com.memtionsandroid.memotions.ui.components.achievement.AchievementTopBar
 import com.memtionsandroid.memotions.ui.components.home.EmptyState
 import com.memtionsandroid.memotions.utils.DataResult
 
-data class Achievement(
-    val tier: Int,
-    val title: String,
-    val image: Int
-)
-
-//val achievements = listOf(
-//    Achievement(2, "Pejuang", R.drawable.ach_soon),
-//    Achievement(0, "Berbahagia", R.drawable.ach_soon),
-//    Achievement(1, "Pejuang", R.drawable.ach_soon),
-//    Achievement(1, "Achievement Title", R.drawable.ach_soon),
-//    Achievement(1, "Achievement Title", R.drawable.ach_soon),
-//    Achievement(1, "Achievement Title", R.drawable.ach_soon),
-//    Achievement(1, "Pejuang Mandiri", R.drawable.ach_soon),
-//    Achievement(3, "Selamat datang", R.drawable.ach_soon)
-//)
-
-
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AchievementScreen(

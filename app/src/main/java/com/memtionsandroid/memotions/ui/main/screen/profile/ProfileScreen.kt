@@ -70,6 +70,7 @@ fun ProfileScreen(
         profileViewModel.userStatistics.collect {
             when (it) {
                 is DataResult.Error -> {
+                    isRefreshing = false
                     val errorMessage =
                         it.error.getContentIfNotHandled()
                     snackbarHostState.showSnackbar(
@@ -80,8 +81,11 @@ fun ProfileScreen(
                 }
 
                 DataResult.Idle -> {}
-                DataResult.Loading -> {}
+                DataResult.Loading -> {
+                    isRefreshing = true
+                }
                 is DataResult.Success -> {
+                    isRefreshing = false
                     userStatistics = it.data
                 }
             }
