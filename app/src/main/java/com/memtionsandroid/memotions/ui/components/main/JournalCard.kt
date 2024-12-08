@@ -37,17 +37,6 @@ import com.memtionsandroid.memotions.data.local.entity.Journal
 import com.memtionsandroid.memotions.ui.theme.customColors
 import com.memtionsandroid.memotions.utils.formatDateTime
 
-//data class Journal(
-//    val title: String,
-//    val content: String,
-//    val date: String,
-//    val Tags: List<String> = emptyList(),
-//    val emotion: String,
-//    val isStarred: Boolean = false,
-//    val status: String = "Analyzed"
-//)
-
-
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun JournalCard(

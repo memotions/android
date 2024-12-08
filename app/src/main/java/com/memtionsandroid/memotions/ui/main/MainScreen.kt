@@ -131,7 +131,7 @@ fun MainScreen(
         ) {
             composable("home") { HomeScreen(navHostController,mainViewModel) }
             composable("starred") { StarredScreen(navHostController,mainViewModel) }
-            composable("statistic") { StatisticScreen() }
+            composable("statistic") { StatisticScreen(mainViewModel) }
             composable("profile") { ProfileScreen(navHostController) }
         }
     }

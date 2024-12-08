@@ -2,8 +2,10 @@ package com.memtionsandroid.memotions.utils
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.O)
 
@@ -21,6 +23,19 @@ fun String.toNickname(): String {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
+fun String.formatMonthYear(): String {
+    if (this.length == 4) return this
+    val outputFormatter = DateTimeFormatter.ofPattern("MMMM yyyy", Locale("id", "ID"))
+
+    val adjustedInput = "$this 01"
+
+    val dateFormatter = DateTimeFormatter.ofPattern("yyyy MM dd")
+    val localDate = LocalDate.parse(adjustedInput, dateFormatter)
+    return localDate.format(outputFormatter)
+}
+
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun String.formatDateTime(): String {
@@ -28,16 +43,9 @@ fun String.formatDateTime(): String {
     val outputFormatter = DateTimeFormatter.ofPattern("HH.mm • dd MMMM yyyy")
 
     return try {
-        // Parse input string to LocalDateTime
         val dateTime = LocalDateTime.parse(this, inputFormatter)
-
-        // Hitung waktu sekarang
         val now = LocalDateTime.now()
-
-        // Hitung selisih waktu
         val duration = java.time.Duration.between(dateTime, now)
-
-        // Tampilkan waktu relatif jika masih hari ini
         when {
             duration.toMinutes() < 1 -> "Baru saja"
             duration.toMinutes() < 60 -> "${duration.toMinutes()} menit lalu"
@@ -45,6 +53,6 @@ fun String.formatDateTime(): String {
             else -> dateTime.format(outputFormatter) // Format default jika lebih dari sehari
         }
     } catch (e: Exception) {
-        "Format waktu tidak valid" // Tangani error jika parsing gagal
+        "Format waktu tidak valid"
     }
 }

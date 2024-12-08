@@ -11,11 +11,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,14 +33,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.memtionsandroid.memotions.ui.components.main.journalList
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.memtionsandroid.memotions.ui.components.home.EmptyState
 import com.memtionsandroid.memotions.ui.components.statistic.ItemCard
 import com.memtionsandroid.memotions.ui.components.statistic.StatisticTopBar
+import com.memtionsandroid.memotions.ui.main.MainViewModel
 import com.memtionsandroid.memotions.ui.theme.customColors
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.temporal.WeekFields
-import java.util.Locale
+import com.memtionsandroid.memotions.utils.DataResult
+import com.memtionsandroid.memotions.utils.formatMonthYear
+import timber.log.Timber
 
 const val MODE_HARI = "Hari"
 const val MODE_BULAN = "Bulan"
@@ -43,52 +50,72 @@ const val MODE_MINGGU = "Minggu"
 const val MODE_SEMUA = "Semua"
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun StatisticScreen() {
+fun StatisticScreen(
+    mainViewModel: MainViewModel = hiltViewModel(),
+    statisticViewModel: StatisticViewModel = hiltViewModel()
+) {
     val customColors = MaterialTheme.customColors
 
     var itemSelected by remember { mutableStateOf("") }
     var modeSelected by remember { mutableStateOf(MODE_SEMUA) }
     var emotionsSelected by remember { mutableStateOf(listOf<String>()) }
 
-    val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val journalsState by mainViewModel.journals.collectAsStateWithLifecycle()
 
-    val groupedJournalListDate = journalList.groupBy { journal ->
-        val localDate = LocalDate.parse(journal.date, dateFormatter)
-        localDate.format(DateTimeFormatter.ofPattern("yyyy MM"))
-    }.toSortedMap(reverseOrder()).mapValues { entry ->
-        entry.value.groupBy { journal ->
-            val localDate = LocalDate.parse(journal.date, dateFormatter)
-            localDate.format(DateTimeFormatter.ofPattern("dd MMMM yyyy"))
-        }.toSortedMap(reverseOrder())
+    val journals = statisticViewModel.journals.collectAsStateWithLifecycle()
+    val groupedJournalListDate =
+        statisticViewModel.groupedJournalListDate.collectAsStateWithLifecycle()
+    val groupedJournalListWeek =
+        statisticViewModel.groupedJournalListWeek.collectAsStateWithLifecycle()
+    val groupedJournalListMonth =
+        statisticViewModel.groupedJournalListMonth.collectAsStateWithLifecycle()
+
+    var isRefreshing by remember { mutableStateOf(false) }
+    val snackbarHostState = remember { SnackbarHostState() }
+    val state = rememberPullToRefreshState()
+
+    val onRefresh: () -> Unit = {
+        mainViewModel.getJournals()
     }
 
-    val groupedJournalListMonthWeek = journalList.groupBy { journal ->
-        val localDate = LocalDate.parse(journal.date, dateFormatter)
-        localDate.format(DateTimeFormatter.ofPattern("yyyy MM"))
-    }.toSortedMap(reverseOrder()).mapValues { entry ->
-        entry.value.groupBy { journal ->
-            val localDate = LocalDate.parse(journal.date, dateFormatter)
-            val weekFields = WeekFields.of(Locale.getDefault())
-            val weekNumber = localDate.get(weekFields.weekOfMonth())
-            "Minggu-$weekNumber ${entry.key}" // Grup kedua: minggu ke-N
-        }.toSortedMap(reverseOrder())
-    }
+    LaunchedEffect(journalsState) {
+        when (journalsState) {
+            is DataResult.Error -> {
+                val errorMessage =
+                    (journalsState as DataResult.Error).error.getContentIfNotHandled()
+                isRefreshing = false
+                snackbarHostState.showSnackbar(
+                    message = errorMessage!!,
+                )
+            }
 
-    val groupedJournalListMonth = journalList.groupBy { journal ->
-        val localDate = LocalDate.parse(journal.date, dateFormatter)
-        localDate.format(DateTimeFormatter.ofPattern("yyyy")) // Grup pertama: bulan dan tahun
-    }.mapValues { entry ->
-        entry.value.groupBy { journal ->
-            val localDate = LocalDate.parse(journal.date, dateFormatter)
-            localDate.format(DateTimeFormatter.ofPattern("MMMM yyyy")) // Grup kedua: tanggal
+            DataResult.Idle -> {}
+            DataResult.Loading -> {
+                isRefreshing = true
+            }
+
+            is DataResult.Success -> {
+                isRefreshing = false
+                val rawJournals = (journalsState as DataResult.Success).data
+                statisticViewModel.setJournals(rawJournals)
+            }
         }
     }
 
 
+
+
     if (modeSelected == MODE_SEMUA) {
-        emotionsSelected = journalList.map { it.emotion }
+        emotionsSelected = journals.value.flatMap { journal ->
+            journal.emotionAnalysis?.map {
+                it.emotion
+            } ?: emptyList()
+        }
+
+        Timber.tag("Stat").d(emotionsSelected.toString())
     }
 
     Scaffold(
@@ -101,56 +128,78 @@ fun StatisticScreen() {
                 })
         },
         content = { innerPadding ->
-            Crossfade(targetState = modeSelected) { currentMode ->
-                if (modeSelected != MODE_SEMUA) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(innerPadding)
-                    ) {
-                        val journalsMode = when (currentMode) {
-                            MODE_HARI -> groupedJournalListDate
-                            MODE_BULAN -> groupedJournalListMonth
-                            MODE_MINGGU -> groupedJournalListMonthWeek
-                            else -> emptyMap()
-                        }
-
-                        val lastKey = journalsMode.keys.lastOrNull() ?: ""
-                        LazyColumn(modifier = Modifier.padding(horizontal = 16.dp)) {
-                            journalsMode.forEach { (head, journals) ->
-                                val bottomPadding = if (head == lastKey) 80.dp else 8.dp
-                                item {
-                                    Text(
-                                        text = head,
-                                        style = MaterialTheme.typography.titleSmall,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(top = 16.dp, bottom = 8.dp),
-                                        textAlign = TextAlign.Start
-                                    )
+            PullToRefreshBox(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                state = state,
+                onRefresh = onRefresh,
+                isRefreshing = isRefreshing,
+            ) {
+                Crossfade(targetState = modeSelected) { currentMode ->
+                    if (modeSelected != MODE_SEMUA) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                        ) {
+                            val journalsMode = when (currentMode) {
+                                MODE_HARI -> groupedJournalListDate
+                                MODE_BULAN -> groupedJournalListMonth
+                                MODE_MINGGU -> groupedJournalListWeek
+                                else -> {
+                                    null
                                 }
-                                item {
-                                    Surface(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(bottom = bottomPadding),
-                                        shape = RoundedCornerShape(12.dp),
-                                        color = customColors.backgroundColor,
-                                        shadowElevation = 4.dp,
-                                        tonalElevation = 8.dp,
-                                    ) {
-                                        Column {
-                                            journals.forEach { (subHead, journals) ->
-                                                ItemCard(
-                                                    title = subHead.split(" ")[0],
-                                                    emotions = journals.map { it.emotion },
-                                                    isSelected = itemSelected == subHead,
-                                                    onClick = {
-                                                        emotionsSelected =
-                                                            journals.map { it.emotion }
-                                                        itemSelected = subHead
-                                                    },
-                                                )
+                            }
+                            val lastKey = journalsMode?.value?.keys?.lastOrNull() ?: ""
+                            if (journalsMode?.value?.isEmpty() == true) {
+                                EmptyState(title = "Tidak ada Emosi", modifier = Modifier.align(Alignment.Center))
+                            }
+                            LazyColumn(modifier = Modifier.padding(horizontal = 16.dp)) {
+                                if (journalsMode != null) {
+                                    journalsMode.value.forEach { (head, journals) ->
+                                        val bottomPadding = if (head == lastKey) 80.dp else 8.dp
+                                        item {
+                                            Text(
+                                                text = head.formatMonthYear(),
+                                                style = MaterialTheme.typography.titleSmall,
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(top = 16.dp, bottom = 8.dp),
+                                                textAlign = TextAlign.Start
+                                            )
+                                        }
+                                        item {
+                                            Surface(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(bottom = bottomPadding),
+                                                shape = RoundedCornerShape(12.dp),
+                                                color = customColors.backgroundColor,
+                                                shadowElevation = 4.dp,
+                                                tonalElevation = 8.dp,
+                                            ) {
+                                                Column {
+                                                    journals.forEach { (subHead, journals) ->
+                                                        ItemCard(
+                                                            title = subHead.split(" ")[0],
+                                                            emotions = journals.flatMap { journal ->
+                                                                journal.emotionAnalysis?.map {
+                                                                    it.emotion
+                                                                } ?: emptyList()
+                                                            },
+                                                            isSelected = itemSelected == subHead,
+                                                            onClick = {
+                                                                emotionsSelected =
+                                                                    journals.flatMap { journal ->
+                                                                        journal.emotionAnalysis?.map {
+                                                                            it.emotion
+                                                                        } ?: emptyList()
+                                                                    }
+                                                                itemSelected = subHead
+                                                            },
+                                                        )
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -159,74 +208,73 @@ fun StatisticScreen() {
                         }
                     }
                 }
-            }
-            AnimatedVisibility(
-                visible = modeSelected == MODE_SEMUA
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding)
-                        .padding(24.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                AnimatedVisibility(
+                    visible = modeSelected == MODE_SEMUA
                 ) {
-                    Surface(
-                        modifier = Modifier,
-                        shape = RoundedCornerShape(12.dp),
-                        color = customColors.backgroundColor,
-                        shadowElevation = 4.dp,
-                        tonalElevation = 8.dp,
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Column(
-                            modifier = Modifier.padding(16.dp)
+                        Surface(
+                            modifier = Modifier,
+                            shape = RoundedCornerShape(12.dp),
+                            color = customColors.backgroundColor,
+                            shadowElevation = 4.dp,
+                            tonalElevation = 8.dp,
                         ) {
-                            Text(
-                                text = "Selamat Datang di Statistik",
-                                color = customColors.onBackgroundColor,
-                                style = MaterialTheme.typography.titleMedium,
-                                modifier = Modifier,
-                                textAlign = TextAlign.Center
-                            )
-                            Text(
-                                text = "Memotions membantu kamu untuk melihat progress emosi kamu berdasarkan Hari, Mingguan, bahkan Bulan!",
-                                color = customColors.onSecondBackgroundColor,
-                                style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier,
-                                textAlign = TextAlign.Start
-                            )
+                            Column(
+                                modifier = Modifier.padding(16.dp)
+                            ) {
+                                Text(
+                                    text = "Selamat Datang di Statistik",
+                                    color = customColors.onBackgroundColor,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    modifier = Modifier,
+                                    textAlign = TextAlign.Center
+                                )
+                                Text(
+                                    text = "Memotions membantu kamu untuk melihat progress emosi kamu berdasarkan Hari, Mingguan, bahkan Bulan!",
+                                    color = customColors.onSecondBackgroundColor,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    modifier = Modifier,
+                                    textAlign = TextAlign.Start
+                                )
+                            }
                         }
-                    }
 
-                    Surface(
-                        modifier = Modifier.padding(top = 8.dp),
-                        shape = RoundedCornerShape(12.dp),
-                        color = customColors.backgroundColor,
-                        shadowElevation = 4.dp,
-                        tonalElevation = 8.dp,
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(16.dp)
+                        Surface(
+                            modifier = Modifier.padding(top = 8.dp),
+                            shape = RoundedCornerShape(12.dp),
+                            color = customColors.backgroundColor,
+                            shadowElevation = 4.dp,
+                            tonalElevation = 8.dp,
                         ) {
-                            Text(
-                                text = buildAnnotatedString {
-                                    append("Saat ini kamu tidak memilih mode statistik")
-                                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                                        append(" semua. ")
-                                    }
-                                    append("Kamu dapat memilih ")
-                                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                                        append("statistik")
-                                    }
-                                    append(" lebih lengkap dengan memilih ")
-                                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                                        append("mode")
-                                    }
-                                },
-                                color = customColors.onSecondBackgroundColor,
-                                style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier,
-                                textAlign = TextAlign.Start
-                            )
+                            Column(
+                                modifier = Modifier.padding(16.dp)
+                            ) {
+                                Text(
+                                    text = buildAnnotatedString {
+                                        append("Saat ini kamu memilih mode statistik")
+                                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                            append(" semua. ")
+                                        }
+                                        append("Kamu dapat memilih ")
+                                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                            append("statistik")
+                                        }
+                                        append(" lebih lengkap dengan memilih ")
+                                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                            append("mode")
+                                        }
+                                    },
+                                    color = customColors.onSecondBackgroundColor,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    modifier = Modifier,
+                                    textAlign = TextAlign.Start
+                                )
+                            }
                         }
                     }
                 }

@@ -28,11 +28,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
 import com.memtionsandroid.memotions.ui.theme.customColors
+
+object Emotion {
+    const val HAPPY = "HAPPY"
+    const val SAD = "SAD"
+    const val NEUTRAL = "NEUTRAL"
+    const val ANGER = "ANGER"
+    const val SCARED = "SCARED"
+}
+
 
 @Composable
 fun StatisticTopBar(
@@ -43,20 +50,23 @@ fun StatisticTopBar(
     val customColors = MaterialTheme.customColors
     var isExchange by remember { mutableStateOf(false) }
     val options = listOf("Semua", "Hari", "Minggu", "Bulan")
-    val emotionCounts = emotions.groupingBy { it }.eachCount()
 
+    val emotionCounts = emotions.groupingBy { it }.eachCount()
     val total = emotions.size
 
     fun formatPercentage(count: Int, total: Int): String {
+        if (total == 0) {
+            return "0%"
+        }
         val percentage = (count.toDouble() / total) * 100
         return "${"%.0f".format(percentage)}%"
     }
 
-    val happy = formatPercentage(emotionCounts["happy"] ?: 0, total)
-    val sad = formatPercentage(emotionCounts["sad"] ?: 0, total)
-    val neutral = formatPercentage(emotionCounts["neutral"] ?: 0, total)
-    val angry = formatPercentage(emotionCounts["angry"] ?: 0, total)
-    val scared = formatPercentage(emotionCounts["scared"] ?: 0, total)
+    val happy = formatPercentage(emotionCounts[Emotion.HAPPY] ?: 0, total)
+    val sad = formatPercentage(emotionCounts[Emotion.SAD] ?: 0, total)
+    val neutral = formatPercentage(emotionCounts[Emotion.NEUTRAL] ?: 0, total)
+    val angry = formatPercentage(emotionCounts[Emotion.ANGER] ?: 0, total)
+    val scared = formatPercentage(emotionCounts[Emotion.SCARED] ?: 0, total)
 
     Surface(
         modifier = Modifier
@@ -99,26 +109,30 @@ fun StatisticTopBar(
                         ) {
                             JournalChart(
                                 modifier = Modifier.padding(20.dp),
-                                chartData = listOf(
+                                chartData = if (total == 0) emptyList() else listOf(
                                     ChartData(
                                         "Happy",
-                                        emotionCounts["happy"] ?: 0,
+                                        emotionCounts[Emotion.HAPPY] ?: 0,
                                         Color(0xFFFDD438)
                                     ),
-                                    ChartData("Sad", emotionCounts["sad"] ?: 0, Color(0xFF493DEB)),
+                                    ChartData(
+                                        "Sad",
+                                        emotionCounts[Emotion.SAD] ?: 0,
+                                        Color(0xFF493DEB)
+                                    ),
                                     ChartData(
                                         "Netral",
-                                        emotionCounts["neutral"] ?: 0,
+                                        emotionCounts[Emotion.NEUTRAL] ?: 0,
                                         Color(0xFF9AA6A7)
                                     ),
                                     ChartData(
                                         "Angry",
-                                        emotionCounts["angry"] ?: 0,
+                                        emotionCounts[Emotion.ANGER] ?: 0,
                                         Color(0xFFEA543A)
                                     ),
                                     ChartData(
                                         "Scared",
-                                        emotionCounts["scared"] ?: 0,
+                                        emotionCounts[Emotion.SCARED] ?: 0,
                                         Color(0xFF6F4CB6)
                                     ),
                                 )
@@ -130,7 +144,7 @@ fun StatisticTopBar(
                                         color = customColors.onBackgroundColor
                                     )
                                     Text(
-                                        text = "Jurnal",
+                                        text = "Emosi",
                                         style = MaterialTheme.typography.titleMedium,
                                         color = customColors.onSecondBackgroundColor
                                     )
@@ -157,24 +171,7 @@ fun StatisticTopBar(
                         }
                     }
                 }
-
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun StatisticTopBarPreview() {
-    MemotionsTheme() {
-//        StatisticTopBar()
-    }
-}
-
-@Preview
-@Composable
-fun StatisticTopBarPreviewDark() {
-    MemotionsTheme(darkTheme = true) {
-//        StatisticTopBar()
     }
 }

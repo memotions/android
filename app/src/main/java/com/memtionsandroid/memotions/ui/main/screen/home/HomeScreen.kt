@@ -58,8 +58,8 @@ fun HomeScreen(
 
     var isRefreshing by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
-
     val state = rememberPullToRefreshState()
+
     val onRefresh: () -> Unit = {
         mainViewModel.getJournals()
         mainViewModel.getCurrentTags()
@@ -78,8 +78,7 @@ fun HomeScreen(
                 isRefreshing = false
                 snackbarHostState.showSnackbar(
                     message = errorMessage!!,
-                    actionLabel = "Error",
-                    duration = SnackbarDuration.Indefinite
+                    duration = SnackbarDuration.Short
                 )
             }
 

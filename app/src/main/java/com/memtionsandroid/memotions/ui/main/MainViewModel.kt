@@ -80,6 +80,7 @@ class MainViewModel @Inject constructor(
             journalsRepository.getJournals().collect { remoteState ->
                 when (remoteState) {
                     is DataResult.Error -> {
+                        DataResult.Error(remoteState.error)
                         userId?.let { userId ->
                             localRepository.getJournals(userId)
                                 .collect { localJournals ->
