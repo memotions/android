@@ -68,6 +68,10 @@ fun MainScreen(
         }
     }
 
+    LaunchedEffect(Unit) {
+        mainViewModel.getJournals()
+        mainViewModel.getCurrentTags()
+    }
 
     val isBarVisible = remember { mutableStateOf(true) }
     val scrollOffset = remember { mutableStateOf(0f) }
@@ -125,8 +129,8 @@ fun MainScreen(
             startDestination = "home",
             Modifier.padding(bottom = contentPd)
         ) {
-            composable("home") { HomeScreen(navHostController) }
-            composable("starred") { StarredScreen(navHostController) }
+            composable("home") { HomeScreen(navHostController,mainViewModel) }
+            composable("starred") { StarredScreen(navHostController,mainViewModel) }
             composable("statistic") { StatisticScreen() }
             composable("profile") { ProfileScreen(navHostController) }
         }

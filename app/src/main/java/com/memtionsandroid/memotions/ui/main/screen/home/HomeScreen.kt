@@ -62,11 +62,6 @@ fun HomeScreen(
         mainViewModel.getCurrentTags()
     }
 
-    LaunchedEffect(Unit) {
-        mainViewModel.getJournals()
-        mainViewModel.getCurrentTags()
-    }
-
     LaunchedEffect(journalsState) {
         when (journalsState) {
             is DataResult.Error -> {
