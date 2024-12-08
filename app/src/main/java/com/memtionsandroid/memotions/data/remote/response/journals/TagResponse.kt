@@ -21,7 +21,4 @@ data class TagData(
 
 	@field:SerializedName("id")
 	val id: Int,
-
-	@field:SerializedName("userId")
-	val userId: Int
 )

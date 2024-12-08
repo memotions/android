@@ -3,6 +3,8 @@ package com.memtionsandroid.memotions.data.repository
 import com.memtionsandroid.memotions.data.local.entity.EmotionAnalysis
 import com.memtionsandroid.memotions.data.local.entity.Journal
 import com.memtionsandroid.memotions.data.local.room.JournalDao
+import com.memtionsandroid.memotions.data.remote.response.journals.JournalData
+import com.memtionsandroid.memotions.data.remote.response.journals.JournalResponse
 import com.memtionsandroid.memotions.data.remote.response.journals.JournalsDataItem
 import com.memtionsandroid.memotions.data.remote.response.journals.JournalsResponse
 import com.memtionsandroid.memotions.utils.DataResult
@@ -18,6 +20,11 @@ interface LocalRepository {
         userId: Int,
         journalsResponse: JournalsResponse
     ): Flow<DataResult<JournalsResponse>>
+
+    suspend fun saveOrUpdateJournal(
+        userId: Int,
+        journalResponse: JournalResponse
+    ): Flow<DataResult<Unit>>
 
     fun getJournals(userId: Int): Flow<List<Journal>>
     fun getJournalById(id: Int): Flow<Journal?>
@@ -51,6 +58,23 @@ class DefaultLocalRepository @Inject constructor(
         }
     }
 
+    override suspend fun saveOrUpdateJournal(
+        userId: Int,
+        journalResponse: JournalResponse
+    ): Flow<DataResult<Unit>> = flow {
+        emit(DataResult.Loading)
+        try {
+            val journal = journalResponse.data.toJournalEntity(userId)
+
+            withContext(Dispatchers.IO) {
+                journalDao.insertOrUpdateJournals(listOf(journal))
+            }
+            emit(DataResult.Success(Unit))
+        } catch (e: Exception) {
+            emit(DataResult.Error(Event("Failed to save and update journal")))
+        }
+    }
+
     override fun getJournals(userId: Int): Flow<List<Journal>> {
         return journalDao.getJournals(userId)
     }
@@ -68,6 +92,28 @@ class DefaultLocalRepository @Inject constructor(
     }
 
     private fun JournalsDataItem.toJournalEntity(userId: Int): Journal {
+        return Journal(
+            id = id,
+            userId = userId,
+            title = title,
+            content = content,
+            datetime = datetime,
+            createdAt = createdAt,
+            status = status,
+            deleted = deleted,
+            starred = starred,
+            feedback = feedback,
+            tags = tags?.takeIf { it.isNotEmpty() },
+            emotionAnalysis = emotionAnalysis?.takeIf { it.isNotEmpty() }?.map {
+                EmotionAnalysis(
+                    emotion = it.emotion,
+                    confidence = it.confidence
+                )
+            }
+        )
+    }
+
+    private fun JournalData.toJournalEntity(userId: Int): Journal {
         return Journal(
             id = id,
             userId = userId,
