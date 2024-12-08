@@ -52,8 +52,12 @@ fun MainNavigation(viewModel: LoginViewModel = hiltViewModel()) {
             val journalId = backStackEntry.arguments?.getString("journalId")
             AddJournalScreen(navController, journalId.toString())
         }
-        composable(NavigationRoutes.VIEW_JOURNAL) {
-            ViewJournalScreen(navController)
+        composable(
+            "${NavigationRoutes.VIEW_JOURNAL}/{journalId}",
+            arguments = listOf(navArgument("journalId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val journalId = backStackEntry.arguments?.getString("journalId")
+            ViewJournalScreen(navController, journalId.toString())
         }
         composable(NavigationRoutes.ONBOARDING) {
             OnBoardingScreen(navController)

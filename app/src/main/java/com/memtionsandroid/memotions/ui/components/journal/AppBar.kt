@@ -37,9 +37,8 @@ fun AppBar(
     title: String,
     inView: Boolean,
     onBack: () -> Unit,
-    onAction: () -> Unit?,
     starredValue: Boolean?,
-    onStarredChange: ((Boolean) -> Unit)?,
+    onStarredClick: () -> Unit,
 ) {
     val customColors = MaterialTheme.customColors
     Row(
@@ -70,7 +69,7 @@ fun AppBar(
             )
         }
 
-        if (inView && starredValue != null && onStarredChange != null) {
+        if (inView && starredValue != null && onStarredClick != null) {
             var expanded by remember { mutableStateOf(false) }
 
             Box {
@@ -104,8 +103,7 @@ fun AppBar(
                             )
                         },
                         onClick = {
-                            onStarredChange(!starredValue)
-                            onAction()
+                            onStarredClick()
                         },
                         leadingIcon = {
                             Icon(

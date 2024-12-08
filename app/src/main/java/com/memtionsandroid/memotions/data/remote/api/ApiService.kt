@@ -11,7 +11,6 @@ import com.memtionsandroid.memotions.data.remote.response.journals.TagResponse
 import com.memtionsandroid.memotions.data.remote.response.journals.TagsResponse
 import com.memtionsandroid.memotions.data.remote.response.statistics.AchievementResponse
 import com.memtionsandroid.memotions.data.remote.response.statistics.StatisticsResponse
-import com.memtionsandroid.memotions.data.repository.JournalStatus
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET

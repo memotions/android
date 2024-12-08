@@ -147,9 +147,8 @@ fun AddJournalScreen(
                         }
                     } else navController.popBackStack()
                 },
-                onAction = {},
                 starredValue = null,
-                onStarredChange = null
+                onStarredClick = {}
             )
         },
         bottomBar = {
@@ -258,11 +257,13 @@ fun AddJournalScreen(
         }
 
         BackHandler(enabled = true) {
-            if (viewModel.titleValue.isNotEmpty() && viewModel.contentValue.isNotEmpty()) {
-                showSaveAsDraftDialog = true
-            } else {
-                navController.popBackStack()
-            }
+            if (isConnected) {
+                if ((viewModel.titleValue.isNotEmpty() && viewModel.contentValue.isNotEmpty()) || journalId != "add") {
+                    showSaveAsDraftDialog = true
+                } else {
+                    navController.popBackStack()
+                }
+            } else navController.popBackStack()
         }
 
         if (showSaveAsDraftDialog) {

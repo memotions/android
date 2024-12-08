@@ -28,16 +28,19 @@ import com.memtionsandroid.memotions.ui.theme.Poppins
 @Composable
 fun BottomSheetContent(
     title: String,
-    emotionType: EmotionType,
+    emotionType: String,
     confidenceScore: Float,
-    feedback: String
+    feedback: String?
 ) {
     val emotionIcon = when (emotionType) {
-        EmotionType.HAPPY -> painterResource(id = R.drawable.ic_happy_vjournal)
-        EmotionType.SAD -> painterResource(id = R.drawable.ic_sad_vjournal)
-        EmotionType.NEUTRAL -> painterResource(id = R.drawable.ic_neutral_vjournal)
-        EmotionType.ANGRY -> painterResource(id = R.drawable.ic_angry_vjournal)
-        EmotionType.SCARED -> painterResource(id = R.drawable.ic_scared_vjournal)
+        EmotionType.HAPPY.value -> painterResource(id = R.drawable.ic_happy_vjournal)
+        EmotionType.SAD.value -> painterResource(id = R.drawable.ic_sad_vjournal)
+        EmotionType.NEUTRAL.value -> painterResource(id = R.drawable.ic_neutral_vjournal)
+        EmotionType.ANGER.value -> painterResource(id = R.drawable.ic_angry_vjournal)
+        EmotionType.SCARED.value -> painterResource(id = R.drawable.ic_scared_vjournal)
+        else -> {
+            painterResource(id = R.drawable.ic_neutral_vjournal)
+        }
     }
 
     Box(
@@ -62,23 +65,25 @@ fun BottomSheetContent(
                 )
             )
             Spacer(modifier = Modifier.height(31.dp))
-            Icon(
-                painter = emotionIcon,
-                contentDescription = "Emotion Icon",
-                modifier = Modifier.size(50.dp),
-                tint = Color.Unspecified
-            )
-            Spacer(modifier = Modifier.height(6.dp))
-            Text(
-                formatPercentage(confidenceScore),
-                style = TextStyle(
-                    fontSize = 16.sp,
-                    fontFamily = Poppins,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                    color = Color.White
+            if (feedback != null) {
+                Icon(
+                    painter = emotionIcon,
+                    contentDescription = "Emotion Icon",
+                    modifier = Modifier.size(50.dp),
+                    tint = Color.Unspecified
                 )
-            )
+                Spacer(modifier = Modifier.height(6.dp))
+                Text(
+                    formatPercentage(confidenceScore),
+                    style = TextStyle(
+                        fontSize = 16.sp,
+                        fontFamily = Poppins,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        color = Color.White
+                    )
+                )
+            }
             Spacer(modifier = Modifier.height(26.dp))
             Row(
                 modifier = Modifier
@@ -86,7 +91,7 @@ fun BottomSheetContent(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = feedback,
+                    text = feedback ?: "Jurnal sedang dianalisis dan feedback sedang diproses",
                     style = TextStyle(
                         fontSize = 12.sp,
                         textAlign = TextAlign.Start,
