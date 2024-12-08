@@ -33,11 +33,11 @@ import com.memtionsandroid.memotions.ui.theme.customColors
 
 @Composable
 fun HomeTopBar(
-//    streak: Int,
-//    currentEXP: Int,
-//    nextLevelEXP: Int,
-//    level: Int,
-//    username: String,
+    streak: Int = 1,
+    currentEXP: Int = 0,
+    nextLevelEXP: Int = 0,
+    level: Int = 1,
+    username: String = "Guest",
     searchText: String,
     tags: List<TagsItem>,
     activeTags: List<TagsItem>,
@@ -48,18 +48,9 @@ fun HomeTopBar(
 ) {
     val customColors = MaterialTheme.customColors
     val streakImage = painterResource(id = R.drawable.streak)
-    val streak = 12
-
     val expImage = painterResource(id = R.drawable.exp)
-    val currentEXP = 120
-    val nextLevelEXP = 200
-    val level = 1
-
-    val username = "Liangga"
     val profileImage = painterResource(id = R.drawable.profile)
-
     var isFilter by remember { mutableStateOf(false) }
-
 
     Surface(
         modifier = Modifier

@@ -46,7 +46,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.ui.main.screen.ProfileScreen
-import com.memtionsandroid.memotions.ui.main.screen.StarredScreen
+import com.memtionsandroid.memotions.ui.main.screen.starred.StarredScreen
 import com.memtionsandroid.memotions.ui.main.screen.StatisticScreen
 import com.memtionsandroid.memotions.ui.main.screen.home.HomeScreen
 import com.memtionsandroid.memotions.ui.theme.customColors
@@ -67,6 +67,7 @@ fun MainScreen(
             selectedRoute = backStackEntry.destination.route ?: "home"
         }
     }
+
 
     val isBarVisible = remember { mutableStateOf(true) }
     val scrollOffset = remember { mutableStateOf(0f) }
@@ -125,7 +126,7 @@ fun MainScreen(
             Modifier.padding(bottom = contentPd)
         ) {
             composable("home") { HomeScreen(navHostController) }
-            composable("starred") { StarredScreen() }
+            composable("starred") { StarredScreen(navHostController) }
             composable("statistic") { StatisticScreen() }
             composable("profile") { ProfileScreen(navHostController) }
         }
