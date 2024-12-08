@@ -107,7 +107,6 @@ fun AddJournalScreen(
     val customColors = MaterialTheme.customColors
     val title = if (journalId == "add") "Tambah Jurnal" else "Edit Jurnal"
     val isConnected by viewModel.isConnected.collectAsStateWithLifecycle()
-    val isConnectedInfo = if (isConnected) "" else " [Koneksi Terputus] "
 
     LaunchedEffect(key1 = imeState.value) {
         if (imeState.value) {
@@ -185,7 +184,7 @@ fun AddJournalScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             FormSection(
-                datetime = "$isConnectedInfo${viewModel.datetimeValue.format(DateTimeFormatter.ofPattern("HH:mm • dd MMMM yyyy"))}",
+                datetime = viewModel.datetimeValue.format(DateTimeFormatter.ofPattern("HH:mm • dd MMMM yyyy")),
                 titleValue = viewModel.titleValue,
                 onTitleChange = viewModel::setTitle,
                 contentValue = viewModel.contentValue,
@@ -195,7 +194,8 @@ fun AddJournalScreen(
                     viewModel.updateTagsValue(
                         viewModel.tagsValue.toMutableList().apply { removeAt(index) })
                 },
-                inView = !isConnected
+                inView = !isConnected,
+                isConnected = isConnected
             )
         }
 
