@@ -69,7 +69,7 @@ fun AppBar(
             )
         }
 
-        if (inView && starredValue != null && onStarredClick != null) {
+        if (inView && starredValue != null) {
             var expanded by remember { mutableStateOf(false) }
 
             Box {
