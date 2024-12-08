@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.memtionsandroid.memotions.R
+import com.memtionsandroid.memotions.utils.toRomanNumerals
 
 @Composable
 fun AchievementCard(
@@ -52,7 +53,7 @@ fun AchievementCard(
                     error = painterResource(R.drawable.ach_soon)
                 )
                 Text(
-                    text = title,
+                    text = "${title} ${tier.toRomanNumerals()}",
                     style = MaterialTheme.typography.titleMedium,
                     color = customColors.onBackgroundColor,
                     textAlign = TextAlign.Center,

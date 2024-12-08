@@ -35,8 +35,6 @@ fun String.formatMonthYear(): String {
     return localDate.format(outputFormatter)
 }
 
-
-
 @RequiresApi(Build.VERSION_CODES.O)
 fun String.formatDateTime(): String {
     val inputFormatter = DateTimeFormatter.ISO_DATE_TIME // ISO_DATE_TIME mendukung zona waktu
@@ -55,4 +53,26 @@ fun String.formatDateTime(): String {
     } catch (e: Exception) {
         "Format waktu tidak valid"
     }
+}
+
+
+fun Int.toRomanNumerals(): String {
+    val romanNumerals = listOf(
+        Pair(1_000, "M"), Pair(900, "CM"), Pair(500, "D"), Pair(400, "CD"),
+        Pair(100, "C"), Pair(90, "XC"), Pair(50, "L"), Pair(40, "XL"),
+        Pair(10, "X"), Pair(9, "IX"), Pair(5, "V"), Pair(4, "IV"),
+        Pair(1, "I")
+    )
+
+    var number = this
+    val result = StringBuilder()
+
+    for ((value, numeral) in romanNumerals) {
+        while (number >= value) {
+            result.append(numeral)
+            number -= value
+        }
+    }
+
+    return result.toString()
 }

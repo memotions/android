@@ -27,7 +27,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.memtionsandroid.memotions.data.remote.response.statistics.AchievementsResponseItem
 import com.memtionsandroid.memotions.ui.components.achievement.AchievementCard
+import com.memtionsandroid.memotions.ui.components.achievement.AchievementModal
 import com.memtionsandroid.memotions.ui.components.achievement.AchievementTopBar
 import com.memtionsandroid.memotions.ui.components.home.EmptyState
 import com.memtionsandroid.memotions.utils.DataResult
@@ -45,6 +47,8 @@ fun AchievementScreen(
     val completedAchievementCount by achievementViewModel.completedAchievementCount.collectAsState()
 
     val state = rememberPullToRefreshState()
+    var openDialog by remember { mutableStateOf(false) }
+    var selectedAchievement by remember { mutableStateOf<AchievementsResponseItem?>(null) }
     val scrollState = rememberScrollState()
     var isRefreshing by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
@@ -109,6 +113,12 @@ fun AchievementScreen(
                         .verticalScroll(scrollState)
                         .padding(16.dp)
                 ) {
+                    if (openDialog) {
+                        AchievementModal(
+                            achievement = selectedAchievement!!,
+                            onDismissRequest = { openDialog = false }
+                        )
+                    }
                     FlowRow(
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -126,10 +136,12 @@ fun AchievementScreen(
                                 title = achievement.name,
                                 imageSource = achievement.iconUrl,
                             ) {
-
+                                selectedAchievement = achievement
+                                openDialog = true
                             }
                         }
                     }
+
                 }
             }
         }
