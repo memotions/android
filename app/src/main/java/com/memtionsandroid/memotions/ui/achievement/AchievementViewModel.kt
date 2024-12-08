@@ -42,11 +42,16 @@ class AchievementViewModel @Inject constructor(
                     is DataResult.Success -> {
                         _achievements.value = it
 
-                        _totalAchievements.value = it.data.data?.size ?: 0
-                        _completedAchievements.value = it.data.data?.count { item ->
-                            item.completed
-                        } ?: 0
-
+                        _totalAchievements.value = it.data.data
+                            ?.filter { item ->
+                                item.tier > 0
+                            }?.size ?: 0
+                        _completedAchievements.value = it.data.data
+                            ?.filter { item ->
+                                item.tier > 0
+                            }?.count { item ->
+                                item.completed
+                            } ?: 0
 
                         val achievements = it.data.data
                             ?.filter { item ->
