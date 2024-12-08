@@ -51,22 +51,23 @@ fun ViewJournalScreen(navController: NavHostController, viewModel: ViewJournalVi
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         sheetContent = {
             BottomSheetContent(
+                title = "Hasil Analisis",
                 emotionType = EmotionType.SCARED,
                 confidenceScore = 0.75f,
                 feedback = "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque"
             )
         },
-        topBar = {
-            AppBar(
-                title = "",
-                inView = true,
-                onBack = {
-                    navController.popBackStack()
-                },
-                onAction = {},
-                starredState = starredState
-            )
-        }
+//        topBar = {
+//            AppBar(
+//                title = "",
+//                inView = true,
+//                onBack = {
+//                    navController.popBackStack()
+//                },
+//                onAction = {},
+//                starredState = starredState
+//            )
+//        }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -76,14 +77,14 @@ fun ViewJournalScreen(navController: NavHostController, viewModel: ViewJournalVi
                 .background(customColors.backgroundColor),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            FormSection(
-                dateInfo = "Today",
-                titleState = titleState,
-                journalState = journalState,
-                tags = tags.value,
-                onTagRemove = {},
-                inView = true
-            )
+//            FormSection(
+//                dateInfo = "Today",
+//                titleState = titleState,
+//                journalState = journalState,
+//                tags = tags.value,
+//                onTagRemove = {},
+//                inView = true
+//            )
         }
     }
 }

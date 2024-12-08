@@ -16,7 +16,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,14 +31,17 @@ fun BottomBar(
     onTagClick: () -> Unit,
     onClockClick: () -> Unit,
     onSaveClick: () -> Unit,
-    starredState: MutableState<Boolean>
+    starredValue: Boolean,
+    onStarredChange: (Boolean) -> Unit,
 ) {
     Surface(
         color = Color(0xFF222222),
         shadowElevation = 6.dp,
         shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         contentColor = Color(0xFF292828),
-        modifier = Modifier.navigationBarsPadding().imePadding()
+        modifier = Modifier
+            .navigationBarsPadding()
+            .imePadding()
     ) {
         Row(
             modifier = Modifier
@@ -49,10 +51,10 @@ fun BottomBar(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             IconButton(onClick = {
-                starredState.value = !starredState.value
+                onStarredChange(!starredValue)
             }) {
                 Icon(
-                    painter = painterResource(id = if (starredState.value) R.drawable.ic_stars_fill else R.drawable.ic_stars_line),
+                    painter = painterResource(id = if (starredValue) R.drawable.ic_stars_fill else R.drawable.ic_stars_line),
                     contentDescription = "Star",
                     tint = Color.White,
                     modifier = Modifier.size(18.dp)

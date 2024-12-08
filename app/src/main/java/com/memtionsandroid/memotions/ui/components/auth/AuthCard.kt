@@ -97,10 +97,12 @@ fun AuthCard(
                     textStyle = TextStyle(fontSize = 12.sp, color = Color(0xFF292828)),
                     colors = OutlinedTextFieldDefaults.colors(
                         unfocusedBorderColor = Color(0xFF7D7A78).copy(alpha = 0.5f),
+                        focusedContainerColor = Color(0xFFFFFFFF).copy(alpha = 0.3f),
                         unfocusedContainerColor = Color(0xFFFFFFFF).copy(alpha = 0.3f),
                         unfocusedLeadingIconColor = Color(0xFF7B7B7B),
                         focusedLeadingIconColor = Color(0xFF7B7B7B),
-                        focusedBorderColor = Color(0xFF292828)
+                        focusedBorderColor = Color(0xFF292828),
+                        cursorColor = Color(0xFF292828)
                     ),
                 )
             }
@@ -130,10 +132,12 @@ fun AuthCard(
                 textStyle = TextStyle(fontSize = 12.sp, color = Color(0xFF292828)),
                 colors = OutlinedTextFieldDefaults.colors(
                     unfocusedBorderColor = Color(0xFF7D7A78).copy(alpha = 0.5f),
+                    focusedContainerColor = Color(0xFFFFFFFF).copy(alpha = 0.3f),
                     unfocusedContainerColor = Color(0xFFFFFFFF).copy(alpha = 0.3f),
                     unfocusedLeadingIconColor = Color(0xFF7B7B7B),
                     focusedLeadingIconColor = Color(0xFF7B7B7B),
-                    focusedBorderColor = Color(0xFF292828)
+                    focusedBorderColor = Color(0xFF292828),
+                    cursorColor = Color(0xFF292828)
                 )
             )
 
@@ -162,10 +166,12 @@ fun AuthCard(
                 textStyle = TextStyle(fontSize = 12.sp, color = Color(0xFF292828)),
                 colors = OutlinedTextFieldDefaults.colors(
                     unfocusedBorderColor = Color(0xFF7D7A78).copy(alpha = 0.5f),
+                    focusedContainerColor = Color(0xFFFFFFFF).copy(alpha = 0.3f),
                     unfocusedContainerColor = Color(0xFFFFFFFF).copy(alpha = 0.3f),
                     unfocusedLeadingIconColor = Color(0xFF7B7B7B),
                     focusedLeadingIconColor = Color(0xFF7B7B7B),
-                    focusedBorderColor = Color(0xFF292828)
+                    focusedBorderColor = Color(0xFF292828),
+                    cursorColor = Color(0xFF292828)
                 ),
                 visualTransformation = PasswordVisualTransformation()
             )

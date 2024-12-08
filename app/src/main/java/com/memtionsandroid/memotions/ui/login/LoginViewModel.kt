@@ -58,16 +58,14 @@ class LoginViewModel @Inject constructor(
     private val _loginResult = MutableStateFlow<DataResult<AuthResponse>>(DataResult.Idle)
     val loginResult = _loginResult.asStateFlow()
 
-    fun login() {
-        viewModelScope.launch {
-            authRepository.loginUser(emailValue, passwordValue).collect { result ->
-                _loginResult.value = result
-                if (result is DataResult.Success) {
-                    userPreference.setAuthToken(result.data.data.token)
-                    userPreference.setUserId(result.data.data.user.id)
-                    userPreference.setUserName(result.data.data.user.name)
-                    userPreference.setUserEmail(result.data.data.user.email)
-                }
+    fun login() = viewModelScope.launch {
+        authRepository.loginUser(emailValue, passwordValue).collect { result ->
+            _loginResult.value = result
+            if (result is DataResult.Success) {
+                userPreference.setAuthToken(result.data.data.token)
+                userPreference.setUserId(result.data.data.user.id)
+                userPreference.setUserName(result.data.data.user.name)
+                userPreference.setUserEmail(result.data.data.user.email)
             }
         }
     }

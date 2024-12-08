@@ -95,7 +95,7 @@ interface ApiService {
     suspend fun addOrRemoveTagFromJournal(
         @Header("Authorization") token: String,
         @Path("journalId") journalId: Int,
-        @Path("tagId") tagId: Int
+        @Path("tagId") tagName: String
     )
 
     // *** Tags Endpoint ***
@@ -168,7 +168,7 @@ data class PostJournalRequest(
     val content: String,
     val datetime: String?,
     val starred: Boolean,
-    val status: JournalStatus,
+    val status: String,
     val tags: List<String>?,
 )
 
@@ -177,7 +177,7 @@ data class UpdateJournalRequest(
     val content: String,
     val datetime: String?,
     val starred: Boolean,
-    val status: JournalStatus,
+    val status: String,
     val tags: List<String>?,
 )
 
