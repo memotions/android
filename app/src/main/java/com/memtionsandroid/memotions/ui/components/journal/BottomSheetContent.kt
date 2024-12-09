@@ -83,22 +83,22 @@ fun BottomSheetContent(
                         color = Color.White
                     )
                 )
-            }
-            Spacer(modifier = Modifier.height(26.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = feedback ?: "Jurnal sedang dianalisis dan feedback sedang diproses",
-                    style = TextStyle(
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.Start,
-                        fontFamily = Poppins,
-                        color = Color.White
+                Spacer(modifier = Modifier.height(26.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = feedback,
+                        style = TextStyle(
+                            fontSize = 12.sp,
+                            textAlign = TextAlign.Start,
+                            fontFamily = Poppins,
+                            color = Color.White
+                        )
                     )
-                )
+                }
             }
         }
     }

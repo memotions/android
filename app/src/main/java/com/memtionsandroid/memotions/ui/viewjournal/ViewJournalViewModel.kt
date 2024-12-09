@@ -140,7 +140,7 @@ class ViewJournalViewModel @Inject constructor(
                 is DataResult.Success -> {
                     starredValue = !starredValue
                     withContext(Dispatchers.IO) {
-                        localRepository.toggleStarredStatus(journalId, !starredValue)
+                        localRepository.toggleStarredStatus(journalId, starredValue)
                     }
                     isLoading = false
                 }
