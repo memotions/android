@@ -16,17 +16,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
 import com.memtionsandroid.memotions.ui.theme.customColors
-
-
+import com.memtionsandroid.memotions.utils.toformatDateFromMillis
 
 
 @Composable
-fun TagChip(
+fun DateChip(
     modifier: Modifier = Modifier,
     viewOnly: Boolean = false,
-    tag: TagsItem,
+    dateRange: (Pair<Long?, Long?>),
     onRemove: () -> Unit
 ) {
     val customColors = MaterialTheme.customColors
@@ -45,11 +43,15 @@ fun TagChip(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = tag.name,
+                text = "${dateRange.first.toformatDateFromMillis("Tanggal Mulai")} - ${
+                    dateRange.second.toformatDateFromMillis(
+                        "Tanggal Selesai"
+                    )
+                }",
                 style = MaterialTheme.typography.labelSmall,
                 color = customColors.onSecondBackgroundColor
             )
-            if(!viewOnly){
+            if (!viewOnly) {
                 Icon(
                     imageVector = Icons.Default.Clear,
                     tint = customColors.onSecondBackgroundColor,

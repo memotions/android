@@ -1,7 +1,6 @@
 package com.memtionsandroid.memotions.ui.components.profile
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,19 +18,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.memtionsandroid.memotions.R
+import com.memtionsandroid.memotions.data.remote.response.statistics.StatisticsResponse
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 @Composable
-fun PersonalProgress(modifier: Modifier = Modifier) {
+fun PersonalProgress(
+    modifier: Modifier = Modifier,
+    userStatistic: StatisticsResponse? = null
+) {
     val customColors = MaterialTheme.customColors
-    val level = 1
-    val currentEXP = 120
-    val nextLevelEXP = 200
-    val streak = 12
 
     Box(modifier = modifier.width(220.dp)) {
         Row(
@@ -58,14 +56,20 @@ fun PersonalProgress(modifier: Modifier = Modifier) {
                             fontSize = 24.sp,
                             textAlign = TextAlign.Center
                         ),
-                        text = "${level}"
+                        text = "${
+                            userStatistic?.data?.currentLevel?.currentLevel ?: 1
+                        }"
                     )
                 }
                 Spacer(modifier.padding(top = 8.dp))
                 Text(
                     color = customColors.TextOnBackgroundColor,
                     style = MaterialTheme.typography.titleMedium,
-                    text = "${currentEXP}/${nextLevelEXP}"
+                    text = "${
+                        userStatistic?.data?.currentLevel?.totalPoints ?: 0
+                    }/${
+                        userStatistic?.data?.currentLevel?.pointsRequired ?: 0
+                    }"
                 )
             }
 
@@ -85,7 +89,9 @@ fun PersonalProgress(modifier: Modifier = Modifier) {
                 Text(
                     color = customColors.TextOnBackgroundColor,
                     style = MaterialTheme.typography.titleMedium,
-                    text = "$streak hari"
+                    text = "${
+                        userStatistic?.data?.currentStreak?.streakLength ?: 0
+                    } hari"
                 )
                 Text(
                     color = customColors.TextOnBackgroundColor,
@@ -95,10 +101,4 @@ fun PersonalProgress(modifier: Modifier = Modifier) {
             }
         }
     }
-}
-
-@Preview
-@Composable
-private fun PersonalProgressPreview() {
-    PersonalProgress()
 }

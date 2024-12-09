@@ -37,16 +37,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.memtionsandroid.memotions.R
+import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 @Composable
 fun SearchTagModal(
-    tags: List<Tag>,
+    tags: List<TagsItem>,
     onEmptyTagInputIcon: Painter = painterResource(id = R.drawable.ic_search),
     onEmptyTagInputHint: String = "Cari Tag",
     onDismissRequest: () -> Unit,
     onEmptyTagContent: @Composable (String) -> @Composable Unit,
-    onItemClicked: (String) -> Unit
+    onItemClicked: (TagsItem) -> Unit
 ) {
     val focusRequester = remember { FocusRequester() }
     var isFocused by remember { mutableStateOf(false) }
@@ -67,7 +68,7 @@ fun SearchTagModal(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(375.dp),
+                .height(400.dp),
             shape = RoundedCornerShape(16.dp),
         ) {
             Column(
@@ -120,19 +121,21 @@ fun SearchTagModal(
                     },
                 )
 
-
                 if (filteredTags.isEmpty()) {
                     onEmptyTagContent(searchTags)
                 }
-
-                LazyColumn(modifier = Modifier.padding(top = 16.dp)) {
+                LazyColumn(
+                    modifier = Modifier.padding(
+                        top = 8.dp,
+                    )
+                ) {
                     items(items = filteredTags) { tag ->
                         Row(
                             Modifier
                                 .height(48.dp)
                                 .fillMaxWidth()
                                 .clickable {
-                                    onItemClicked(tag.name)
+                                    onItemClicked(tag)
                                 },
                             verticalAlignment = Alignment.CenterVertically
                         ) {

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,29 +25,36 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.memtionsandroid.memotions.R
+import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 
-val tagsJurnal = listOf(
-    Tag(name = "Refleksi Harian"),
-    Tag(name = "Rasa Syukur"),
-    Tag(name = "Pelacakan Mood"),
-    Tag(name = "Catatan Impian"),
-    Tag(name = "Target Harian"),
-    Tag(name = "Kesehatan Mental"),
-    Tag(name = "Produktivitas"),
-    Tag(name = "Perenungan"),
-    Tag(name = "Momen Bahagia"),
-    Tag(name = "Inspirasi Harian")
-)
+//val tagsJurnal = listOf(
+//    Tag(name = "Refleksi Harian"),
+//    Tag(name = "Rasa Syukur"),
+//    Tag(name = "Pelacakan Mood"),
+//    Tag(name = "Catatan Impian"),
+//    Tag(name = "Target Harian"),
+//    Tag(name = "Kesehatan Mental"),
+//    Tag(name = "Produktivitas"),
+//    Tag(name = "Perenungan"),
+//    Tag(name = "Momen Bahagia"),
+//    Tag(name = "Inspirasi Harian")
+//)
 
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun SearchFilter() {
-    var tags by remember { mutableStateOf(listOf<Tag>()) }
-    var openDialog by remember { mutableStateOf(false) }
-
+fun SearchFilter(
+    tags: List<TagsItem>,
+    activeTags: List<TagsItem>,
+    dateRangeSelected: Pair<Long?, Long?>,
+    onTagAdded: (TagsItem) -> Unit,
+    onTagRemoved: (TagsItem) -> Unit,
+    onDateRangeSelected: (Long?, Long?) -> Unit,
+) {
+    var openTagModal by remember { mutableStateOf(false) }
+    var openCalendar by remember { mutableStateOf(false) }
     val customColors = MaterialTheme.customColors
 
     Column {
@@ -56,7 +64,7 @@ fun SearchFilter() {
         ) {
             TextButton(
                 onClick = {
-                    openDialog = true
+                    openTagModal = true
                 }
             ) {
                 Row(
@@ -78,7 +86,9 @@ fun SearchFilter() {
                 }
             }
             TextButton(
-                onClick = { tags = tags.toMutableList().apply { add(Tag("Kerja")) } }
+                onClick = {
+                    openCalendar = true
+                }
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
@@ -106,29 +116,31 @@ fun SearchFilter() {
             verticalArrangement = Arrangement.spacedBy(8.dp),
 
             ) {
-            tags.forEachIndexed { index, tag ->
+            if (dateRangeSelected.first != null && dateRangeSelected.second != null) {
+                DateChip(
+                    dateRange = dateRangeSelected,
+                    onRemove = {
+                        onDateRangeSelected(null, null)
+                    }
+                )
+            }
+            activeTags.forEach { tag ->
                 TagChip(
                     tag = tag,
-                    onRemove = {
-                        tags = tags.toMutableList().apply { removeAt(index) }
-                    })
+                    onRemove = { onTagRemoved(tag) }
+                )
             }
+
         }
     }
 
-    if (openDialog) {
+    if (openTagModal) {
         SearchTagModal(
-            tags = tagsJurnal,
-            onDismissRequest = { openDialog = false },
-            onItemClicked = {selectedTag ->
-                tags = tags
-                .toMutableList()
-                .apply {
-                    if (!any { it.name == selectedTag }) {
-                        add(Tag(selectedTag))
-                    }
-                }
-                openDialog = false
+            tags = tags,
+            onDismissRequest = { openTagModal = false },
+            onItemClicked = {
+                onTagAdded(it)
+                openTagModal = false
             },
             onEmptyTagContent = {
                 Box(modifier = Modifier.fillMaxSize()) {
@@ -142,5 +154,14 @@ fun SearchFilter() {
                 }
             }
         )
+    }
+
+    if (openCalendar) {
+        CalendarModal(
+            dateRangeSelected = dateRangeSelected,
+            onDateRangeSelected = { startDate, endDate ->
+                onDateRangeSelected(startDate, endDate)
+            },
+            onDismissRequest = { openCalendar = false })
     }
 }

@@ -2,6 +2,8 @@ package com.memtionsandroid.memotions.module
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.memtionsandroid.memotions.data.local.room.AppDatabase
 import com.memtionsandroid.memotions.data.local.room.JournalDao
 import dagger.Module
@@ -23,10 +25,13 @@ class DatabaseModule {
     @Provides
     @Singleton
     fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase {
+
         return Room.databaseBuilder(
             appContext,
             AppDatabase::class.java,
             "memotions_db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }

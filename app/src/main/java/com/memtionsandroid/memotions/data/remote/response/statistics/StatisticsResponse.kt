@@ -34,14 +34,14 @@ data class StatisticsData(
 	@field:SerializedName("currentStreak")
 	val currentStreak: CurrentStreak,
 
-	@field:SerializedName("achievementsCount")
-	val achievementsCount: AchievementsCount,
+	@field:SerializedName("achievementCount")
+	val achievementCount: AchievementsCount,
 
-	@field:SerializedName("emotions")
-	val emotions: Emotions,
+	@field:SerializedName("emotionCount")
+	val emotionCount: Emotions,
 
-	@field:SerializedName("journalsCount")
-	val journalsCount: Int
+	@field:SerializedName("journalCount")
+	val journalCount: Int
 )
 
 data class CurrentLevel(
