@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,12 +30,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.memtionsandroid.memotions.R
 import com.memtionsandroid.memotions.data.local.entity.Journal
 import com.memtionsandroid.memotions.ui.theme.customColors
+import com.memtionsandroid.memotions.utils.EmotionImageSource
 import com.memtionsandroid.memotions.utils.formatDateTime
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -44,18 +48,6 @@ fun JournalCard(
 ) {
     val customColors = MaterialTheme.customColors
     val tags = journal.tags?.joinToString(" ") { "#$it" }
-    val painter = journal.emotionAnalysis?.let {
-        when (journal.emotionAnalysis[0].emotion) {
-            "HAPPY" -> painterResource(id = R.drawable.emo_happy)
-            "ANGER" -> painterResource(id = R.drawable.emo_angry)
-            "SAD" -> painterResource(id = R.drawable.emo_sad)
-            "NEUTRAL" -> painterResource(id = R.drawable.emo_netral)
-            "SCARED" -> painterResource(id = R.drawable.emo_scared)
-            else -> painterResource(id = R.drawable.emo_netral)
-        }
-    } ?: run {
-        painterResource(id = R.drawable.emo_netral)
-    }
 
     val icon = painterResource(id = R.drawable.ic_star)
     Surface(
@@ -119,11 +111,28 @@ fun JournalCard(
                         }
 
                         "ANALYZED" -> {
-                            Image(
-                                painter = painter,
-                                contentDescription = "Emotion Image",
-                                modifier = Modifier.size(37.dp)
-                            )
+                            Box( // Memberi jarak antar gambar
+                            ) {
+                                journal.emotionAnalysis?.reversed()?.forEachIndexed { index, emotion ->
+                                    Image(
+                                        painter = EmotionImageSource(emotion.emotion),
+                                        contentDescription = "Emotion Image",
+                                        modifier = Modifier.size(37.dp)
+                                            .align(Alignment.Center)
+                                            .offset(
+                                                y = (index * 7).dp
+                                            )
+                                            .zIndex(index.toFloat())
+                                    )
+
+                                }
+
+                            }
+//                            Image(
+//                                painter = painter,
+//                                contentDescription = "Emotion Image",
+//                                modifier = Modifier.size(37.dp)
+//                            )
                         }
                     }
 
@@ -185,17 +194,13 @@ fun CombinedAnimationIcon(isGenerating: Boolean) {
     val customColors = MaterialTheme.customColors
     val infiniteTransition = rememberInfiniteTransition()
     val rotation by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 360f,
-        animationSpec = infiniteRepeatable(
+        initialValue = 0f, targetValue = 360f, animationSpec = infiniteRepeatable(
             animation = tween(durationMillis = 3000, easing = LinearEasing),
             repeatMode = RepeatMode.Restart
         ), label = ""
     )
     val scale by infiniteTransition.animateFloat(
-        initialValue = 1f,
-        targetValue = 1.2f,
-        animationSpec = infiniteRepeatable(
+        initialValue = 1f, targetValue = 1.2f, animationSpec = infiniteRepeatable(
             animation = tween(durationMillis = 500, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
         ), label = ""

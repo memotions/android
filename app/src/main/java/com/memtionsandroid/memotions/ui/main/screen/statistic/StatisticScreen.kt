@@ -4,13 +4,20 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -41,8 +48,8 @@ import com.memtionsandroid.memotions.ui.components.statistic.StatisticTopBar
 import com.memtionsandroid.memotions.ui.main.MainViewModel
 import com.memtionsandroid.memotions.ui.theme.customColors
 import com.memtionsandroid.memotions.utils.DataResult
+import com.memtionsandroid.memotions.utils.EmotionImageSource
 import com.memtionsandroid.memotions.utils.formatMonthYear
-import timber.log.Timber
 
 const val MODE_HARI = "Hari"
 const val MODE_BULAN = "Bulan"
@@ -50,7 +57,7 @@ const val MODE_MINGGU = "Minggu"
 const val MODE_SEMUA = "Semua"
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun StatisticScreen(
@@ -152,7 +159,10 @@ fun StatisticScreen(
                             }
                             val lastKey = journalsMode?.value?.keys?.lastOrNull() ?: ""
                             if (journalsMode?.value?.isEmpty() == true) {
-                                EmptyState(title = "Tidak ada Emosi", modifier = Modifier.align(Alignment.Center))
+                                EmptyState(
+                                    title = "Tidak ada Emosi",
+                                    modifier = Modifier.align(Alignment.Center)
+                                )
                             }
                             LazyColumn(modifier = Modifier.padding(horizontal = 16.dp)) {
                                 if (journalsMode != null) {
@@ -214,7 +224,10 @@ fun StatisticScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(24.dp),
+                            .padding(24.dp)
+                            .verticalScroll(
+                                rememberScrollState()
+                            ),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Surface(
@@ -252,7 +265,8 @@ fun StatisticScreen(
                             tonalElevation = 8.dp,
                         ) {
                             Column(
-                                modifier = Modifier.padding(16.dp)
+                                modifier = Modifier
+                                    .padding(16.dp)
                             ) {
                                 Text(
                                     text = buildAnnotatedString {
@@ -275,6 +289,31 @@ fun StatisticScreen(
                                     textAlign = TextAlign.Start
                                 )
                             }
+                        }
+                        Surface(
+                            modifier = Modifier.padding(top = 8.dp).fillMaxWidth(),
+                            shape = RoundedCornerShape(12.dp),
+                            color = customColors.backgroundColor,
+                            shadowElevation = 4.dp,
+                            tonalElevation = 8.dp,
+                        ) {
+                            Column (
+                                modifier = Modifier.padding(16.dp)
+                            ){
+                                FlowRow(
+                                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                                ) {
+                                    emotionsSelected.forEach { emotion ->
+                                        Image(
+                                            painter = EmotionImageSource(emotion),
+                                            contentDescription = "Emotion Image",
+                                            modifier = Modifier.size(37.dp)
+                                        )
+                                    }
+                                }
+                            }
+
                         }
                     }
                 }
