@@ -31,6 +31,7 @@ interface LocalRepository {
     fun getJournalById(id: Int): Flow<Journal?>
     suspend fun deleteJournal(journalId: Int)
     suspend fun toggleStarredStatus(journalId: Int, isStarred: Boolean)
+    suspend fun deleteJournals(userId: Int)
 }
 
 class DefaultLocalRepository @Inject constructor(
@@ -87,6 +88,10 @@ class DefaultLocalRepository @Inject constructor(
 
     override suspend fun deleteJournal(journalId: Int) {
         journalDao.deleteJournalById(journalId)
+    }
+
+    override suspend fun deleteJournals(userId: Int) {
+        journalDao.deleteJournals(userId)
     }
 
     override suspend fun toggleStarredStatus(journalId: Int, isStarred: Boolean) {

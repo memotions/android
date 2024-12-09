@@ -34,7 +34,6 @@ class MainViewModel @Inject constructor(
     private val localRepository: LocalRepository,
     private val userPreference: UserPreference
 ) : ViewModel() {
-    private val firstLaunched = MutableStateFlow(false)
     private val connectivityObserver = ConnectivityObserver(context)
 
     private val _username = userPreference.userNamePreference
@@ -73,8 +72,6 @@ class MainViewModel @Inject constructor(
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun getJournals() {
-        if (firstLaunched.value) return
-        firstLaunched.value = true
         viewModelScope.launch {
             val userId = userPreference.userIdPreference.first()
             journalsRepository.getJournals().collect { remoteState ->
@@ -102,6 +99,7 @@ class MainViewModel @Inject constructor(
                     DataResult.Loading -> _journals.value = DataResult.Loading
                     is DataResult.Success -> {
                         userId?.let { userId ->
+                            localRepository.deleteJournals(userId)
                             localRepository.saveAndGetJournals(userId, remoteState.data)
                                 .collect { localState ->
                                     when (localState) {
