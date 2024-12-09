@@ -57,8 +57,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.memtionsandroid.memotions.R
+import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
 import com.memtionsandroid.memotions.ui.components.home.SearchTagModal
-import com.memtionsandroid.memotions.ui.components.home.Tag
 import com.memtionsandroid.memotions.ui.components.journal.ConfirmSaveDialog
 import com.memtionsandroid.memotions.ui.components.journal.DateTimeAskDialog
 import com.memtionsandroid.memotions.ui.components.journal.SaveAsDraftDialog
@@ -188,7 +188,7 @@ fun AddJournalScreen(
                 onTitleChange = viewModel::setTitle,
                 contentValue = viewModel.contentValue,
                 onContentChange = viewModel::setContent,
-                tags = viewModel.tagsValue.map { Tag(name = it) },
+                tags = viewModel.tagsValue.map { TagsItem(id = 0, name = it) },
                 onTagRemove = { index ->
                     viewModel.updateTagsValue(
                         viewModel.tagsValue.toMutableList().apply { removeAt(index) })
@@ -232,8 +232,8 @@ fun AddJournalScreen(
                     }
                 },
                 onItemClicked = { selectedTagName ->
-                    if (viewModel.tagsValue.none { it == selectedTagName }) {
-                        viewModel.addTagsValue(selectedTagName)
+                    if (viewModel.tagsValue.none { it == selectedTagName.name }) {
+                        viewModel.addTagsValue(selectedTagName.name)
                         showTagsDialog = false
                     }
                 },

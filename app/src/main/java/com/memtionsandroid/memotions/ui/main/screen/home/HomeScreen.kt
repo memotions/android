@@ -100,7 +100,7 @@ fun HomeScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navHostController.navigate(NavigationRoutes.ADD_JOURNAL)
+                    navHostController.navigate("${NavigationRoutes.ADD_JOURNAL}/add")
                 },
                 containerColor = customColors.barColor,
                 contentColor = customColors.onBarColor,

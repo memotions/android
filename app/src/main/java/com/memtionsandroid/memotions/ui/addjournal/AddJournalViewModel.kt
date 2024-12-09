@@ -14,11 +14,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.memtionsandroid.memotions.data.local.datastore.UserPreference
+import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
 import com.memtionsandroid.memotions.data.repository.JournalStatus
 import com.memtionsandroid.memotions.data.repository.JournalsRepository
 import com.memtionsandroid.memotions.data.repository.LocalRepository
 import com.memtionsandroid.memotions.ui.NavigationRoutes
-import com.memtionsandroid.memotions.ui.components.home.Tag
 import com.memtionsandroid.memotions.utils.DataResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -88,7 +88,7 @@ class AddJournalViewModel @Inject constructor(
         tagsValue += value
     }
 
-    var userTags by mutableStateOf(listOf<Tag>())
+    var userTags by mutableStateOf(listOf<TagsItem>())
         private set
 
 
@@ -145,7 +145,7 @@ class AddJournalViewModel @Inject constructor(
             journalsRepository.getCurrentUserTags().collect { result ->
                 when (result) {
                     is DataResult.Success -> {
-                        userTags = result.data.data?.map { Tag(name = it.name) } ?: emptyList()
+                        userTags = result.data.data ?: emptyList()
                         isLoading = false
                     }
 

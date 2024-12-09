@@ -32,7 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.memtionsandroid.memotions.R
-import com.memtionsandroid.memotions.ui.components.home.Tag
+import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
 import com.memtionsandroid.memotions.ui.components.home.TagChip
 import com.memtionsandroid.memotions.ui.theme.Poppins
 import com.memtionsandroid.memotions.ui.theme.customColors
@@ -45,7 +45,7 @@ fun FormSection(
     onTitleChange: (String) -> Unit,
     contentValue: String,
     onContentChange: (String) -> Unit,
-    tags: List<Tag>,
+    tags: List<TagsItem>,
     onTagRemove: (Int) -> Unit,
     inView: Boolean,
     isConnected: Boolean = true
