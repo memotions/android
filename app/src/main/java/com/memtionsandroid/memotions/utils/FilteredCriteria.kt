@@ -9,8 +9,8 @@ import java.time.LocalDate
 data class FilterCriteria(
     val name: String = "",
     val tags: List<TagsItem> = emptyList(),
-    val startDate: LocalDate? = null,
-    val endDate: LocalDate? = null
+    val startDate: Long? = null,
+    val endDate: Long? = null
 ) {
 
     fun addTag(tag: TagsItem): FilterCriteria {
@@ -55,9 +55,9 @@ data class FilterCriteria(
 
         // Memeriksa apakah tanggal jurnal cocok dengan rentang yang diberikan
         val isStartDateMatching =
-            startDate == null || journalDateTime.isAfter(startDate.atStartOfDay())
+            startDate == null || journalDateTime.isAfter(startDate.toLocalDate().atStartOfDay())
         val isEndDateMatching =
-            endDate == null || journalDateTime.isBefore(endDate.atStartOfDay())
+            endDate == null || journalDateTime.isBefore(endDate.toLocalDate().atStartOfDay().plusDays(1))
 
         return isNameMatching && isTagMatching && isStartDateMatching && isEndDateMatching
     }

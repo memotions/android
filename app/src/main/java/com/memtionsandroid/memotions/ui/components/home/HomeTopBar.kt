@@ -43,9 +43,11 @@ fun HomeTopBar(
     searchText: String,
     tags: List<TagsItem>,
     activeTags: List<TagsItem>,
+    dateRangeSelected: Pair<Long?, Long?>,
     onTagAdded: (TagsItem) -> Unit,
     onTagRemoved: (TagsItem) -> Unit,
-    onSearchValueChange: (String) -> Unit
+    onSearchValueChange: (String) -> Unit,
+    onDateRangeSelected: (Long?, Long?) -> Unit,
 ) {
     val customColors = MaterialTheme.customColors
     val streakImage = painterResource(id = R.drawable.streak)
@@ -155,7 +157,11 @@ fun HomeTopBar(
                     SearchFilter(
                         tags = tags,
                         activeTags = activeTags,
+                        dateRangeSelected = dateRangeSelected,
                         onTagAdded = { onTagAdded(it) },
+                        onDateRangeSelected = {startDate, endDate ->
+                            onDateRangeSelected(startDate, endDate)
+                        },
                         onTagRemoved = { onTagRemoved(it) },
                     )
                 }

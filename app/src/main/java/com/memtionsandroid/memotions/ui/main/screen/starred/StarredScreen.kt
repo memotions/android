@@ -30,6 +30,7 @@ import com.memtionsandroid.memotions.ui.components.starred.StarredTopBar
 import com.memtionsandroid.memotions.ui.main.MainViewModel
 import com.memtionsandroid.memotions.ui.theme.customColors
 import com.memtionsandroid.memotions.utils.DataResult
+import com.memtionsandroid.memotions.utils.toLocalDate
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -102,6 +103,15 @@ fun StarredScreen(
                         filterCriteria.removeTag(tag)
                     )
                 },
+                onDateRangeSelected = { startDate, endDate ->
+                    starredViewModel.setFilterCriteria(
+                        filterCriteria.copy(
+                            startDate = startDate,
+                            endDate = endDate
+                        )
+                    )
+                },
+                dateRangeSelected = Pair(filterCriteria.startDate, filterCriteria.endDate),
                 onSearchValueChange = { value ->
                     starredViewModel.setFilterCriteria(filterCriteria.copy(name = value))
                 })

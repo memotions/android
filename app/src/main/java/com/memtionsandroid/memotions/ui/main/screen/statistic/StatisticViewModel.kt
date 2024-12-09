@@ -20,6 +20,7 @@ class StatisticViewModel : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
 
     private val _journals = MutableStateFlow<List<Journal>>(emptyList())
+    @RequiresApi(Build.VERSION_CODES.O)
     val journals = _journals.asStateFlow()
 
     private val _groupedJournalListDate =

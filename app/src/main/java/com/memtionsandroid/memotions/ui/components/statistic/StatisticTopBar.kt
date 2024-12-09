@@ -3,6 +3,7 @@ package com.memtionsandroid.memotions.ui.components.statistic
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,7 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -50,6 +53,7 @@ fun StatisticTopBar(
     val customColors = MaterialTheme.customColors
     var isExchange by remember { mutableStateOf(false) }
     val options = listOf("Semua", "Hari", "Minggu", "Bulan")
+    val scrollState = rememberScrollState()
 
     val emotionCounts = emotions.groupingBy { it }.eachCount()
     val total = emotions.size
@@ -78,6 +82,7 @@ fun StatisticTopBar(
     ) {
         Box(
             modifier = Modifier
+                .verticalScroll(scrollState)
                 .fillMaxWidth()
                 .background(customColors.backgroundColor)
                 .padding(start = 20.dp, end = 20.dp, top = 20.dp)

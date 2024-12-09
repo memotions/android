@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -42,16 +43,18 @@ import com.memtionsandroid.memotions.ui.theme.customColors
 //)
 
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SearchFilter(
     tags: List<TagsItem>,
     activeTags: List<TagsItem>,
+    dateRangeSelected: Pair<Long?, Long?>,
     onTagAdded: (TagsItem) -> Unit,
-    onTagRemoved: (TagsItem) -> Unit
+    onTagRemoved: (TagsItem) -> Unit,
+    onDateRangeSelected: (Long?, Long?) -> Unit,
 ) {
-//    var tags by remember { mutableStateOf(listOf<Tag>()) }
-    var openDialog by remember { mutableStateOf(false) }
+    var openTagModal by remember { mutableStateOf(false) }
+    var openCalendar by remember { mutableStateOf(false) }
     val customColors = MaterialTheme.customColors
 
     Column {
@@ -61,7 +64,7 @@ fun SearchFilter(
         ) {
             TextButton(
                 onClick = {
-                    openDialog = true
+                    openTagModal = true
                 }
             ) {
                 Row(
@@ -83,7 +86,9 @@ fun SearchFilter(
                 }
             }
             TextButton(
-                onClick = {  }
+                onClick = {
+                    openCalendar = true
+                }
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
@@ -111,29 +116,31 @@ fun SearchFilter(
             verticalArrangement = Arrangement.spacedBy(8.dp),
 
             ) {
+            if (dateRangeSelected.first != null && dateRangeSelected.second != null) {
+                DateChip(
+                    dateRange = dateRangeSelected,
+                    onRemove = {
+                        onDateRangeSelected(null, null)
+                    }
+                )
+            }
             activeTags.forEach { tag ->
                 TagChip(
                     tag = tag,
                     onRemove = { onTagRemoved(tag) }
                 )
             }
-//            tags.forEach { tag ->
-//                TagChip(
-//                    tag = tag,
-//                    onRemove = {
-////                        tags = tags.toMutableList().apply { removeAt(index) }
-//                    })
-//            }
+
         }
     }
 
-    if (openDialog) {
+    if (openTagModal) {
         SearchTagModal(
             tags = tags,
-            onDismissRequest = { openDialog = false },
+            onDismissRequest = { openTagModal = false },
             onItemClicked = {
                 onTagAdded(it)
-                openDialog = false
+                openTagModal = false
             },
             onEmptyTagContent = {
                 Box(modifier = Modifier.fillMaxSize()) {
@@ -147,5 +154,14 @@ fun SearchFilter(
                 }
             }
         )
+    }
+
+    if (openCalendar) {
+        CalendarModal(
+            dateRangeSelected = dateRangeSelected,
+            onDateRangeSelected = { startDate, endDate ->
+                onDateRangeSelected(startDate, endDate)
+            },
+            onDismissRequest = { openCalendar = false })
     }
 }

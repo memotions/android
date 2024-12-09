@@ -30,9 +30,11 @@ fun StarredTopBar(
     searchText: String,
     tags: List<TagsItem>,
     activeTags: List<TagsItem>,
+    dateRangeSelected: Pair<Long?, Long?>,
     onTagAdded: (TagsItem) -> Unit,
     onTagRemoved: (TagsItem) -> Unit,
-    onSearchValueChange: (String) -> Unit
+    onSearchValueChange: (String) -> Unit,
+    onDateRangeSelected: (Long?, Long?) -> Unit,
 
 ) {
     val customColors = MaterialTheme.customColors
@@ -70,8 +72,12 @@ fun StarredTopBar(
                     SearchFilter(
                         tags = tags,
                         activeTags = activeTags,
+                        dateRangeSelected = dateRangeSelected,
                         onTagAdded = { onTagAdded(it) },
                         onTagRemoved = { onTagRemoved(it) },
+                        onDateRangeSelected = {startDate, endDate ->
+                            onDateRangeSelected(startDate, endDate)
+                        },
                     )
                 }
             }

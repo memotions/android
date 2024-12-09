@@ -2,9 +2,13 @@ package com.memtionsandroid.memotions.utils
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import java.text.SimpleDateFormat
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Date
 import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -76,3 +80,22 @@ fun Int.toRomanNumerals(): String {
 
     return result.toString()
 }
+
+
+
+fun Long?.toformatDateFromMillis(default: String, locale: Locale = Locale.getDefault()): String {
+    return if (this != null) {
+        val formatter = SimpleDateFormat("dd MMM yyyy", locale)
+        formatter.format(Date(this))
+    } else {
+        default
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun Long.toLocalDate(zoneId: ZoneId = ZoneId.systemDefault()): LocalDate {
+    return Instant.ofEpochMilli(this)
+        .atZone(zoneId)
+        .toLocalDate()
+}
+

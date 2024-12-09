@@ -55,7 +55,8 @@ const val MODE_SEMUA = "Semua"
 @Composable
 fun StatisticScreen(
     mainViewModel: MainViewModel = hiltViewModel(),
-    statisticViewModel: StatisticViewModel = hiltViewModel()
+    statisticViewModel: StatisticViewModel = hiltViewModel(),
+    showNavBar: () -> Unit
 ) {
     val customColors = MaterialTheme.customColors
 
@@ -114,8 +115,7 @@ fun StatisticScreen(
                 it.emotion
             } ?: emptyList()
         }
-
-        Timber.tag("Stat").d(emotionsSelected.toString())
+        showNavBar()
     }
 
     Scaffold(

@@ -142,7 +142,7 @@ fun AchievementModal(
                     Text(
                         text = "Tutup",
                         style = MaterialTheme.typography.bodySmall,
-                        color = customColors.onBarColor,
+                        color = customColors.onBackgroundColor,
                         textAlign = TextAlign.End,
                         modifier = Modifier
                     )

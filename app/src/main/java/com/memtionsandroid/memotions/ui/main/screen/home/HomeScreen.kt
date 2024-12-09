@@ -35,6 +35,7 @@ import com.memtionsandroid.memotions.ui.components.main.Journals
 import com.memtionsandroid.memotions.ui.main.MainViewModel
 import com.memtionsandroid.memotions.ui.theme.customColors
 import com.memtionsandroid.memotions.utils.DataResult
+import com.memtionsandroid.memotions.utils.toLocalDate
 import com.memtionsandroid.memotions.utils.toNickname
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -122,6 +123,7 @@ fun HomeScreen(
                 searchText = filterCriteria.name,
                 tags = currentTags,
                 activeTags = filterCriteria.tags,
+                dateRangeSelected = Pair(filterCriteria.startDate, filterCriteria.endDate),
                 onTagAdded = { tag ->
                     homeViewModel.setFilterCriteria(
                         filterCriteria.addTag(tag)
@@ -130,6 +132,14 @@ fun HomeScreen(
                 onTagRemoved = { tag ->
                     homeViewModel.setFilterCriteria(
                         filterCriteria.removeTag(tag)
+                    )
+                },
+                onDateRangeSelected = { startDate, endDate ->
+                    homeViewModel.setFilterCriteria(
+                        filterCriteria.copy(
+                            startDate = startDate,
+                            endDate = endDate
+                        )
                     )
                 },
                 onSearchValueChange = { value ->
