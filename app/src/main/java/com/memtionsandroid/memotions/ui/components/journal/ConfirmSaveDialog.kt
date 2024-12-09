@@ -83,7 +83,7 @@ fun ConfirmSaveDialog(
                     )
                 }
                 Text(
-                    text = "Anda yakin menyimpan jurnal?",
+                    text = "Kamu yakin menyimpan jurnal?",
                     style = MaterialTheme.typography.titleMedium,
                     color = customColors.onBackgroundColor,
                     modifier = Modifier
@@ -104,7 +104,7 @@ fun ConfirmSaveDialog(
                         .fillMaxWidth()
                 ) {
                     Text(
-                        text = "Lannjut mengedit",
+                        text = "Lanjut mengedit",
                         style = MaterialTheme.typography.titleSmall,
                         color = customColors.onBackgroundColor,
                         modifier = Modifier

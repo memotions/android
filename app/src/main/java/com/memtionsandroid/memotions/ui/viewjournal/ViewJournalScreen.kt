@@ -71,7 +71,7 @@ fun ViewJournalScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         scaffoldState = scaffoldState,
         sheetPeekHeight = 130.dp,
-        sheetContainerColor = Color(0xFF292828),
+        sheetContainerColor = customColors.barColor,
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         sheetContent = {
             BottomSheetContent(

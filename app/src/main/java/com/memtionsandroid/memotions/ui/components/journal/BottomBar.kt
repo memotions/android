@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -25,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.memtionsandroid.memotions.R
+import com.memtionsandroid.memotions.ui.theme.customColors
 
 @Composable
 fun BottomBar(
@@ -34,11 +36,12 @@ fun BottomBar(
     starredValue: Boolean,
     onStarredChange: (Boolean) -> Unit,
 ) {
+    val customColors = MaterialTheme.customColors
     Surface(
-        color = Color(0xFF222222),
+        color = customColors.barColor,
         shadowElevation = 6.dp,
         shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-        contentColor = Color(0xFF292828),
+        contentColor = customColors.barColor,
         modifier = Modifier
             .navigationBarsPadding()
             .imePadding()

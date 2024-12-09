@@ -77,7 +77,7 @@ fun SaveAsDraftDialog(
                         .padding(top = 12.dp)
                 )
                 Text(
-                    text = "Jika kamu kembali sekarang, jurnal kamu akan hilang, apakah kamu yakin?",
+                    text = "Jika kamu kembali sekarang, jurnal kamu akan hilang",
                     style = MaterialTheme.typography.bodySmall,
                     color = customColors.onSecondBackgroundColor,
                     modifier = Modifier
