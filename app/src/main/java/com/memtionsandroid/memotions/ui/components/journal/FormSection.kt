@@ -9,47 +9,46 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
+import com.memtionsandroid.memotions.R
+import com.memtionsandroid.memotions.ui.components.home.Tag
 import com.memtionsandroid.memotions.ui.components.home.TagChip
-import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
 import com.memtionsandroid.memotions.ui.theme.Poppins
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun FormSection(
-    dateInfo: String,
-    titleState: MutableState<TextFieldValue>,
-    journalState: MutableState<TextFieldValue>,
-    tags: List<TagsItem>,
+    datetime: String,
+    titleValue: String,
+    onTitleChange: (String) -> Unit,
+    contentValue: String,
+    onContentChange: (String) -> Unit,
+    tags: List<Tag>,
     onTagRemove: (Int) -> Unit,
-    inView: Boolean
+    inView: Boolean,
+    isConnected: Boolean = true
 ) {
     val customColors = MaterialTheme.customColors
 
@@ -59,22 +58,40 @@ fun FormSection(
             .fillMaxWidth()
             .background(customColors.backgroundColor),
     ) {
+        Spacer(modifier = Modifier.height(16.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
+            if(!isConnected){
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_offline_journal),
+                    contentDescription = "Offline Indicator",
+                    tint = customColors.onSecondBackgroundColor,
+                    modifier = Modifier.padding(bottom = 5.dp).size(16.dp)
+                )
+                Spacer(modifier = Modifier.width(5.dp))
+                Text(
+                    text = "Offline",
+                    style = TextStyle(
+                        fontFamily = Poppins,
+                        fontSize = 12.sp,
+                        color = customColors.onSecondBackgroundColor,
+                    ),
+                    modifier = Modifier.padding(bottom = 5.dp)
+                )
+            }
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = dateInfo,
+                text = datetime,
                 style = TextStyle(
                     fontFamily = Poppins,
                     fontSize = 12.sp,
-                    color = customColors.onSecondBackgroundColor.copy(alpha = 0.9f),
+                    color = customColors.onSecondBackgroundColor,
                 ),
                 modifier = Modifier.padding(bottom = 5.dp)
             )
         }
-
         ElevatedCard(
             elevation = CardDefaults.cardElevation(
                 defaultElevation = 4.dp
@@ -94,8 +111,10 @@ fun FormSection(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 BasicTextField(
-                    value = titleState.value,
-                    onValueChange = { titleState.value = it },
+                    value = titleValue,
+                    onValueChange = {
+                        onTitleChange(it)
+                    },
                     readOnly = inView,
                     textStyle = TextStyle(
                         fontSize = 16.sp,
@@ -104,7 +123,7 @@ fun FormSection(
                         fontWeight = FontWeight.Bold
                     ),
                     decorationBox = { innerTextField ->
-                        if (titleState.value.text.isEmpty()) {
+                        if (titleValue.isEmpty()) {
                             Text(
                                 text = "Tuliskan Judul Jurnal",
                                 style = TextStyle(
@@ -117,12 +136,15 @@ fun FormSection(
                         }
                         innerTextField()
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    cursorBrush = SolidColor(customColors.TextOnBackgroundColor)
                 )
 
                 BasicTextField(
-                    value = journalState.value,
-                    onValueChange = { journalState.value = it },
+                    value = contentValue,
+                    onValueChange = {
+                        onContentChange(it)
+                    },
                     readOnly = inView,
                     textStyle = TextStyle(
                         fontSize = 12.sp,
@@ -130,7 +152,7 @@ fun FormSection(
                         color = customColors.TextOnBackgroundColor,
                     ),
                     decorationBox = { innerTextField ->
-                        if (journalState.value.text.isEmpty()) {
+                        if (contentValue.isEmpty()) {
                             Text(
                                 text = "Apa yang anda pikirkan?",
                                 style = TextStyle(
@@ -146,7 +168,8 @@ fun FormSection(
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight()
-                        .defaultMinSize(minHeight = 200.dp)
+                        .defaultMinSize(minHeight = 200.dp),
+                    cursorBrush = SolidColor(customColors.TextOnBackgroundColor)
                 )
 
                 if (tags.isNotEmpty()) {
@@ -158,13 +181,13 @@ fun FormSection(
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         tags.forEachIndexed { index, tag ->
-                            if(inView){
+                            if (inView) {
                                 TagChip(
                                     tag = tag,
                                     onRemove = { onTagRemove(index) },
                                     viewOnly = true
                                 )
-                            }else{
+                            } else {
                                 TagChip(
                                     tag = tag,
                                     onRemove = { onTagRemove(index) },
@@ -175,27 +198,5 @@ fun FormSection(
                 }
             }
         }
-
     }
 }
-//
-//@Preview(showBackground = true)
-//@Composable
-//private fun DefaultPreview() {
-//    val titleState = remember { mutableStateOf(TextFieldValue()) }
-//    val journalState = remember { mutableStateOf(TextFieldValue()) }
-//    val tags = remember { mutableStateOf(listOf(Tag("Sekolah"), Tag("Pribadi"))) }
-//
-//    MemotionsTheme {
-//        FormSection(
-//            dateInfo = "Today",
-//            titleState = titleState,
-//            journalState = journalState,
-//            tags = tags.value,
-//            onTagRemove = { index ->
-//                tags.value = tags.value.toMutableList().apply { removeAt(index) }
-//            },
-//            inView = false
-//        )
-//    }
-//}

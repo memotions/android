@@ -28,10 +28,9 @@ import com.memtionsandroid.memotions.ui.theme.customColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SaveAsDraftDialog(
+fun ConfirmSaveDialog(
     onDismiss: () -> Unit,
-    onSaveDraft: () -> Unit,
-    onDelete: () -> Unit,
+    onConfirmSave: () -> Unit,
 ) {
     BasicAlertDialog(
         modifier = Modifier
@@ -54,7 +53,7 @@ fun SaveAsDraftDialog(
             ) {
                 Text(
                     text =
-                    "Jika kamu kembali sekarang, jurnal kamu akan hilang, apakah kamu yakin?",
+                    "Setelah kamu menyimpan jurnal ini, modifikasi jurnal tidak akan bisa dilakukan. AI kami akan menganalisis jurnal kamu, dan proses ini memerlukan sedikit waktu, apakah kamu yakin?",
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Center
                 )
@@ -64,24 +63,24 @@ fun SaveAsDraftDialog(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     OutlinedButton(
-                        onClick = { onSaveDraft() },
+                        onClick = { onDismiss() },
                         border = BorderStroke(1.dp, MaterialTheme.customColors.outlineColor),
                         shape = RoundedCornerShape(10.dp)
                     ) {
                         Text(
-                            text = "Simpan draft",
+                            text = "Batal",
                             style = MaterialTheme.typography.titleSmall,
                             color = MaterialTheme.customColors.TextOnBackgroundColor
                         )
                     }
                     Spacer(modifier = Modifier.weight(1f))
                     OutlinedButton(
-                        onClick = { onDelete() },
+                        onClick = { onConfirmSave() },
                         border = BorderStroke(1.dp, MaterialTheme.customColors.outlineColor),
                         shape = RoundedCornerShape(10.dp)
                     ) {
                         Text(
-                            text = "Ya, hapus",
+                            text = "Yakin",
                             style = MaterialTheme.typography.titleSmall,
                             color = Color.Red
                         )

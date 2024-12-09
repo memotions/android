@@ -18,12 +18,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
-import timber.log.Timber
+import java.io.IOException
 import javax.inject.Inject
 
 enum class JournalStatus(val status: String) {
     DRAFT("DRAFT"),
-    ANALYZED("ANALYZED"),
     PUBLISHED("PUBLISHED")
 }
 
@@ -43,7 +42,7 @@ interface JournalsRepository {
         content: String,
         datetime: String?,
         starred: Boolean,
-        status: JournalStatus,
+        status: String,
         tags: List<String>?
     ): Flow<DataResult<JournalResponse>>
 
@@ -55,7 +54,7 @@ interface JournalsRepository {
         content: String,
         datetime: String?,
         starred: Boolean,
-        status: JournalStatus,
+        status: String,
         tags: List<String>?
     ): Flow<DataResult<JournalResponse>>
 
@@ -65,7 +64,7 @@ interface JournalsRepository {
 
     suspend fun getAllTagsByJournalId(journalId: Int): Flow<DataResult<JournalTagsResponse>>
 
-    suspend fun addOrRemoveTagFromJournal(journalId: Int, tagId: Int): Flow<DataResult<Unit>>
+    suspend fun addOrRemoveTagFromJournal(journalId: Int, tagName: String): Flow<DataResult<Unit>>
 
     suspend fun getCurrentUserTags(): Flow<DataResult<TagsResponse>>
 
@@ -110,9 +109,7 @@ class DefaultJournalsRepository @Inject constructor(
             val errorMessage =
                 "Terjadi kesalahan saat mendapatkan data journal, [${e.code()}]: ${errorBody.errors[0].message}"
             emit(DataResult.Error(Event(errorMessage)))
-            Timber.tag("DefaultJournalsRepository").e("getJournals: " + e.message)
         } catch (e: Exception) {
-            Timber.tag("DefaultJournalsRepository").e("getJournals: " + e.message)
             emit(DataResult.Error(Event("Terjadi kesalahan saat mendapatkan data journal, coba lagi atau cek koneksi internet")))
         }
     }
@@ -122,7 +119,7 @@ class DefaultJournalsRepository @Inject constructor(
         content: String,
         datetime: String?,
         starred: Boolean,
-        status: JournalStatus,
+        status: String,
         tags: List<String>?
     ): Flow<DataResult<JournalResponse>> = flow {
         if (title.isEmpty() || content.isEmpty()) {
@@ -176,7 +173,7 @@ class DefaultJournalsRepository @Inject constructor(
         content: String,
         datetime: String?,
         starred: Boolean,
-        status: JournalStatus,
+        status: String,
         tags: List<String>?
     ): Flow<DataResult<JournalResponse>> =
         flow {
@@ -212,16 +209,23 @@ class DefaultJournalsRepository @Inject constructor(
         emit(DataResult.Loading)
         try {
             val token = userPreference.authTokenPreference.first().toString()
-            val response = apiService.deleteJournalById(token = "Bearer $token", journalId)
-            emit(DataResult.Success(response))
+            apiService.deleteJournalById(token = "Bearer $token", journalId)
+            emit(DataResult.Success(Unit))
         } catch (e: HttpException) {
-            val jsonInString = e.response()?.errorBody()?.string()
-            val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
-            val errorMessage =
-                "Terjadi kesalahan saat hapus journal, [${e.code()}]: ${errorBody.errors[0].message}"
-            emit(DataResult.Error(Event(errorMessage)))
+            when (e.code()) {
+                204 -> emit(DataResult.Success(Unit))
+                else -> {
+                    val jsonInString = e.response()?.errorBody()?.string()
+                    val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
+                    val errorMessage =
+                        "Terjadi kesalahan saat menghapus jurnal, [${e.code()}]: ${errorBody.errors[0].message}"
+                    emit(DataResult.Error(Event(errorMessage)))
+                }
+            }
+        } catch (e: IOException) {
+            emit(DataResult.Error(Event("Terjadi kesalahan saat menghapus jurnal, coba lagi atau cek koneksi internet")))
         } catch (e: Exception) {
-            emit(DataResult.Error(Event("Terjadi kesalahan saat hapus journal, coba lagi atau cek koneksi internet")))
+            emit(DataResult.Success(Unit))
         }
     }
 
@@ -229,16 +233,23 @@ class DefaultJournalsRepository @Inject constructor(
         emit(DataResult.Loading)
         try {
             val token = userPreference.authTokenPreference.first().toString()
-            val response = apiService.toggleStarStatusJournal(token = "Bearer $token", journalId)
-            emit(DataResult.Success(response))
+            apiService.toggleStarStatusJournal(token = "Bearer $token", journalId)
+            emit(DataResult.Success(Unit))
         } catch (e: HttpException) {
-            val jsonInString = e.response()?.errorBody()?.string()
-            val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
-            val errorMessage =
-                "Terjadi kesalahan saat starred journal, [${e.code()}]: ${errorBody.errors[0].message}"
-            emit(DataResult.Error(Event(errorMessage)))
+            when (e.code()) {
+                204 -> emit(DataResult.Success(Unit))
+                else -> {
+                    val jsonInString = e.response()?.errorBody()?.string()
+                    val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
+                    val errorMessage =
+                        "Terjadi kesalahan saat starred journal, [${e.code()}]: ${errorBody.errors[0].message}"
+                    emit(DataResult.Error(Event(errorMessage)))
+                }
+            }
+        } catch (e: IOException) {
+            emit(DataResult.Error(Event("Terjadi kesalahan saat starred journal, coba lagi atau cek koneksi internet")))
         } catch (e: Exception) {
-            emit(DataResult.Error(Event("Terjadi kesalahan saat starred jurnal, coba lagi atau cek koneksi internet")))
+            emit(DataResult.Success(Unit))
         }
     }
 
@@ -262,22 +273,28 @@ class DefaultJournalsRepository @Inject constructor(
 
     override suspend fun addOrRemoveTagFromJournal(
         journalId: Int,
-        tagId: Int
+        tagName: String
     ): Flow<DataResult<Unit>> = flow {
         emit(DataResult.Loading)
         try {
             val token = userPreference.authTokenPreference.first().toString()
-            val response =
-                apiService.addOrRemoveTagFromJournal(token = "Bearer $token", journalId, tagId)
-            emit(DataResult.Success(response))
+            apiService.addOrRemoveTagFromJournal(token = "Bearer $token", journalId, tagName)
+            emit(DataResult.Success(Unit))
         } catch (e: HttpException) {
-            val jsonInString = e.response()?.errorBody()?.string()
-            val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
-            val errorMessage =
-                "Terjadi kesalahan saat mengubah tags jurnal, [${e.code()}]: ${errorBody.errors[0].message}"
-            emit(DataResult.Error(Event(errorMessage)))
-        } catch (e: Exception) {
+            when (e.code()) {
+                204 -> emit(DataResult.Success(Unit))
+                else -> {
+                    val jsonInString = e.response()?.errorBody()?.string()
+                    val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
+                    val errorMessage =
+                        "Terjadi kesalahan saat mengubah tags jurnal, [${e.code()}]: ${errorBody.errors[0].message}"
+                    emit(DataResult.Error(Event(errorMessage)))
+                }
+            }
+        } catch (e: IOException) {
             emit(DataResult.Error(Event("Terjadi kesalahan saat mengubah tags jurnal, coba lagi atau cek koneksi internet")))
+        } catch (e: Exception) {
+            emit(DataResult.Success(Unit))
         }
     }
 

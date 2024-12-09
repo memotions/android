@@ -5,9 +5,11 @@ import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.memtionsandroid.memotions.ui.achievement.AchievementScreen
 import com.memtionsandroid.memotions.ui.addjournal.AddJournalScreen
 import com.memtionsandroid.memotions.ui.login.LoginScreen
@@ -43,11 +45,19 @@ fun MainNavigation(viewModel: LoginViewModel = hiltViewModel()) {
         composable(NavigationRoutes.MAIN) {
             MainScreen(navController)
         }
-        composable(NavigationRoutes.ADD_JOURNAL) {
-            AddJournalScreen(navController)
+        composable(
+            "${NavigationRoutes.ADD_JOURNAL}/{journalId}",
+            arguments = listOf(navArgument("journalId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val journalId = backStackEntry.arguments?.getString("journalId")
+            AddJournalScreen(navController, journalId.toString())
         }
-        composable(NavigationRoutes.VIEW_JOURNAL) {
-            ViewJournalScreen(navController)
+        composable(
+            "${NavigationRoutes.VIEW_JOURNAL}/{journalId}",
+            arguments = listOf(navArgument("journalId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val journalId = backStackEntry.arguments?.getString("journalId")
+            ViewJournalScreen(navController, journalId.toString())
         }
         composable(NavigationRoutes.ONBOARDING) {
             OnBoardingScreen(navController)

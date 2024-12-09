@@ -12,11 +12,9 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,7 +25,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,8 +37,8 @@ fun AppBar(
     title: String,
     inView: Boolean,
     onBack: () -> Unit,
-    onAction: () -> Unit?,
-    starredState: MutableState<Boolean>?
+    starredValue: Boolean?,
+    onStarredClick: () -> Unit,
 ) {
     val customColors = MaterialTheme.customColors
     Row(
@@ -72,7 +69,7 @@ fun AppBar(
             )
         }
 
-        if (inView && starredState != null) {
+        if (inView && starredValue != null) {
             var expanded by remember { mutableStateOf(false) }
 
             Box {
@@ -98,7 +95,7 @@ fun AppBar(
                     DropdownMenuItem(
                         text = {
                             Text(
-                                text = if (starredState.value) "Hapus Bintang" else "Beri Bintang",
+                                text = if (starredValue) "Hapus Bintang" else "Beri Bintang",
                                 style = TextStyle(
                                     fontFamily = Poppins, fontSize = 16.sp,
                                     color = Color.White
@@ -106,13 +103,12 @@ fun AppBar(
                             )
                         },
                         onClick = {
-                            starredState.value = !starredState.value
-                            onAction()
+                            onStarredClick()
                         },
                         leadingIcon = {
                             Icon(
                                 painter = painterResource(
-                                    id = if (starredState.value) R.drawable.ic_stars_fill else R.drawable.ic_stars_line
+                                    id = if (starredValue) R.drawable.ic_stars_fill else R.drawable.ic_stars_line
                                 ),
                                 contentDescription = "Star Icon",
                                 tint = Color.White,
@@ -125,17 +121,4 @@ fun AppBar(
             }
         }
     }
-}
-
-@Composable
-@Preview(showBackground = true)
-private fun DefaultPreview() {
-    val starredState = remember { mutableStateOf(false) }
-    AppBar(
-        title = "Tambah Journal",
-        inView = true,
-        onBack = {},
-        onAction = {},
-        starredState = starredState
-    )
 }

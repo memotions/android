@@ -11,7 +11,6 @@ import com.memtionsandroid.memotions.data.remote.response.journals.TagsResponse
 import com.memtionsandroid.memotions.data.remote.response.statistics.AchievementResponse
 import com.memtionsandroid.memotions.data.remote.response.statistics.EmotionAnalysisResponse
 import com.memtionsandroid.memotions.data.remote.response.statistics.StatisticsResponse
-import com.memtionsandroid.memotions.data.repository.JournalStatus
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -95,7 +94,7 @@ interface ApiService {
     suspend fun addOrRemoveTagFromJournal(
         @Header("Authorization") token: String,
         @Path("journalId") journalId: Int,
-        @Path("tagId") tagId: Int
+        @Path("tagId") tagName: String
     )
 
     // *** Tags Endpoint ***
@@ -168,7 +167,7 @@ data class PostJournalRequest(
     val content: String,
     val datetime: String?,
     val starred: Boolean,
-    val status: JournalStatus,
+    val status: String,
     val tags: List<String>?,
 )
 
@@ -177,7 +176,7 @@ data class UpdateJournalRequest(
     val content: String,
     val datetime: String?,
     val starred: Boolean,
-    val status: JournalStatus,
+    val status: String,
     val tags: List<String>?,
 )
 

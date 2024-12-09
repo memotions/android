@@ -1,12 +1,9 @@
 package com.memtionsandroid.memotions.ui.components.journal
 
-object Constant {
-}
-
 enum class EmotionType(val value: String) {
-    HAPPY("happy"),
-    SAD("sad"),
-    NEUTRAL("neutral"),
-    ANGRY("angry"),
-    SCARED("scared");
+    HAPPY("HAPPY"),
+    SAD("SAD"),
+    NEUTRAL("NEUTRAL"),
+    ANGER("ANGER"),
+    SCARED("SCARED");
 }

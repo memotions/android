@@ -5,14 +5,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,16 +27,20 @@ import com.memtionsandroid.memotions.ui.theme.Poppins
 
 @Composable
 fun BottomSheetContent(
-    emotionType: EmotionType,
+    title: String,
+    emotionType: String,
     confidenceScore: Float,
-    feedback: String
+    feedback: String?
 ) {
     val emotionIcon = when (emotionType) {
-        EmotionType.HAPPY -> painterResource(id = R.drawable.ic_happy_vjournal)
-        EmotionType.SAD -> painterResource(id = R.drawable.ic_sad_vjournal)
-        EmotionType.NEUTRAL -> painterResource(id = R.drawable.ic_neutral_vjournal)
-        EmotionType.ANGRY -> painterResource(id = R.drawable.ic_angry_vjournal)
-        EmotionType.SCARED -> painterResource(id = R.drawable.ic_scared_vjournal)
+        EmotionType.HAPPY.value -> painterResource(id = R.drawable.ic_happy_vjournal)
+        EmotionType.SAD.value -> painterResource(id = R.drawable.ic_sad_vjournal)
+        EmotionType.NEUTRAL.value -> painterResource(id = R.drawable.ic_neutral_vjournal)
+        EmotionType.ANGER.value -> painterResource(id = R.drawable.ic_angry_vjournal)
+        EmotionType.SCARED.value -> painterResource(id = R.drawable.ic_scared_vjournal)
+        else -> {
+            painterResource(id = R.drawable.ic_neutral_vjournal)
+        }
     }
 
     Box(
@@ -54,7 +55,7 @@ fun BottomSheetContent(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                "Hasil Analisis",
+                title,
                 style = TextStyle(
                     fontSize = 16.sp,
                     fontFamily = Poppins,
@@ -64,38 +65,40 @@ fun BottomSheetContent(
                 )
             )
             Spacer(modifier = Modifier.height(31.dp))
-            Icon(
-                painter = emotionIcon,
-                contentDescription = "Emotion Icon",
-                modifier = Modifier.size(50.dp),
-                tint = Color.Unspecified
-            )
-            Spacer(modifier = Modifier.height(6.dp))
-            Text(
-                formatPercentage(confidenceScore),
-                style = TextStyle(
-                    fontSize = 16.sp,
-                    fontFamily = Poppins,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                    color = Color.White
+            if (feedback != null) {
+                Icon(
+                    painter = emotionIcon,
+                    contentDescription = "Emotion Icon",
+                    modifier = Modifier.size(50.dp),
+                    tint = Color.Unspecified
                 )
-            )
-            Spacer(modifier = Modifier.height(26.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+                Spacer(modifier = Modifier.height(6.dp))
                 Text(
-                    text = feedback,
+                    formatPercentage(confidenceScore),
                     style = TextStyle(
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.Start,
+                        fontSize = 16.sp,
                         fontFamily = Poppins,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
                         color = Color.White
                     )
                 )
+                Spacer(modifier = Modifier.height(26.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = feedback,
+                        style = TextStyle(
+                            fontSize = 12.sp,
+                            textAlign = TextAlign.Start,
+                            fontFamily = Poppins,
+                            color = Color.White
+                        )
+                    )
+                }
             }
         }
     }
