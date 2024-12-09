@@ -54,6 +54,7 @@ fun JournalCard(
     val icon = painterResource(id = R.drawable.ic_star)
     Surface(
         modifier = modifier
+            .clickable { onJournalClick(journal.id, journal.status) }
             .height(120.dp)
             .fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
@@ -65,7 +66,6 @@ fun JournalCard(
         Box(
             modifier = Modifier
                 .padding(horizontal = 16.dp, vertical = 8.dp)
-                .clickable { onJournalClick(journal.id, journal.status) }
         ) {
             Column {
                 Row(
