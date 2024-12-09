@@ -1,6 +1,7 @@
 package com.memtionsandroid.memotions.ui.components.profile
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -53,11 +54,21 @@ fun LogOutModal(
                     .padding(horizontal = 12.dp)
                     .fillMaxSize()
             ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_logout),
-                    contentDescription = null,
-                    modifier = Modifier.size(70.dp)
-                )
+                Box(
+                    modifier = Modifier
+                        .background(
+                            color = customColors.secondBackgroundColor,
+                            shape = RoundedCornerShape(50.dp),
+                        )
+                        .padding(12.dp)
+                ) {
+                    Icon(
+                        contentDescription = null,
+                        painter = painterResource(R.drawable.ic_logout),
+                        tint = customColors.onSecondBackgroundColor,
+                        modifier = Modifier.size(36.dp)
+                    )
+                }
                 Text(
                     text = "Keluar",
                     style = MaterialTheme.typography.titleMedium,
@@ -70,7 +81,7 @@ fun LogOutModal(
                     style = MaterialTheme.typography.bodySmall,
                     color = customColors.onSecondBackgroundColor,
                     modifier = Modifier
-                        .padding(top = 16.dp).weight(1f)
+                        .padding(top = 8.dp).weight(1f)
                 )
                 TextButton(
                     onClick = onLogout,

@@ -70,7 +70,7 @@ fun SaveAsDraftDialog(
                     )
                 }
                 Text(
-                    text = "Journal Belum Tersimpan!",
+                    text = "Jurnal Belum Tersimpan!",
                     style = MaterialTheme.typography.titleMedium,
                     color = customColors.onBackgroundColor,
                     modifier = Modifier
@@ -101,7 +101,6 @@ fun SaveAsDraftDialog(
                 TextButton(
                     onClick = onSaveDraft,
                     modifier = Modifier
-                        .padding(top = 4.dp)
                         .fillMaxWidth()
                 ) {
                     Text(
@@ -114,7 +113,6 @@ fun SaveAsDraftDialog(
                 TextButton(
                     onClick = onDelete,
                     modifier = Modifier
-                        .padding(top = 4.dp)
                         .background(
                             shape = RoundedCornerShape(50.dp),
                             color =
