@@ -21,6 +21,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,6 +35,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.memtionsandroid.memotions.R
@@ -68,7 +70,7 @@ fun SearchTagModal(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(375.dp),
+                .height(400.dp),
             shape = RoundedCornerShape(16.dp),
         ) {
             Column(
@@ -121,12 +123,14 @@ fun SearchTagModal(
                     },
                 )
 
-
                 if (filteredTags.isEmpty()) {
                     onEmptyTagContent(searchTags)
                 }
-
-                LazyColumn(modifier = Modifier.padding(top = 16.dp)) {
+                LazyColumn(
+                    modifier = Modifier.padding(
+                        top = 8.dp,
+                    )
+                ) {
                     items(items = filteredTags) { tag ->
                         Row(
                             Modifier

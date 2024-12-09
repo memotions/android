@@ -3,7 +3,6 @@ package com.memtionsandroid.memotions.ui.components.achievement
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -74,7 +73,9 @@ fun AchievementModal(
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(24.dp)
+                modifier = Modifier
+                    .padding(top = 24.dp, bottom = 12.dp)
+                    .padding(horizontal = 24.dp)
             ) {
                 AsyncImage(
                     model = achievement.iconUrl,
@@ -141,7 +142,7 @@ fun AchievementModal(
                 ) {
                     Text(
                         text = "Tutup",
-                        style = MaterialTheme.typography.bodySmall,
+                        style = MaterialTheme.typography.titleSmall,
                         color = customColors.onBackgroundColor,
                         textAlign = TextAlign.End,
                         modifier = Modifier
