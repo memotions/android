@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.memtionsandroid.memotions.ui.NavigationRoutes
 import com.memtionsandroid.memotions.ui.components.home.EmptyState
 import com.memtionsandroid.memotions.ui.components.main.Journals
 import com.memtionsandroid.memotions.ui.components.starred.StarredTopBar
@@ -130,7 +131,13 @@ fun StarredScreen(
                         title = "Tidak ada Jurnal"
                     )
                 }
-                Journals(filteredJournal)
+                Journals(filteredJournal) { journalId, status ->
+                    when (status) {
+                        "DRAFT" -> navHostController.navigate("${NavigationRoutes.ADD_JOURNAL}/$journalId")
+                        "PUBLISHED" -> navHostController.navigate("${NavigationRoutes.VIEW_JOURNAL}/$journalId")
+                        "ANALYZED" -> navHostController.navigate("${NavigationRoutes.VIEW_JOURNAL}/$journalId")
+                    }
+                }
             }
         }
     )

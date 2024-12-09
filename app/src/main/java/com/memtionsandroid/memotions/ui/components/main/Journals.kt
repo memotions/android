@@ -14,13 +14,17 @@ import com.memtionsandroid.memotions.data.local.entity.Journal
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Journals(journals: List<Journal>) {
+fun Journals(
+    journals: List<Journal>,
+    onJournalClick: (Int,String) -> Unit
+) {
     LazyColumn(modifier = Modifier.padding(horizontal = 16.dp).fillMaxSize()) {
         itemsIndexed(items = journals) { index, journal ->
             val bottomPadding =
                 if (index == journals.lastIndex) 80.dp else 4.dp // Padding khusus item terakhir
             JournalCard(
                 journal,
+                onJournalClick = onJournalClick,
                 modifier = Modifier.padding(top = 4.dp, bottom = bottomPadding)
             )
         }

@@ -11,6 +11,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -43,7 +44,9 @@ import com.memtionsandroid.memotions.utils.formatDateTime
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun JournalCard(
-    journal: Journal, modifier: Modifier = Modifier
+    journal: Journal,
+    modifier: Modifier = Modifier,
+    onJournalClick: (Int,String) -> Unit
 ) {
     val customColors = MaterialTheme.customColors
     val tags = journal.tags?.joinToString(" ") { "#$it" }
@@ -59,7 +62,11 @@ fun JournalCard(
         tonalElevation = 8.dp,
         border = BorderStroke(0.5.dp, customColors.outlineColor)
     ) {
-        Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+        Box(
+            modifier = Modifier
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .clickable { onJournalClick(journal.id, journal.status) }
+        ) {
             Column {
                 Row(
                     modifier = Modifier.weight(1f)
