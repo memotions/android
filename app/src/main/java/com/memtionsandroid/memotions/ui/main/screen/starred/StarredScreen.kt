@@ -30,7 +30,6 @@ import com.memtionsandroid.memotions.ui.components.starred.StarredTopBar
 import com.memtionsandroid.memotions.ui.main.MainViewModel
 import com.memtionsandroid.memotions.ui.theme.customColors
 import com.memtionsandroid.memotions.utils.DataResult
-import com.memtionsandroid.memotions.utils.toLocalDate
 
 
 @RequiresApi(Build.VERSION_CODES.O)

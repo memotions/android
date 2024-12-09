@@ -30,7 +30,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -113,19 +112,21 @@ fun JournalCard(
                         "ANALYZED" -> {
                             Box( // Memberi jarak antar gambar
                             ) {
-                                journal.emotionAnalysis?.reversed()?.forEachIndexed { index, emotion ->
-                                    Image(
-                                        painter = EmotionImageSource(emotion.emotion),
-                                        contentDescription = "Emotion Image",
-                                        modifier = Modifier.size(37.dp)
-                                            .align(Alignment.Center)
-                                            .offset(
-                                                y = (index * 7).dp
-                                            )
-                                            .zIndex(index.toFloat())
-                                    )
+                                journal.emotionAnalysis?.reversed()
+                                    ?.forEachIndexed { index, emotion ->
+                                        Image(
+                                            painter = EmotionImageSource(emotion.emotion),
+                                            contentDescription = "Emotion Image",
+                                            modifier = Modifier
+                                                .size(37.dp)
+                                                .align(Alignment.Center)
+                                                .offset(
+                                                    y = (index * 7).dp
+                                                )
+                                                .zIndex(index.toFloat())
+                                        )
 
-                                }
+                                    }
 
                             }
 //                            Image(

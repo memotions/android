@@ -35,7 +35,6 @@ import com.memtionsandroid.memotions.ui.components.main.Journals
 import com.memtionsandroid.memotions.ui.main.MainViewModel
 import com.memtionsandroid.memotions.ui.theme.customColors
 import com.memtionsandroid.memotions.utils.DataResult
-import com.memtionsandroid.memotions.utils.toLocalDate
 import com.memtionsandroid.memotions.utils.toNickname
 
 @RequiresApi(Build.VERSION_CODES.O)

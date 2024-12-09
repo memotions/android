@@ -4,7 +4,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.memtionsandroid.memotions.data.local.entity.Journal
 import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
-import java.time.LocalDate
 
 data class FilterCriteria(
     val name: String = "",
@@ -57,7 +56,9 @@ data class FilterCriteria(
         val isStartDateMatching =
             startDate == null || journalDateTime.isAfter(startDate.toLocalDate().atStartOfDay())
         val isEndDateMatching =
-            endDate == null || journalDateTime.isBefore(endDate.toLocalDate().atStartOfDay().plusDays(1))
+            endDate == null || journalDateTime.isBefore(
+                endDate.toLocalDate().atStartOfDay().plusDays(1)
+            )
 
         return isNameMatching && isTagMatching && isStartDateMatching && isEndDateMatching
     }

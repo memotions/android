@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import com.memtionsandroid.memotions.R
-import com.memtionsandroid.memotions.ui.components.statistic.Emotion
 
 @Composable
 fun EmotionImageSource(emotion: String?): Painter {

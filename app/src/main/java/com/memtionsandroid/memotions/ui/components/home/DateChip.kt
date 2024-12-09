@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
 import com.memtionsandroid.memotions.ui.theme.customColors
 import com.memtionsandroid.memotions.utils.toformatDateFromMillis
 
@@ -44,11 +43,15 @@ fun DateChip(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "${dateRange.first.toformatDateFromMillis("Tanggal Mulai")} - ${dateRange.second.toformatDateFromMillis("Tanggal Selesai")}",
+                text = "${dateRange.first.toformatDateFromMillis("Tanggal Mulai")} - ${
+                    dateRange.second.toformatDateFromMillis(
+                        "Tanggal Selesai"
+                    )
+                }",
                 style = MaterialTheme.typography.labelSmall,
                 color = customColors.onSecondBackgroundColor
             )
-            if(!viewOnly){
+            if (!viewOnly) {
                 Icon(
                     imageVector = Icons.Default.Clear,
                     tint = customColors.onSecondBackgroundColor,

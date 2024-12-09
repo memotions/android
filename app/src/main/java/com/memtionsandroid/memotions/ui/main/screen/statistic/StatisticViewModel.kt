@@ -1,15 +1,12 @@
 package com.memtionsandroid.memotions.ui.main.screen.statistic
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import com.memtionsandroid.memotions.data.local.entity.Journal
-import com.memtionsandroid.memotions.ui.components.main.journalList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import timber.log.Timber
-import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.WeekFields
@@ -20,6 +17,7 @@ class StatisticViewModel : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
 
     private val _journals = MutableStateFlow<List<Journal>>(emptyList())
+
     @RequiresApi(Build.VERSION_CODES.O)
     val journals = _journals.asStateFlow()
 
@@ -42,13 +40,14 @@ class StatisticViewModel : ViewModel() {
     val groupedJournalListMonth = _groupedJournalListMonth.asStateFlow()
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun setJournals(journals: List<Journal>){
+    fun setJournals(journals: List<Journal>) {
         _journals.value = journals
         setJournalsDateMode(journals)
         Timber.tag("StatisticViewModel").d(groupedJournalListDate.toString())
         setJournalsWeekMode(journals)
         setJournalsMonthMode(journals)
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun setJournalsDateMode(journals: List<Journal>) {
         val dateFormatterMonth = DateTimeFormatter.ofPattern("yyyy MM")

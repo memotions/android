@@ -1,7 +1,6 @@
 package com.memtionsandroid.memotions.ui.main
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
@@ -46,10 +45,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.memtionsandroid.memotions.R
+import com.memtionsandroid.memotions.ui.main.screen.home.HomeScreen
 import com.memtionsandroid.memotions.ui.main.screen.profile.ProfileScreen
 import com.memtionsandroid.memotions.ui.main.screen.starred.StarredScreen
 import com.memtionsandroid.memotions.ui.main.screen.statistic.StatisticScreen
-import com.memtionsandroid.memotions.ui.main.screen.home.HomeScreen
 import com.memtionsandroid.memotions.ui.theme.customColors
 import timber.log.Timber
 
@@ -131,12 +130,14 @@ fun MainScreen(
             startDestination = "home",
             Modifier.padding(bottom = contentPd)
         ) {
-            composable("home") { HomeScreen(navHostController,mainViewModel) }
-            composable("starred") { StarredScreen(navHostController,mainViewModel) }
-            composable("statistic") { StatisticScreen(mainViewModel){
-                isBarVisible.value = true
-                Timber.tag("MainScreen").d("BottomNavigationBar: $isBarVisible")
-            } }
+            composable("home") { HomeScreen(navHostController, mainViewModel) }
+            composable("starred") { StarredScreen(navHostController, mainViewModel) }
+            composable("statistic") {
+                StatisticScreen(mainViewModel) {
+                    isBarVisible.value = true
+                    Timber.tag("MainScreen").d("BottomNavigationBar: $isBarVisible")
+                }
+            }
             composable("profile") { ProfileScreen(navHostController) }
         }
     }
