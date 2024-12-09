@@ -34,6 +34,7 @@ import com.memtionsandroid.memotions.ui.NavigationRoutes
 import com.memtionsandroid.memotions.ui.components.profile.AchievementInfo
 import com.memtionsandroid.memotions.ui.components.profile.BoxContent
 import com.memtionsandroid.memotions.ui.components.profile.JournalInfo
+import com.memtionsandroid.memotions.ui.components.profile.LogOutModal
 import com.memtionsandroid.memotions.ui.components.profile.ProfileTopBar
 import com.memtionsandroid.memotions.ui.components.profile.TitleCardWithIcon
 import com.memtionsandroid.memotions.ui.login.LoginViewModel
@@ -49,6 +50,8 @@ fun ProfileScreen(
     profileViewModel: ProfileViewModel = hiltViewModel(),
     mainViewModel: MainViewModel = hiltViewModel()
 ) {
+    var openModal by remember { mutableStateOf(false) }
+
     val customColors = MaterialTheme.customColors
     val snackbarHostState = remember { SnackbarHostState() }
     var userStatistics by remember { mutableStateOf<StatisticsResponse?>(null) }
@@ -84,6 +87,7 @@ fun ProfileScreen(
                 DataResult.Loading -> {
                     isRefreshing = true
                 }
+
                 is DataResult.Success -> {
                     isRefreshing = false
                     userStatistics = it.data
@@ -101,6 +105,19 @@ fun ProfileScreen(
             )
         },
         content = { innerPadding ->
+            if (openModal) {
+                LogOutModal(
+                    onDismissRequest = { openModal = false },
+                    onLogout = {
+                        openModal = false
+                        loginViewModel.logout()
+                        navHostController.navigate(NavigationRoutes.LOGIN) {
+                            popUpTo(0) { inclusive = true }
+                            launchSingleTop = true
+                        }
+                    }
+                )
+            }
             PullToRefreshBox(
                 modifier = Modifier
                     .fillMaxSize()
@@ -154,11 +171,7 @@ fun ProfileScreen(
                         modifier = Modifier
                             .padding(top = 8.dp, bottom = 80.dp)
                             .clickable {
-                                loginViewModel.logout()
-                                navHostController.navigate(NavigationRoutes.LOGIN) {
-                                    popUpTo(0) { inclusive = true }
-                                    launchSingleTop = true
-                                }
+                                openModal = true
                             },
                         header = {
                             TitleCardWithIcon(

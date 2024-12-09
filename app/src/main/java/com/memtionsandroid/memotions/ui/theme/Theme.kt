@@ -36,7 +36,8 @@ data class CustomColors(
     val secondBackgroundColor: Color,
     val onBackgroundColor: Color,
     val TextOnBackgroundColor: Color,
-    val onSecondBackgroundColor: Color
+    val onSecondBackgroundColor: Color,
+    val errorRed: Color
 )
 
 // Define Light and Dark Custom Colors
@@ -51,7 +52,8 @@ private val LightCustomColor = CustomColors(
     secondBackgroundColor = Ivory,
     onBackgroundColor = Charcoal,
     TextOnBackgroundColor = Charcoal,
-    onSecondBackgroundColor = SteelGrey
+    onSecondBackgroundColor = SteelGrey,
+    errorRed = errorRed
 )
 
 private val DarkCustomColor = CustomColors(
@@ -67,7 +69,8 @@ private val DarkCustomColor = CustomColors(
 //    secondBackgroundColor = OnyxGrey,
     onBackgroundColor = PureWhite,
     TextOnBackgroundColor = LightGrey,
-    onSecondBackgroundColor = SteelGrey
+    onSecondBackgroundColor = SteelGrey,
+    errorRed = errorRed
 )
 
 // CompositionLocal for CustomColors

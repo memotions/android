@@ -20,7 +20,6 @@ import com.memtionsandroid.memotions.ui.theme.customColors
 @Composable
 fun PersonalInfo(
     name: String,
-    desc: String,
 ) {
     val customColors = MaterialTheme.customColors
     Row(
@@ -42,11 +41,6 @@ fun PersonalInfo(
                 color = customColors.onBackgroundColor,
                 maxLines = 1,
                 overflow = TextOverflow.Clip
-            )
-            Text(
-                text = "Streak sejak ${desc}",
-                style = MaterialTheme.typography.bodySmall,
-                color = customColors.onSecondBackgroundColor
             )
         }
     }
