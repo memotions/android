@@ -36,7 +36,7 @@ fun SettingSection(
     checkedDarkModeValue: Boolean,
     onChangeDarkMode: (Boolean) -> Unit,
     checkedNotificationValue: Boolean,
-    onChangeNotification: (Boolean) -> Unit
+    onChangeNotification: (Boolean) -> Unit,
 ) {
     val customColors = MaterialTheme.customColors
 
