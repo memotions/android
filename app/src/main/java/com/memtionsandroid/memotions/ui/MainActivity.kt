@@ -1,10 +1,12 @@
 package com.memtionsandroid.memotions.ui
 
+import android.Manifest
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,9 +26,18 @@ class MainActivity : ComponentActivity() {
 
     private val settingViewModel: SettingViewModel by viewModels()
 
+    private val requestNotificationPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { _: Boolean ->
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= 33) {
+            requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
         setContent {
             MemotionsApp(settingViewModel = settingViewModel)
         }

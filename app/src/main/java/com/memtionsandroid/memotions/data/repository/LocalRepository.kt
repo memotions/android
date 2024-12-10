@@ -56,7 +56,7 @@ class DefaultLocalRepository @Inject constructor(
             }
             emit(DataResult.Success(journalsResponse))
         } catch (e: Exception) {
-            Timber.tag("DefaultLocalRepository").e("saveAndGetJournals: " + e.message)
+            Timber.tag("DefaultLocalRepository").e("saveAndGetJournals: %s", e.message)
             emit(DataResult.Error(Event("Failed to save and get journals")))
         }
     }

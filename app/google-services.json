@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "236654356760",
+    "project_id": "memotions-c242-ps111",
+    "storage_bucket": "memotions-c242-ps111.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236654356760:android:a03c95bd9270593fb0966d",
+        "android_client_info": {
+          "package_name": "com.memtionsandroid.memotions"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaWpUDhOUtZMbEpeyn6Fe4zU6jAuSurrM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
