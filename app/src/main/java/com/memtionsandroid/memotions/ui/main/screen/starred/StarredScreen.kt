@@ -5,7 +5,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -29,7 +28,6 @@ import com.memtionsandroid.memotions.ui.components.home.EmptyState
 import com.memtionsandroid.memotions.ui.components.main.Journals
 import com.memtionsandroid.memotions.ui.components.starred.StarredTopBar
 import com.memtionsandroid.memotions.ui.main.MainViewModel
-import com.memtionsandroid.memotions.ui.theme.customColors
 import com.memtionsandroid.memotions.utils.DataResult
 
 
@@ -41,8 +39,6 @@ fun StarredScreen(
     mainViewModel: MainViewModel = hiltViewModel(),
     starredViewModel: StarredViewModel = hiltViewModel()
 ) {
-    val customColors = MaterialTheme.customColors
-
     val journalsState by mainViewModel.journals.collectAsStateWithLifecycle()
     val currentTags by mainViewModel.currentTags.collectAsStateWithLifecycle()
 
@@ -131,13 +127,16 @@ fun StarredScreen(
                         title = "Tidak ada Jurnal"
                     )
                 }
-                Journals(filteredJournal) { journalId, status ->
-                    when (status) {
-                        "DRAFT" -> navHostController.navigate("${NavigationRoutes.ADD_JOURNAL}/$journalId")
-                        "PUBLISHED" -> navHostController.navigate("${NavigationRoutes.VIEW_JOURNAL}/$journalId")
-                        "ANALYZED" -> navHostController.navigate("${NavigationRoutes.VIEW_JOURNAL}/$journalId")
-                    }
-                }
+                Journals(
+                    journals = filteredJournal,
+                    onJournalClick = { journalId, status ->
+                        when (status) {
+                            "DRAFT" -> navHostController.navigate("${NavigationRoutes.ADD_JOURNAL}/$journalId")
+                            "PUBLISHED" -> navHostController.navigate("${NavigationRoutes.VIEW_JOURNAL}/$journalId")
+                            "ANALYZED" -> navHostController.navigate("${NavigationRoutes.VIEW_JOURNAL}/$journalId")
+                        }
+                    },
+                )
             }
         }
     )

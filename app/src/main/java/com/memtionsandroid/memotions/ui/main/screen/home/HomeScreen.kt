@@ -161,13 +161,16 @@ fun HomeScreen(
                         title = "Tidak ada Jurnal"
                     )
                 }
-                Journals(filteredJournal){ journalId, status ->
-                    when(status){
-                        "DRAFT" -> navHostController.navigate("${NavigationRoutes.ADD_JOURNAL}/$journalId")
-                        "PUBLISHED" -> navHostController.navigate("${NavigationRoutes.VIEW_JOURNAL}/$journalId")
-                        "ANALYZED" -> navHostController.navigate("${NavigationRoutes.VIEW_JOURNAL}/$journalId")
-                    }
-                }
+                Journals(
+                    journals = filteredJournal,
+                    onJournalClick = { journalId, status ->
+                        when (status) {
+                            "DRAFT" -> navHostController.navigate("${NavigationRoutes.ADD_JOURNAL}/$journalId")
+                            "PUBLISHED" -> navHostController.navigate("${NavigationRoutes.VIEW_JOURNAL}/$journalId")
+                            "ANALYZED" -> navHostController.navigate("${NavigationRoutes.VIEW_JOURNAL}/$journalId")
+                        }
+                    },
+                )
             }
         }
     )
