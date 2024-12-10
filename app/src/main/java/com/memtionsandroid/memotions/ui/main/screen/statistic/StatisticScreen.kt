@@ -224,7 +224,8 @@ fun StatisticScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(24.dp)
+                            .padding(top = 24.dp)
+                            .padding(horizontal = 24.dp)
                             .verticalScroll(
                                 rememberScrollState()
                             ),
