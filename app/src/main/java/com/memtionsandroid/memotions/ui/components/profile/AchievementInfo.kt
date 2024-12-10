@@ -27,7 +27,7 @@ fun AchievementInfo(
     val customColors = MaterialTheme.customColors
 
     BoxContent(
-        modifier = modifier.height(140.dp),
+        modifier = modifier.height(180.dp),
         header = {
             TitleCardWithIcon(
                 title = "Pencapaian"
