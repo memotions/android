@@ -13,6 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,7 +38,9 @@ class LoginViewModel @Inject constructor(
         passwordValue = value
     }
 
-    val isFirstLaunch = userPreference.isFirstLaunchPreference.stateIn(
+    val isFirstLaunch = userPreference.isFirstLaunchPreference
+        .map { it ?: false }
+        .stateIn(
         scope = viewModelScope,
         started = SharingStarted.Eagerly,
         initialValue = null
@@ -49,7 +52,9 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    val authToken = userPreference.authTokenPreference.stateIn(
+    val authToken = userPreference.authTokenPreference
+        .map { it ?: "" }
+        .stateIn(
         scope = viewModelScope,
         started = SharingStarted.Eagerly,
         initialValue = null

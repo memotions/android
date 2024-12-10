@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
@@ -54,6 +55,9 @@ fun JournalCard(
     val icon = painterResource(id = R.drawable.ic_star)
     Surface(
         modifier = modifier
+            .clip(
+                RoundedCornerShape(12.dp)
+            )
             .clickable { onJournalClick(journal.id, journal.status) }
             .height(120.dp)
             .fillMaxWidth(),
@@ -248,43 +252,6 @@ fun StatusTag(
             color = customColors.onSecondBackgroundColor,
         )
     }
-
 }
-//
-//@Preview
-//@Composable
-//fun JournalCardPreview() {
-//    MemotionsTheme() {
-//        val journal = Journal(
-//            "Hari yang sangat melelahkan hingga saya ingin membunuh semua orang",
-//            "bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla",
-//            "Date",
-//            listOf("Sekolah", "Kerja", "Belajar"),
-//            "happy",
-//            false,
-//            "Draft"
-//        )
-//        JournalCard(journal)
-////        Text(text = journal.Tag.joinToString(" "))
-//    }
-//}
-//
-//@Preview
-//@Composable
-//fun JournalCardPreviewDark() {
-//    MemotionsTheme(darkTheme = true) {
-//        val journal = Journal(
-//            "Hari yang sangat melelahkan hingga saya ingin membunuh semua orang",
-//            "bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla bla bla bla bla bla bla",
-//            "Date",
-//            listOf("Sekolah", "Kerja", "Belajar"),
-//            "happy",
-//            true,
-//            "Draft"
-//        )
-//        JournalCard(journal)
-////        Text(text = journal.Tag.joinToString(" "))
-//    }
-//}
 
 
