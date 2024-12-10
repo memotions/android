@@ -39,6 +39,11 @@ interface ApiService {
         @Header("Authorization") token: String
     ): AuthResponse
 
+    @DELETE("auth/logout")
+    suspend fun logoutUser(
+        @Header("Authorization") token: String
+    )
+
     // *** Journals Endpoint ***
 
     @GET("journals")
@@ -154,12 +159,14 @@ interface ApiService {
 data class RegisterRequest(
     val name: String,
     val email: String,
-    val password: String
+    val password: String,
+    val fcmToken: String
 )
 
 data class LoginRequest(
     val email: String,
-    val password: String
+    val password: String,
+    val fcmToken: String
 )
 
 data class PostJournalRequest(

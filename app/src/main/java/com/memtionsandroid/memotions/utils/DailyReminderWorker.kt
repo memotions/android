@@ -8,6 +8,8 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.memtionsandroid.memotions.R
@@ -60,7 +62,9 @@ class DailyReminderWorker(
             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
             .build()
 
-        notificationManager.notify(NOTIFICATION_ID, notification)
+        if (!isAppInForeground()) {
+            notificationManager.notify(NOTIFICATION_ID, notification)
+        }
 
         return Result.success()
     }
@@ -69,31 +73,37 @@ class DailyReminderWorker(
         return journalReminderMessages.random()
     }
 
+    private fun isAppInForeground(): Boolean {
+        val lifecycle = ProcessLifecycleOwner.get().lifecycle
+        return lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)
+    }
+
     companion object {
         const val CHANNEL_ID = "daily_journal_reminder"
         const val NOTIFICATION_ID = 1001
 
         val journalReminderMessages = listOf(
-            "Yuk, tuliskan perasaanmu hari ini!",
-            "Momen spesial hari ini belum terabadikan, ayo tulis di jurnal!",
-            "Jurnal adalah cermin diri. Sudahkah kamu menulis hari ini?",
-            "Setiap pikiran dan perasaan layak untuk diabadikan. Ayo tulis!",
-            "Refleksikan hari ini melalui tulisan. Jurnal menunggumu!",
-            "Pengalaman hari ini akan menjadi kenangan indah. Tuliskan segera!",
-            "Waktunya berbagi cerita dengan diri sendiri. Ayo update jurnalmu!",
-            "Satu paragraf bisa mengubah perspektifmu. Mulai menulis!",
-            "Jurnal adalah teman setia yang selalu mendengarkan. Curahan hatimu!",
-            "Rekam momen berhargamu hari ini. Jangan sampai terlupakan!",
-            "Apa yang membuatmu tersenyum hari ini? Tuliskan di jurnal!",
-            "Luangkan waktu sejenak untuk dirimu sendiri. Yuk, menulis jurnal!",
-            "Ceritakan pengalamanmu hari ini. Sederhana, tapi berarti!",
-            "Jurnalmu adalah tempat terbaik untuk memulai perjalanan refleksi.",
-            "Kisah hari ini adalah bagian dari perjalananmu. Yuk, catat sekarang!",
-            "Membuat jurnal adalah hadiah kecil untuk diri di masa depan.",
-            "Setiap hari adalah cerita baru. Jangan lewatkan untuk menulisnya!",
-            "Ceritakan apa yang membuatmu bangga hari ini. Jurnalmu menanti!",
-            "Simpan momen berharga hari ini di jurnal. Kamu pasti bangga nanti!",
-            "Apa yang kamu pelajari hari ini? Catat di jurnal dan temukan maknanya!",
+            "Selamat pagi! Hari ini pasti penuh petualangan seru. Jangan lupa cerita nanti ya! ✨🔥",
+            "Yo, hari baru nih! Bikin tiap detik jadi berkesan. Ceritain nanti di jurnal ya! 🌟📖",
+            "Good vibes only hari ini! Semangat ya, dan jangan lupa cerita keseruanmu nanti ✍️🌈.",
+            "Bangun, dunia menunggu aksimu hari ini! Cerita nanti bakal seru banget, yakin! 🚀✨",
+            "Selamat pagi, pahlawan cerita! Hari ini bakal jadi epic, siap-siap share kisahnya nanti 🕶️📓.",
+            "Hari ini bakal keren banget kalau kamu jalanin dengan semangat! Ceritain nanti ya! 💪⚡",
+            "Good morning! Yuk, jalani hari dengan senyum dan cerita epic yang siap ditulis nanti 🌅📔.",
+            "Semangat pagi! Hari ini adalah kesempatan baru buat bikin kisah seru. Jangan lupa share! ✨💭",
+            "Halo, superstar! Hari ini bakal amazing, cerita nanti pasti bikin bangga 🌟🎇.",
+            "Ayo bangkit, bikin harimu memorable! Ceritakan petualangan kerenmu nanti, ya 🌈📘.",
+            "Bangun, pejuang mimpi! Siapkan harimu untuk jadi cerita yang layak diabadikan nanti 💕🚀.",
+            "Selamat pagi! Jadilah legenda di harimu sendiri, dan pastikan kamu cerita nanti! 🏆📖",
+            "Hari ini penuh peluang keren, jangan lupa semangat! Ceritakan semuanya nanti ✍️✨.",
+            "Yo, the world is yours today! Jalani harimu, dan siapkan cerita hebat untuk nanti 🌟📓.",
+            "Bangkit, dan tunjukkan siapa dirimu hari ini! Ceritakan kisah heroikmu nanti 😎✨.",
+            "Pagi ini cerah, sama seperti potensi harimu! Jangan lupa cerita nanti ya! 🌄📒",
+            "Awali hari dengan senyuman, jalani dengan semangat, dan ceritakan semua nanti 🌈📖.",
+            "Semangat pagi! Setiap langkahmu hari ini bakal jadi bagian dari cerita seru nanti ✨🌟.",
+            "Pagi ini istimewa karena kamu ada di dalamnya. Ceritakan petualanganmu nanti ya! 💪📘",
+            "Hari baru, semangat baru! Jalani dengan penuh energi, dan share ceritanya nanti 🌟✍️."
         )
+
     }
 }

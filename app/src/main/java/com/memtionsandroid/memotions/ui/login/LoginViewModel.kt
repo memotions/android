@@ -5,9 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavHostController
 import com.memtionsandroid.memotions.data.local.datastore.UserPreference
 import com.memtionsandroid.memotions.data.remote.response.auth.AuthResponse
 import com.memtionsandroid.memotions.data.repository.AuthRepository
+import com.memtionsandroid.memotions.ui.NavigationRoutes
 import com.memtionsandroid.memotions.utils.DataResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,10 +43,10 @@ class LoginViewModel @Inject constructor(
     val isFirstLaunch = userPreference.isFirstLaunchPreference
         .map { it ?: false }
         .stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.Eagerly,
-        initialValue = null
-    )
+            scope = viewModelScope,
+            started = SharingStarted.Eagerly,
+            initialValue = null
+        )
 
     fun setFirstLaunch(value: Boolean) {
         viewModelScope.launch {
@@ -55,10 +57,10 @@ class LoginViewModel @Inject constructor(
     val authToken = userPreference.authTokenPreference
         .map { it ?: "" }
         .stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.Eagerly,
-        initialValue = null
-    )
+            scope = viewModelScope,
+            started = SharingStarted.Eagerly,
+            initialValue = null
+        )
 
     private val _loginResult = MutableStateFlow<DataResult<AuthResponse>>(DataResult.Idle)
     val loginResult = _loginResult.asStateFlow()
@@ -75,9 +77,14 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun logout() {
-        viewModelScope.launch {
-            userPreference.logout()
+    fun logout(navController: NavHostController) = viewModelScope.launch {
+        authRepository.logoutUser().collect { result ->
+            if (result is DataResult.Success) {
+                navController.navigate(NavigationRoutes.LOGIN) {
+                    popUpTo(0) { inclusive = true }
+                    launchSingleTop = true
+                }
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt.gradle)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -20,7 +21,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "BASE_URL", "\"https://backend-api-635053273661.asia-southeast2.run.app\"")
+        buildConfigField("String", "BASE_URL", "\"https://localhost:3000\"")
 
         vectorDrawables {
             useSupportLibrary = true
@@ -72,6 +73,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.compose.material.icons.extended)
     implementation (libs.coil.compose)
+    implementation(libs.androidx.lifecycle.process)
 
 
     // Debugging
@@ -125,4 +127,9 @@ dependencies {
 
     // Work Manager
     implementation (libs.androidx.work.runtime.ktx)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.messaging)
 }
