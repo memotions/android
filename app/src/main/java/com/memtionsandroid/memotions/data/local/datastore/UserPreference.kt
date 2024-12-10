@@ -19,8 +19,10 @@ class UserPreference @Inject constructor(@ApplicationContext private val context
 
     companion object {
         private val DARK_MODE_KEY = booleanPreferencesKey("dark_mode")
+        private val EVENT_STATE_KEY = stringPreferencesKey("event_state")
         private val NOTIFICATION_KEY = booleanPreferencesKey("notification")
         private val AUTH_TOKEN_KEY = stringPreferencesKey("auth_token")
+        private val FCM_TOKEN_KEY = stringPreferencesKey("fcm_token")
         private val USER_ID_KEY = intPreferencesKey("user_id")
         private val USER_NAME_KEY = stringPreferencesKey("user_name")
         private val USER_EMAIL_KEY = stringPreferencesKey("user_email")
@@ -36,6 +38,17 @@ class UserPreference @Inject constructor(@ApplicationContext private val context
     val darkModePreference: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
             preferences[DARK_MODE_KEY] ?: false
+        }
+
+    suspend fun setEventState(state: String) {
+        context.dataStore.edit { preferences ->
+            preferences[EVENT_STATE_KEY] = state
+        }
+    }
+
+    val eventStatePreference: Flow<String> = context.dataStore.data
+        .map { preferences ->
+            preferences[EVENT_STATE_KEY] ?: ""
         }
 
     suspend fun setNotification(isNotification: Boolean) {
@@ -69,6 +82,17 @@ class UserPreference @Inject constructor(@ApplicationContext private val context
     val authTokenPreference: Flow<String?> = context.dataStore.data
         .map { preferences ->
             preferences[AUTH_TOKEN_KEY]
+        }
+
+    suspend fun setFcmToken(fcmToken: String) {
+        context.dataStore.edit { preferences ->
+            preferences[FCM_TOKEN_KEY] = fcmToken
+        }
+    }
+
+    val fcmTokenPreference: Flow<String?> = context.dataStore.data
+        .map { preferences ->
+            preferences[FCM_TOKEN_KEY]
         }
 
     suspend fun setUserId(userId: Int) {

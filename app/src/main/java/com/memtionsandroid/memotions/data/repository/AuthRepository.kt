@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 interface AuthRepository {
@@ -26,6 +27,8 @@ interface AuthRepository {
     suspend fun loginUser(email: String, password: String): Flow<DataResult<AuthResponse>>
 
     suspend fun getProfileUser(): Flow<DataResult<AuthResponse>>
+
+    suspend fun logoutUser(): Flow<DataResult<Unit>>
 }
 
 class DefaultAuthRepository @Inject constructor(
@@ -44,7 +47,8 @@ class DefaultAuthRepository @Inject constructor(
         }
         emit(DataResult.Loading)
         try {
-            val request = RegisterRequest(name, email, password)
+            val fcmToken = userPreference.fcmTokenPreference.first().toString()
+            val request = RegisterRequest(name, email, password, fcmToken)
             val response = apiService.registerUser(request)
             emit(DataResult.Success(response))
         } catch (e: HttpException) {
@@ -76,7 +80,8 @@ class DefaultAuthRepository @Inject constructor(
             }
             emit(DataResult.Loading)
             try {
-                val request = LoginRequest(email, password)
+                val fcmToken = userPreference.fcmTokenPreference.first().toString()
+                val request = LoginRequest(email, password, fcmToken)
                 val response = apiService.loginUser(request)
                 emit(DataResult.Success(response))
             } catch (e: HttpException) {
@@ -102,10 +107,36 @@ class DefaultAuthRepository @Inject constructor(
         } catch (e: HttpException) {
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
-            val errorMessage = "Terjadi kesalahan saat mendapatkan profile, [${e.code()}]: ${errorBody.errors[0].message}"
+            val errorMessage =
+                "Terjadi kesalahan saat mendapatkan profile, [${e.code()}]: ${errorBody.errors[0].message}"
             emit(DataResult.Error(Event(errorMessage)))
         } catch (e: Exception) {
             emit(DataResult.Error(Event("Terjadi kesalahan saat mendapatkan profile, coba lagi atau cek koneksi internet")))
+        }
+    }
+
+    override suspend fun logoutUser(): Flow<DataResult<Unit>> = flow {
+        emit(DataResult.Loading)
+        try {
+            val token = userPreference.authTokenPreference.first().toString()
+            apiService.logoutUser("Bearer $token")
+            userPreference.logout()
+            emit(DataResult.Success(Unit))
+        } catch (e: HttpException) {
+            when (e.code()) {
+                204 -> emit(DataResult.Success(Unit))
+                else -> {
+                    val jsonInString = e.response()?.errorBody()?.string()
+                    val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
+                    val errorMessage =
+                        "Terjadi kesalahan saat logout user, [${e.code()}]: ${errorBody.errors[0].message}"
+                    emit(DataResult.Error(Event(errorMessage)))
+                }
+            }
+        } catch (e: IOException) {
+            emit(DataResult.Error(Event("Terjadi kesalahan saat logout user, coba lagi atau cek koneksi internet")))
+        } catch (e: Exception) {
+            emit(DataResult.Success(Unit))
         }
     }
 

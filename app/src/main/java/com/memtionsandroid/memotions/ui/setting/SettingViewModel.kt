@@ -55,7 +55,7 @@ class SettingViewModel @Inject constructor(
     }
 
     private fun scheduleDailyReminder() {
-        val workRequest = PeriodicWorkRequestBuilder<DailyReminderWorker>(12, TimeUnit.HOURS)
+        val workRequest = PeriodicWorkRequestBuilder<DailyReminderWorker>(1, TimeUnit.DAYS)
             .setInitialDelay(calculateInitialDelay(), TimeUnit.MILLISECONDS)
             .build()
 
@@ -73,7 +73,7 @@ class SettingViewModel @Inject constructor(
 
     private fun calculateInitialDelay(): Long {
         val now = java.time.ZonedDateTime.now()
-        val targetTime = now.toLocalDate().atTime(19, 0).atZone(java.time.ZoneId.systemDefault())
+        val targetTime = now.toLocalDate().atTime(8, 0).atZone(java.time.ZoneId.systemDefault())
         val delay = if (now.isAfter(targetTime)) {
             targetTime.plusDays(1).toInstant().toEpochMilli() - now.toInstant().toEpochMilli()
         } else {
