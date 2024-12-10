@@ -95,7 +95,7 @@ fun AchievementModal(
                 )
                 Text(
                     text = achievement.description,
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = customColors.onSecondBackgroundColor,
                     textAlign = TextAlign.Center,
                     modifier = Modifier

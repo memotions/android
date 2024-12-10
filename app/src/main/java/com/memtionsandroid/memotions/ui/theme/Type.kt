@@ -23,7 +23,7 @@ val Typography = Typography(
         fontFamily = Poppins,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
-        lineHeight = 24.sp,
+        lineHeight = 18.sp,
         letterSpacing = 0.5.sp
     ),
     titleLarge = TextStyle(
@@ -46,6 +46,13 @@ val Typography = Typography(
         fontSize = 12.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = Poppins,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+        lineHeight = 18.sp,
+        letterSpacing = 0.sp
     ),
     bodySmall = TextStyle(
         fontFamily = Poppins,

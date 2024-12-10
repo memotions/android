@@ -78,7 +78,7 @@ fun LogOutModal(
                 )
                 Text(
                     text = "Apakah Anda yakin ingin keluar?",
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = customColors.onSecondBackgroundColor,
                     modifier = Modifier
                         .padding(top = 8.dp).weight(1f)

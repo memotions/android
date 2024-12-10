@@ -63,32 +63,28 @@ fun FormSection(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            if(!isConnected){
+            if (!isConnected) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_offline_journal),
                     contentDescription = "Offline Indicator",
                     tint = customColors.onSecondBackgroundColor,
-                    modifier = Modifier.padding(bottom = 5.dp).size(16.dp)
+                    modifier = Modifier
+                        .padding(bottom = 5.dp)
+                        .size(16.dp)
                 )
                 Spacer(modifier = Modifier.width(5.dp))
                 Text(
                     text = "Offline",
-                    style = TextStyle(
-                        fontFamily = Poppins,
-                        fontSize = 12.sp,
-                        color = customColors.onSecondBackgroundColor,
-                    ),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = customColors.onSecondBackgroundColor,
                     modifier = Modifier.padding(bottom = 5.dp)
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = datetime,
-                style = TextStyle(
-                    fontFamily = Poppins,
-                    fontSize = 12.sp,
-                    color = customColors.onSecondBackgroundColor,
-                ),
+                style = MaterialTheme.typography.bodySmall,
+                color = customColors.onSecondBackgroundColor,
                 modifier = Modifier.padding(bottom = 5.dp)
             )
         }
@@ -147,7 +143,7 @@ fun FormSection(
                     },
                     readOnly = inView,
                     textStyle = TextStyle(
-                        fontSize = 12.sp,
+                        fontSize = 14.sp,
                         fontFamily = Poppins,
                         color = customColors.TextOnBackgroundColor,
                     ),
@@ -156,7 +152,7 @@ fun FormSection(
                             Text(
                                 text = "Apa yang anda pikirkan?",
                                 style = TextStyle(
-                                    fontSize = 12.sp,
+                                    fontSize = 14.sp,
                                     fontFamily = Poppins,
                                     color = customColors.onSecondBackgroundColor.copy(alpha = 0.2f),
                                     fontWeight = FontWeight.Bold

@@ -140,11 +140,6 @@ fun JournalCard(
                                     }
 
                             }
-//                            Image(
-//                                painter = painter,
-//                                contentDescription = "Emotion Image",
-//                                modifier = Modifier.size(37.dp)
-//                            )
                         }
                     }
 

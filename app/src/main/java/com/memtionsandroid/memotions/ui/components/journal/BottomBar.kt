@@ -77,7 +77,7 @@ fun BottomBar(
                 onClockClick()
             }) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_clock),
+                    painter = painterResource(id = R.drawable.ic_datetime),
                     contentDescription = "Clock",
                     tint = Color.White,
                     modifier = Modifier.size(18.dp)
@@ -102,7 +102,7 @@ fun BottomBar(
                     Text(
                         "Simpan",
                         style = TextStyle(
-                            fontSize = 12.sp,
+                            fontSize = 14.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color.White
                         )

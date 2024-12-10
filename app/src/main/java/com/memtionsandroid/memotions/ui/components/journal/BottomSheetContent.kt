@@ -95,7 +95,7 @@ fun BottomSheetContent(
                     Text(
                         text = feedback,
                         style = TextStyle(
-                            fontSize = 12.sp,
+                            fontSize = 14.sp,
                             textAlign = TextAlign.Start,
                             fontFamily = Poppins,
                             color = Color.White

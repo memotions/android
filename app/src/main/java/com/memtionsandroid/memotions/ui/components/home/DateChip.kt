@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.memtionsandroid.memotions.ui.theme.customColors
 import com.memtionsandroid.memotions.utils.toformatDateFromMillis
 
@@ -48,7 +49,9 @@ fun DateChip(
                         "Tanggal Selesai"
                     )
                 }",
-                style = MaterialTheme.typography.labelSmall,
+                style = MaterialTheme.typography.labelSmall.copy(
+                    fontSize = 10.sp
+                ),
                 color = customColors.onSecondBackgroundColor
             )
             if (!viewOnly) {
