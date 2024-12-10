@@ -64,7 +64,7 @@ class ViewJournalViewModel @Inject constructor(
                         statusValue = result.data.data.status
                         feedbackValue = result.data.data.feedback
                         emotionAnalysis =
-                            result.data.data.emotionAnalysis?.maxByOrNull { it.confidence }
+                            result.data.data.emotionAnalysis?.sortedByDescending { it.confidence }
                         tagsValue = result.data.data.tags ?: emptyList()
 
                         val userId = userPreference.userIdPreference.first().toString().toInt()
@@ -116,12 +116,12 @@ class ViewJournalViewModel @Inject constructor(
                     datetimeValue = stringToLocalDateTime(journal.datetime)
                     statusValue = journal.status
                     feedbackValue = journal.feedback
-                    emotionAnalysis = journal.emotionAnalysis?.maxByOrNull { it.confidence }?.let {
+                    emotionAnalysis = journal.emotionAnalysis?.map {
                         EmotionAnalysisItem(
                             emotion = it.emotion,
                             confidence = it.confidence
                         )
-                    }
+                    }?.sortedByDescending { it.confidence }
                     tagsValue = journal.tags ?: emptyList()
                 }
             }
@@ -159,7 +159,7 @@ class ViewJournalViewModel @Inject constructor(
     var tagsValue by mutableStateOf(listOf<String>())
         private set
 
-    var emotionAnalysis: EmotionAnalysisItem? by mutableStateOf(null)
+    var emotionAnalysis: List<EmotionAnalysisItem>? by mutableStateOf(null)
 
     var isLoading by mutableStateOf(false)
         private set

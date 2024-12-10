@@ -24,32 +24,36 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.memtionsandroid.memotions.R
+import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
 import com.memtionsandroid.memotions.ui.components.main.SearchBar
-import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 @Composable
 fun HomeTopBar(
-
+    streak: Int = 1,
+    currentEXP: Int = 0,
+    nextLevelEXP: Int = 0,
+    level: Int = 1,
+    filterCount: Int = 0,
+    username: String = "Guest",
+    searchText: String,
+    tags: List<TagsItem>,
+    activeTags: List<TagsItem>,
+    dateRangeSelected: Pair<Long?, Long?>,
+    onTagAdded: (TagsItem) -> Unit,
+    onTagRemoved: (TagsItem) -> Unit,
+    onSearchValueChange: (String) -> Unit,
+    onDateRangeSelected: (Long?, Long?) -> Unit,
 ) {
     val customColors = MaterialTheme.customColors
     val streakImage = painterResource(id = R.drawable.streak)
-    val streak = 12
-
     val expImage = painterResource(id = R.drawable.exp)
-    val currentEXP = 120
-    val nextLevelEXP = 200
-    val level = 1
-
-    val username = "Liangga"
     val profileImage = painterResource(id = R.drawable.profile)
-
     var isFilter by remember { mutableStateOf(false) }
-
 
     Surface(
         modifier = Modifier
@@ -85,6 +89,8 @@ fun HomeTopBar(
                                 .padding(start = 8.dp)
                                 .weight(1f),
                             text = username,
+                            maxLines = 1,
+                            overflow = TextOverflow.Clip,
                             style = MaterialTheme.typography.titleMedium,
                         )
                     }
@@ -94,6 +100,7 @@ fun HomeTopBar(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
+                            modifier = Modifier.padding(end = 4.dp),
                             color = customColors.TextOnBackgroundColor,
                             style = MaterialTheme.typography.titleSmall,
                             text = "${currentEXP}/${nextLevelEXP}"
@@ -103,10 +110,9 @@ fun HomeTopBar(
                                 painter = expImage,
                                 contentDescription = "Streak Icon",
                                 modifier = Modifier
-                                    .padding(start = 4.dp)
                                     .size(24.dp)
-
                             )
+
                             Text(
                                 modifier = Modifier.align(Alignment.Center),
                                 color = customColors.TextOnBackgroundColor,
@@ -114,7 +120,7 @@ fun HomeTopBar(
                                     fontSize = 10.sp,
                                     textAlign = TextAlign.Center
                                 ),
-                                text = " ${level}"
+                                text = "${level}"
                             )
                         }
                     }
@@ -139,21 +145,27 @@ fun HomeTopBar(
                         )
                     }
                 }
-                SearchBar(modifier = Modifier.padding(top = 24.dp), isFilter = isFilter) {
-                    isFilter = !isFilter
-                }
+                SearchBar(
+                    filterCount = filterCount,
+                    modifier = Modifier.padding(top = 24.dp),
+                    isFilter = isFilter,
+                    searchText = searchText,
+                    onValueChange = onSearchValueChange,
+                    onFilterClicked = { isFilter = !isFilter }
+                )
                 AnimatedVisibility(isFilter) {
-                    SearchFilter()
+                    SearchFilter(
+                        tags = tags,
+                        activeTags = activeTags,
+                        dateRangeSelected = dateRangeSelected,
+                        onTagAdded = { onTagAdded(it) },
+                        onDateRangeSelected = {startDate, endDate ->
+                            onDateRangeSelected(startDate, endDate)
+                        },
+                        onTagRemoved = { onTagRemoved(it) },
+                    )
                 }
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun HomeTopBarPreview() {
-    MemotionsTheme(darkTheme = true) {
-        HomeTopBar()
     }
 }

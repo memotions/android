@@ -1,6 +1,7 @@
 package com.memtionsandroid.memotions.ui.components.main
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,11 +35,13 @@ import com.memtionsandroid.memotions.ui.theme.customColors
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
+    filterCount: Int = 0,
     isFilter: Boolean = false,
+    searchText: String = "",
+    onValueChange: (String) -> Unit = {},
     onFilterClicked: () -> Unit = {},
 ) {
     val customColors = MaterialTheme.customColors
-    var searchText by remember { mutableStateOf("") }
 
     val focusRequester = remember { FocusRequester() }
     var isFocused by remember { mutableStateOf(false) }
@@ -56,7 +59,7 @@ fun SearchBar(
                 color = customColors.secondBackgroundColor
             ),
         value = searchText,
-        onValueChange = { searchText = it },
+        onValueChange = { onValueChange(it) },
 
         singleLine = true,
         cursorBrush = SolidColor(customColors.TextOnBackgroundColor),
@@ -86,13 +89,25 @@ fun SearchBar(
                     onClick = { onFilterClicked() },
                     modifier = Modifier.align(Alignment.CenterVertically)
                 ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_filter),
-                        contentDescription = "Filter Icon",
-                        tint = if (!isFilter) customColors.onSecondBackgroundColor else customColors.onBackgroundColor
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(6.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_filter),
+                            contentDescription = "Filter Icon",
+                            tint = if (!isFilter) customColors.onSecondBackgroundColor else customColors.onBackgroundColor
+                        )
+                        if (filterCount > 0) {
+                            Text(
+                                text = filterCount.toString(),
+                                modifier = Modifier.padding(start = 4.dp),
+                                color = if (!isFilter) customColors.onSecondBackgroundColor else customColors.onBackgroundColor,
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        }
+                    }
                 }
-
             }
         },
     )

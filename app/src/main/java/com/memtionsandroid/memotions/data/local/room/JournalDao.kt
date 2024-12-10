@@ -20,6 +20,9 @@ interface JournalDao {
     @Query("DELETE FROM journal WHERE id = :journalId")
     suspend fun deleteJournalById(journalId: Int)
 
+    @Query("DELETE FROM journal WHERE userId = :userId")
+    suspend fun deleteJournals(userId: Int)
+
     @Query("UPDATE journal SET starred = :isStarred WHERE id = :journalId")
     suspend fun toggleStarredStatus(journalId: Int, isStarred: Boolean)
 }

@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.memtionsandroid.memotions.ui.components.home.Tag
+import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
 import com.memtionsandroid.memotions.ui.components.journal.AppBar
 import com.memtionsandroid.memotions.ui.components.journal.BottomSheetContent
 import com.memtionsandroid.memotions.ui.components.journal.FormSection
@@ -71,13 +71,12 @@ fun ViewJournalScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         scaffoldState = scaffoldState,
         sheetPeekHeight = 130.dp,
-        sheetContainerColor = Color(0xFF292828),
+        sheetContainerColor = customColors.barColor,
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         sheetContent = {
             BottomSheetContent(
                 title = if (viewModel.feedbackValue != null) "Hasil Analisis" else "Sedang Menganalisis",
-                emotionType = viewModel.emotionAnalysis?.emotion ?: "",
-                confidenceScore = viewModel.emotionAnalysis?.confidence ?: 0f,
+                emotionAnalysis = viewModel.emotionAnalysis,
                 feedback = viewModel.feedbackValue
             )
         },
@@ -112,7 +111,7 @@ fun ViewJournalScreen(
                 onTitleChange = {},
                 contentValue = viewModel.contentValue,
                 onContentChange = {},
-                tags = viewModel.tagsValue.map { Tag(name = it) },
+                tags = viewModel.tagsValue.map { TagsItem(id = 0, name = it) },
                 onTagRemove = {},
                 inView = true,
                 isConnected = isConnected

@@ -6,7 +6,7 @@ import com.memtionsandroid.memotions.data.remote.api.ApiService
 import com.memtionsandroid.memotions.data.remote.response.statistics.AchievementsResponse
 import com.memtionsandroid.memotions.data.remote.response.auth.CommonErrorResponse
 import com.memtionsandroid.memotions.data.remote.response.statistics.AchievementResponse
-import com.memtionsandroid.memotions.data.remote.response.statistics.EmotionsResponse
+import com.memtionsandroid.memotions.data.remote.response.statistics.EmotionAnalysisResponse
 import com.memtionsandroid.memotions.data.remote.response.statistics.StatisticsResponse
 import com.memtionsandroid.memotions.data.remote.response.statistics.StreakResponse
 import com.memtionsandroid.memotions.utils.DataResult
@@ -24,7 +24,7 @@ interface StatisticsRepository {
 
     suspend fun getStreak(): Flow<DataResult<StreakResponse>>
 
-    suspend fun getUserEmotions(): Flow<DataResult<EmotionsResponse>>
+    suspend fun getUserEmotionAnalysis(): Flow<DataResult<EmotionAnalysisResponse>>
 
     suspend fun getStatistics(): Flow<DataResult<StatisticsResponse>>
 }
@@ -85,23 +85,23 @@ class DefaultStatisticsRepository @Inject constructor(
         }
     }
 
-    // TODO(Don't use GetUserEmotions -> Not finished)
-    override suspend fun getUserEmotions(): Flow<DataResult<EmotionsResponse>> = flow {
-        emit(DataResult.Loading)
-        try {
-            val token = userPreference.authTokenPreference.first().toString()
-            val response = apiService.getUserEmotions(token = "Bearer $token")
-            emit(DataResult.Success(response))
-        } catch (e: HttpException) {
-            val jsonInString = e.response()?.errorBody()?.string()
-            val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
-            val errorMessage =
-                "Terjadi kesalahan saat mendapatkan emotions, [${e.code()}]: ${errorBody.errors[0].message}"
-            emit(DataResult.Error(Event(errorMessage)))
-        } catch (e: Exception) {
-            emit(DataResult.Error(Event("Terjadi kesalahan saat mendapatkan emotions, coba lagi atau cek koneksi internet")))
+    override suspend fun getUserEmotionAnalysis(): Flow<DataResult<EmotionAnalysisResponse>> =
+        flow {
+            emit(DataResult.Loading)
+            try {
+                val token = userPreference.authTokenPreference.first().toString()
+                val response = apiService.getUserEmotionAnalysis(token = "Bearer $token")
+                emit(DataResult.Success(response))
+            } catch (e: HttpException) {
+                val jsonInString = e.response()?.errorBody()?.string()
+                val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
+                val errorMessage =
+                    "Terjadi kesalahan saat mendapatkan emotion analysis, [${e.code()}]: ${errorBody.errors[0].message}"
+                emit(DataResult.Error(Event(errorMessage)))
+            } catch (e: Exception) {
+                emit(DataResult.Error(Event("Terjadi kesalahan saat mendapatkan emotions, coba lagi atau cek koneksi internet")))
+            }
         }
-    }
 
     override suspend fun getStatistics(): Flow<DataResult<StatisticsResponse>> = flow {
         emit(DataResult.Loading)

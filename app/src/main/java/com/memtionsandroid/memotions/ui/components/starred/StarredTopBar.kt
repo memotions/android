@@ -18,15 +18,25 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
 import com.memtionsandroid.memotions.ui.components.home.SearchFilter
 import com.memtionsandroid.memotions.ui.components.main.SearchBar
-import com.memtionsandroid.memotions.ui.theme.MemotionsTheme
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 @Composable
-fun StarredTopBar() {
+fun StarredTopBar(
+    filterCount: Int = 0,
+    searchText: String,
+    tags: List<TagsItem>,
+    activeTags: List<TagsItem>,
+    dateRangeSelected: Pair<Long?, Long?>,
+    onTagAdded: (TagsItem) -> Unit,
+    onTagRemoved: (TagsItem) -> Unit,
+    onSearchValueChange: (String) -> Unit,
+    onDateRangeSelected: (Long?, Long?) -> Unit,
+
+) {
     val customColors = MaterialTheme.customColors
     var isFilter by remember { mutableStateOf(false) }
 
@@ -50,30 +60,27 @@ fun StarredTopBar() {
                     text = "Jurnal Berbintang",
                     style = MaterialTheme.typography.titleLarge
                 )
-                SearchBar(modifier = Modifier.padding(top = 24.dp), isFilter = isFilter) {
-                    isFilter = !isFilter
-                }
+                SearchBar(
+                    filterCount = filterCount,
+                    modifier = Modifier.padding(top = 24.dp),
+                    isFilter = isFilter,
+                    searchText = searchText,
+                    onValueChange = onSearchValueChange,
+                    onFilterClicked = { isFilter = !isFilter }
+                )
                 AnimatedVisibility(isFilter) {
-                    SearchFilter()
+                    SearchFilter(
+                        tags = tags,
+                        activeTags = activeTags,
+                        dateRangeSelected = dateRangeSelected,
+                        onTagAdded = { onTagAdded(it) },
+                        onTagRemoved = { onTagRemoved(it) },
+                        onDateRangeSelected = {startDate, endDate ->
+                            onDateRangeSelected(startDate, endDate)
+                        },
+                    )
                 }
             }
         }
-    }
-}
-
-
-@Preview
-@Composable
-fun StarredTopBarPreview() {
-    MemotionsTheme() {
-        StarredTopBar()
-    }
-}
-
-@Preview
-@Composable
-fun StarredTopBarPreviewDark() {
-    MemotionsTheme(darkTheme = true) {
-        StarredTopBar()
     }
 }

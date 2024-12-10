@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 interface LocalRepository {
@@ -30,6 +31,7 @@ interface LocalRepository {
     fun getJournalById(id: Int): Flow<Journal?>
     suspend fun deleteJournal(journalId: Int)
     suspend fun toggleStarredStatus(journalId: Int, isStarred: Boolean)
+    suspend fun deleteJournals(userId: Int)
 }
 
 class DefaultLocalRepository @Inject constructor(
@@ -54,6 +56,7 @@ class DefaultLocalRepository @Inject constructor(
             }
             emit(DataResult.Success(journalsResponse))
         } catch (e: Exception) {
+            Timber.tag("DefaultLocalRepository").e("saveAndGetJournals: " + e.message)
             emit(DataResult.Error(Event("Failed to save and get journals")))
         }
     }
@@ -85,6 +88,10 @@ class DefaultLocalRepository @Inject constructor(
 
     override suspend fun deleteJournal(journalId: Int) {
         journalDao.deleteJournalById(journalId)
+    }
+
+    override suspend fun deleteJournals(userId: Int) {
+        journalDao.deleteJournals(userId)
     }
 
     override suspend fun toggleStarredStatus(journalId: Int, isStarred: Boolean) {

@@ -25,11 +25,11 @@ import com.memtionsandroid.memotions.ui.theme.customColors
 @Composable
 fun iconPainter(emotion: String): Painter {
     return when (emotion) {
-        "happy" -> painterResource(id = R.drawable.emo_happy)
-        "angry" -> painterResource(id = R.drawable.emo_angry)
-        "sad" -> painterResource(id = R.drawable.emo_sad)
-        "neutral" -> painterResource(id = R.drawable.emo_netral)
-        "scared" -> painterResource(id = R.drawable.emo_scared)
+        Emotion.HAPPY -> painterResource(id = R.drawable.emo_happy)
+        Emotion.ANGER -> painterResource(id = R.drawable.emo_angry)
+        Emotion.SAD -> painterResource(id = R.drawable.emo_sad)
+        Emotion.NEUTRAL-> painterResource(id = R.drawable.emo_netral)
+        Emotion.SCARED -> painterResource(id = R.drawable.emo_scared)
         else -> painterResource(id = R.drawable.ic_search)
     }
 }
@@ -52,8 +52,6 @@ fun ItemCard(
             .fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
         color = if (isSelected) customColors.secondBackgroundColor else customColors.backgroundColor,
-//        shadowElevation = 4.dp,
-//        tonalElevation = 8.dp,
         border = if (isSelected) BorderStroke(0.5.dp, customColors.outlineColor) else null
     ) {
         Box(
