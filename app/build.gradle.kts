@@ -1,3 +1,9 @@
+import java.util.Properties
+
+val localProperties = Properties()
+file("$rootDir/local.properties").inputStream().use { localProperties.load(it) }
+val baseUrl: String = localProperties.getProperty("base_url") ?: "https://default.url"
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -21,7 +27,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "BASE_URL", "\"https://localhost:3000\"")
+        buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
 
         vectorDrawables {
             useSupportLibrary = true
