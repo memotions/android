@@ -43,7 +43,7 @@ class DefaultStatisticsRepository @Inject constructor(
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
             val errorMessage =
-                "Terjadi kesalahan saat mendapatkan data achievements, [${e.code()}]: ${errorBody.errors[0].message}"
+                "Terjadi kesalahan saat mendapatkan data achievements, ${errorBody.errors[0].message}"
             emit(DataResult.Error(Event(errorMessage)))
         } catch (e: Exception) {
             emit(DataResult.Error(Event("Terjadi kesalahan saat mendapatkan data achievements, coba lagi atau cek koneksi internet")))
@@ -61,7 +61,7 @@ class DefaultStatisticsRepository @Inject constructor(
                 val jsonInString = e.response()?.errorBody()?.string()
                 val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
                 val errorMessage =
-                    "Terjadi kesalahan saat mendapatkan achievement, [${e.code()}]: ${errorBody.errors[0].message}"
+                    "Terjadi kesalahan saat mendapatkan achievement, ${errorBody.errors[0].message}"
                 emit(DataResult.Error(Event(errorMessage)))
             } catch (e: Exception) {
                 emit(DataResult.Error(Event("Terjadi kesalahan saat mendapatkan achievement, coba lagi atau cek koneksi internet")))
@@ -78,7 +78,7 @@ class DefaultStatisticsRepository @Inject constructor(
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
             val errorMessage =
-                "Terjadi kesalahan saat mendapatkan streak, [${e.code()}]: ${errorBody.errors[0].message}"
+                "Terjadi kesalahan saat mendapatkan streak, ${errorBody.errors[0].message}"
             emit(DataResult.Error(Event(errorMessage)))
         } catch (e: Exception) {
             emit(DataResult.Error(Event("Terjadi kesalahan saat mendapatkan streak, coba lagi atau cek koneksi internet")))
@@ -96,7 +96,7 @@ class DefaultStatisticsRepository @Inject constructor(
                 val jsonInString = e.response()?.errorBody()?.string()
                 val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
                 val errorMessage =
-                    "Terjadi kesalahan saat mendapatkan emotion analysis, [${e.code()}]: ${errorBody.errors[0].message}"
+                    "Terjadi kesalahan saat mendapatkan emotion analysis, ${errorBody.errors[0].message}"
                 emit(DataResult.Error(Event(errorMessage)))
             } catch (e: Exception) {
                 emit(DataResult.Error(Event("Terjadi kesalahan saat mendapatkan emotions, coba lagi atau cek koneksi internet")))
@@ -113,7 +113,7 @@ class DefaultStatisticsRepository @Inject constructor(
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
             val errorMessage =
-                "Terjadi kesalahan saat mendapatkan statistic, [${e.code()}]: ${errorBody.errors[0].message}"
+                "Terjadi kesalahan saat mendapatkan statistic, ${errorBody.errors[0].message}"
             emit(DataResult.Error(Event(errorMessage)))
         } catch (e: Exception) {
             emit(DataResult.Error(Event("Terjadi kesalahan saat mendapatkan statistic, coba lagi atau cek koneksi internet")))

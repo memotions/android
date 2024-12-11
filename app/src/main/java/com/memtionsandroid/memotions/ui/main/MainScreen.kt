@@ -76,12 +76,12 @@ fun MainScreen(
 
     LaunchedEffect(eventState) {
         if (eventState.isNotEmpty()) {
+            mainViewModel.getJournals()
             snackbarHostState.showSnackbar(
                 eventState,
                 duration = SnackbarDuration.Short,
             )
             mainViewModel.setEventState("")
-            mainViewModel.getJournals()
         }
     }
 
