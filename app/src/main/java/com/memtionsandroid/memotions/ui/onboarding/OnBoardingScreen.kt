@@ -104,7 +104,10 @@ fun OnBoardingScreen(
             TextButton(
                 onClick = {
                     coroutineScope.launch {
-                        pagerState.animateScrollToPage(3)
+                        navController.navigate(NavigationRoutes.REGISTER) {
+                            popUpTo(0) { inclusive = true }
+                            launchSingleTop = true
+                        }
                     }
                 },
                 shape = RoundedCornerShape(20.dp),

@@ -81,6 +81,7 @@ fun MainScreen(
                 duration = SnackbarDuration.Short,
             )
             mainViewModel.setEventState("")
+            mainViewModel.getJournals()
         }
     }
 
