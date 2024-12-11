@@ -107,7 +107,7 @@ class DefaultJournalsRepository @Inject constructor(
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
             val errorMessage =
-                "Terjadi kesalahan saat mendapatkan data journal, [${e.code()}]: ${errorBody.errors[0].message}"
+                "Terjadi kesalahan saat mendapatkan data journal, ${errorBody.errors[0].message}"
             emit(DataResult.Error(Event(errorMessage)))
         } catch (e: Exception) {
             emit(DataResult.Error(Event("Terjadi kesalahan saat mendapatkan data journal, coba lagi atau cek koneksi internet")))
@@ -142,7 +142,7 @@ class DefaultJournalsRepository @Inject constructor(
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
             val errorMessage =
-                "Terjadi kesalahan saat menambahkan journal, [${e.code()}]: ${errorBody.errors[0].message}"
+                "Terjadi kesalahan saat menambahkan journal, ${errorBody.errors[0].message}"
             emit(DataResult.Error(Event(errorMessage)))
         } catch (e: Exception) {
             emit(DataResult.Error(Event("Terjadi kesalahan saat menambahkan journal, coba lagi atau cek koneksi internet")))
@@ -160,7 +160,7 @@ class DefaultJournalsRepository @Inject constructor(
                 val jsonInString = e.response()?.errorBody()?.string()
                 val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
                 val errorMessage =
-                    "Terjadi kesalahan saat mendapatkan journal, [${e.code()}]: ${errorBody.errors[0].message}"
+                    "Terjadi kesalahan saat mendapatkan journal, ${errorBody.errors[0].message}"
                 emit(DataResult.Error(Event(errorMessage)))
             } catch (e: Exception) {
                 emit(DataResult.Error(Event("Terjadi kesalahan saat mendapatkan journal, coba lagi atau cek koneksi internet")))
@@ -198,7 +198,7 @@ class DefaultJournalsRepository @Inject constructor(
                 val jsonInString = e.response()?.errorBody()?.string()
                 val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
                 val errorMessage =
-                    "Terjadi kesalahan saat update journal, [${e.code()}]: ${errorBody.errors[0].message}"
+                    "Terjadi kesalahan saat update journal, ${errorBody.errors[0].message}"
                 emit(DataResult.Error(Event(errorMessage)))
             } catch (e: Exception) {
                 emit(DataResult.Error(Event("Terjadi kesalahan saat update journal, coba lagi atau cek koneksi internet")))
@@ -218,7 +218,7 @@ class DefaultJournalsRepository @Inject constructor(
                     val jsonInString = e.response()?.errorBody()?.string()
                     val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
                     val errorMessage =
-                        "Terjadi kesalahan saat menghapus jurnal, [${e.code()}]: ${errorBody.errors[0].message}"
+                        "Terjadi kesalahan saat menghapus jurnal, ${errorBody.errors[0].message}"
                     emit(DataResult.Error(Event(errorMessage)))
                 }
             }
@@ -242,7 +242,7 @@ class DefaultJournalsRepository @Inject constructor(
                     val jsonInString = e.response()?.errorBody()?.string()
                     val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
                     val errorMessage =
-                        "Terjadi kesalahan saat starred journal, [${e.code()}]: ${errorBody.errors[0].message}"
+                        "Terjadi kesalahan saat starred journal, ${errorBody.errors[0].message}"
                     emit(DataResult.Error(Event(errorMessage)))
                 }
             }
@@ -264,7 +264,7 @@ class DefaultJournalsRepository @Inject constructor(
                 val jsonInString = e.response()?.errorBody()?.string()
                 val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
                 val errorMessage =
-                    "Terjadi kesalahan saat mendapatkan tags jurnal, [${e.code()}]: ${errorBody.errors[0].message}"
+                    "Terjadi kesalahan saat mendapatkan tags jurnal, ${errorBody.errors[0].message}"
                 emit(DataResult.Error(Event(errorMessage)))
             } catch (e: Exception) {
                 emit(DataResult.Error(Event("Terjadi kesalahan saat mendapatkan tags jurnal, coba lagi atau cek koneksi internet")))
@@ -287,7 +287,7 @@ class DefaultJournalsRepository @Inject constructor(
                     val jsonInString = e.response()?.errorBody()?.string()
                     val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
                     val errorMessage =
-                        "Terjadi kesalahan saat mengubah tags jurnal, [${e.code()}]: ${errorBody.errors[0].message}"
+                        "Terjadi kesalahan saat mengubah tags jurnal, ${errorBody.errors[0].message}"
                     emit(DataResult.Error(Event(errorMessage)))
                 }
             }
@@ -308,7 +308,7 @@ class DefaultJournalsRepository @Inject constructor(
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
             val errorMessage =
-                "Terjadi kesalahan saat mendapatkan tags, [${e.code()}]: ${errorBody.errors[0].message}"
+                "Terjadi kesalahan saat mendapatkan tags, ${errorBody.errors[0].message}"
             emit(DataResult.Error(Event(errorMessage)))
         } catch (e: Exception) {
             emit(DataResult.Error(Event("Terjadi kesalahan saat mendapatkan tags, coba lagi atau cek koneksi internet")))
@@ -326,7 +326,7 @@ class DefaultJournalsRepository @Inject constructor(
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
             val errorMessage =
-                "Terjadi kesalahan saat menambahkan tag, [${e.code()}]: ${errorBody.errors[0].message}"
+                "Terjadi kesalahan saat menambahkan tag, ${errorBody.errors[0].message}"
             emit(DataResult.Error(Event(errorMessage)))
         } catch (e: Exception) {
             emit(DataResult.Error(Event("Terjadi kesalahan saat menambahkan tag, coba lagi atau cek koneksi internet")))
@@ -343,7 +343,7 @@ class DefaultJournalsRepository @Inject constructor(
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
             val errorMessage =
-                "Terjadi kesalahan saat mendapatkan tag, [${e.code()}]: ${errorBody.errors[0].message}"
+                "Terjadi kesalahan saat mendapatkan tag, ${errorBody.errors[0].message}"
             emit(DataResult.Error(Event(errorMessage)))
         } catch (e: Exception) {
             emit(DataResult.Error(Event("Terjadi kesalahan saat mendapatkan tag, coba lagi atau cek koneksi internet")))
@@ -360,7 +360,7 @@ class DefaultJournalsRepository @Inject constructor(
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
             val errorMessage =
-                "Terjadi kesalahan saat menghapus tag, [${e.code()}]: ${errorBody.errors[0].message}"
+                "Terjadi kesalahan saat menghapus tag, ${errorBody.errors[0].message}"
             emit(DataResult.Error(Event(errorMessage)))
         } catch (e: Exception) {
             emit(DataResult.Error(Event("Terjadi kesalahan saat menghapus tag, coba lagi atau cek koneksi internet")))

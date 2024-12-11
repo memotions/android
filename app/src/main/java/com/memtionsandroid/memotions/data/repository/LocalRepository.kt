@@ -13,7 +13,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 
 interface LocalRepository {
@@ -47,7 +46,7 @@ class DefaultLocalRepository @Inject constructor(
             val journals = journalsResponse.data?.map { it.toJournalEntity(userId) }
 
             if (journals == null) {
-                emit(DataResult.Error(Event("Failed to save and get journals")))
+                emit(DataResult.Error(Event("Terjadi kesalahan saat menyimpan ke database")))
                 return@flow
             }
 
@@ -56,8 +55,7 @@ class DefaultLocalRepository @Inject constructor(
             }
             emit(DataResult.Success(journalsResponse))
         } catch (e: Exception) {
-            Timber.tag("DefaultLocalRepository").e("saveAndGetJournals: %s", e.message)
-            emit(DataResult.Error(Event("Failed to save and get journals")))
+            emit(DataResult.Error(Event("Terjadi kesalahan saat menyimpan ke database")))
         }
     }
 
@@ -74,7 +72,7 @@ class DefaultLocalRepository @Inject constructor(
             }
             emit(DataResult.Success(Unit))
         } catch (e: Exception) {
-            emit(DataResult.Error(Event("Failed to save and update journal")))
+            emit(DataResult.Error(Event("Terjadi kesalahan saat menyimpan ke database")))
         }
     }
 

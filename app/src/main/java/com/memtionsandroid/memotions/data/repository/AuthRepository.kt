@@ -55,13 +55,14 @@ class DefaultAuthRepository @Inject constructor(
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, ValidationErrorResponse::class.java)
             val errorCode = errorBody.errors[0].code
-            val errorPath = errorBody.errors[0].path[0]
-            val errorMessage = if (errorCode == "INVALID_STRING" && errorPath == "email") {
+            val errorMessage = if (errorCode == "INVALID_STRING") {
                 "Email tidak valid"
-            } else if (errorCode == "TOO_SMALL" && errorPath == "password") {
+            } else if (errorCode == "TOO_SMALL") {
                 "Password minimal 6 karakter"
+            } else if(errorCode == "USER_ALREADY_EXISTS") {
+                "Akun sudah ada"
             } else {
-                "Terjadi kesalahan saat register, [${e.code()}]: ${errorBody.errors[0].message}"
+                "Terjadi kesalahan saat register, ${errorBody.errors[0].message}"
             }
             emit(DataResult.Error(Event(errorMessage)))
         } catch (e: Exception) {
@@ -90,7 +91,7 @@ class DefaultAuthRepository @Inject constructor(
                 val errorMessage = if (e.code() in 400 until 500) {
                     "Email atau password salah"
                 } else {
-                    "Terjadi kesalahan saat login, [${e.code()}]: ${errorBody.errors[0].message}"
+                    "Terjadi kesalahan saat login, ${errorBody.errors[0].message}"
                 }
                 emit(DataResult.Error(Event(errorMessage)))
             } catch (e: Exception) {
@@ -108,7 +109,7 @@ class DefaultAuthRepository @Inject constructor(
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
             val errorMessage =
-                "Terjadi kesalahan saat mendapatkan profile, [${e.code()}]: ${errorBody.errors[0].message}"
+                "Terjadi kesalahan saat mendapatkan profile, ${errorBody.errors[0].message}"
             emit(DataResult.Error(Event(errorMessage)))
         } catch (e: Exception) {
             emit(DataResult.Error(Event("Terjadi kesalahan saat mendapatkan profile, coba lagi atau cek koneksi internet")))
@@ -129,7 +130,7 @@ class DefaultAuthRepository @Inject constructor(
                     val jsonInString = e.response()?.errorBody()?.string()
                     val errorBody = Gson().fromJson(jsonInString, CommonErrorResponse::class.java)
                     val errorMessage =
-                        "Terjadi kesalahan saat logout user, [${e.code()}]: ${errorBody.errors[0].message}"
+                        "Terjadi kesalahan saat logout user, ${errorBody.errors[0].message}"
                     emit(DataResult.Error(Event(errorMessage)))
                 }
             }
