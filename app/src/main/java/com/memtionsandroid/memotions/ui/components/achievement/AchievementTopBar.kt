@@ -93,7 +93,7 @@ fun AchievementTopBar(
 
             LinearProgressIndicator(
 
-                progress = { currentAchievement.toFloat() / totalAchievement.toFloat() },
+                progress = { currentAchievement.toFloat() / (if (totalAchievement == 0) 1 else totalAchievement).toFloat() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(8.dp),
