@@ -23,11 +23,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.memtionsandroid.memotions.R
-import com.memtionsandroid.memotions.ui.theme.Poppins
 import com.memtionsandroid.memotions.ui.theme.customColors
 
 @Composable
@@ -52,12 +49,11 @@ fun SettingSection(
         ) {
             Text(
                 text = title,
-                style = TextStyle(
-                    fontFamily = Poppins,
-                    fontSize = 12.sp,
-                    color = customColors.onBackgroundColor
-                ),
-                modifier = Modifier.padding(bottom = 5.dp, start = 10.dp)
+                style = MaterialTheme.typography.bodyMedium,
+                color = customColors.onBackgroundColor,
+                modifier = Modifier.padding(
+                    bottom = 5.dp, start = 10.dp
+                )
             )
             Spacer(modifier = Modifier.weight(1f))
         }
@@ -94,11 +90,9 @@ fun SettingSection(
                         Spacer(modifier = Modifier.width(10.dp))
                         Text(
                             text = "Mode Malam",
-                            style = TextStyle(
-                                fontFamily = Poppins,
-                                fontSize = 12.sp,
-                                color = customColors.onBackgroundColor
-                            )
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = customColors.onBackgroundColor
+
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Switch(
@@ -134,11 +128,9 @@ fun SettingSection(
                         Spacer(modifier = Modifier.width(10.dp))
                         Text(
                             text = "Notifikasi Harian",
-                            style = TextStyle(
-                                fontFamily = Poppins,
-                                fontSize = 12.sp,
-                                color = customColors.onBackgroundColor
-                            )
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = customColors.onBackgroundColor
+
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Switch(

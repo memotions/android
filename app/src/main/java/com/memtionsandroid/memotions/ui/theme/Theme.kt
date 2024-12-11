@@ -37,7 +37,8 @@ data class CustomColors(
     val onBackgroundColor: Color,
     val TextOnBackgroundColor: Color,
     val onSecondBackgroundColor: Color,
-    val errorRed: Color
+    val errorRed: Color,
+    val success: Color
 )
 
 // Define Light and Dark Custom Colors
@@ -53,7 +54,8 @@ private val LightCustomColor = CustomColors(
     onBackgroundColor = Charcoal,
     TextOnBackgroundColor = Charcoal,
     onSecondBackgroundColor = SteelGrey,
-    errorRed = errorRed
+    errorRed = errorRed,
+    success = success
 )
 
 private val DarkCustomColor = CustomColors(
@@ -70,7 +72,8 @@ private val DarkCustomColor = CustomColors(
     onBackgroundColor = PureWhite,
     TextOnBackgroundColor = LightGrey,
     onSecondBackgroundColor = SteelGrey,
-    errorRed = errorRed
+    errorRed = errorRed,
+    success = success
 )
 
 // CompositionLocal for CustomColors

@@ -29,3 +29,4 @@ val SoftDarkBlue = Color(0xFF25252F)
 val OnyxBlue = Color(0xFF30303C)
 
 val errorRed = Color(0xFFE22716)
+val success = Color(0xFF36C65F)

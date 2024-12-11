@@ -105,14 +105,14 @@ fun ConfirmSaveDialog(
                         .background(
                             shape = RoundedCornerShape(50.dp),
                             color =
-                            customColors.errorRed.copy(alpha = 0.05f),
+                            customColors.success.copy(alpha = 0.05f),
                         )
                         .fillMaxWidth()
                 ) {
                     Text(
                         text = "Simpan",
                         style = MaterialTheme.typography.titleSmall,
-                        color = customColors.errorRed,
+                        color = customColors.success,
                         textAlign = TextAlign.End,
                         modifier = Modifier
                     )

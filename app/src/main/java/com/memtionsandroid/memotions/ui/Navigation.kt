@@ -29,14 +29,6 @@ fun MainNavigation(viewModel: LoginViewModel = hiltViewModel()) {
     val isFirstLaunch = viewModel.isFirstLaunch.collectAsStateWithLifecycle()
     val authToken = viewModel.authToken.collectAsStateWithLifecycle()
 
-//    val startRoute = if (isFirstLaunch.value == true) {
-//        NavigationRoutes.ONBOARDING
-//    } else if (authToken.value.isNullOrEmpty()) {
-//        NavigationRoutes.LOGIN
-//    } else {
-//        NavigationRoutes.MAIN
-//    }
-
     if (isFirstLaunch.value == null || authToken.value == null) {
         LoadingScreen()
     } else {
