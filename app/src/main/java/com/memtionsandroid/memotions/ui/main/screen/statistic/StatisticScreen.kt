@@ -232,7 +232,7 @@ fun StatisticScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Surface(
-                            modifier = Modifier,
+                            modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(12.dp),
                             color = customColors.backgroundColor,
                             shadowElevation = 4.dp,
@@ -259,7 +259,7 @@ fun StatisticScreen(
                         }
 
                         Surface(
-                            modifier = Modifier.padding(top = 8.dp),
+                            modifier = Modifier.padding(top = 8.dp).fillMaxWidth(   ),
                             shape = RoundedCornerShape(12.dp),
                             color = customColors.backgroundColor,
                             shadowElevation = 4.dp,
