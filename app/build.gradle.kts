@@ -9,12 +9,12 @@ plugins {
 
 android {
     namespace = "com.memtionsandroid.memotions"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.memtionsandroid.memotions"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -72,7 +72,6 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.compose.material.icons.extended)
     implementation (libs.coil.compose)
-
 
     // Debugging
     debugImplementation(libs.androidx.ui.tooling)
