@@ -67,6 +67,7 @@ fun OnBoardingScreen4() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.height(36.dp))
         AnimatedVisibility(
             visible = titleVisible,
             enter = fadeIn(animationSpec = tween(durationMillis = 800)) +
