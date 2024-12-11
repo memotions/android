@@ -21,6 +21,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -62,10 +65,22 @@ fun MainScreen(
     val navController = rememberNavController()
     var selectedRoute by remember { mutableStateOf("home") }
     val isConnected by mainViewModel.isConnected.collectAsState()
+    val eventState by mainViewModel.eventState.collectAsState()
+    val snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(navController) {
         navController.currentBackStackEntryFlow.collect { backStackEntry ->
             selectedRoute = backStackEntry.destination.route ?: "home"
+        }
+    }
+
+    LaunchedEffect(eventState) {
+        if (eventState.isNotEmpty()) {
+            snackbarHostState.showSnackbar(
+                eventState,
+                duration = SnackbarDuration.Short,
+            )
+            mainViewModel.setEventState("")
         }
     }
 
@@ -98,6 +113,7 @@ fun MainScreen(
         }
     }
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         bottomBar = {
             AnimatedVisibility(
                 visible = isBarVisible.value,

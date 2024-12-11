@@ -1,3 +1,9 @@
+import java.util.Properties
+
+val localProperties = Properties()
+file("$rootDir/local.properties").inputStream().use { localProperties.load(it) }
+val baseUrl: String = localProperties.getProperty("base_url") ?: "https://default.url"
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -5,6 +11,7 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt.gradle)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -20,7 +27,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "BASE_URL", "\"https://backend-api-635053273661.asia-southeast2.run.app\"")
+        buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
 
         vectorDrawables {
             useSupportLibrary = true
@@ -72,6 +79,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.compose.material.icons.extended)
     implementation (libs.coil.compose)
+    implementation(libs.androidx.lifecycle.process)
 
     // Debugging
     debugImplementation(libs.androidx.ui.tooling)
@@ -121,4 +129,12 @@ dependencies {
 
     // Data Store
     implementation (libs.androidx.datastore.preferences)
+
+    // Work Manager
+    implementation (libs.androidx.work.runtime.ktx)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.messaging)
 }

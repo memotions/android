@@ -50,6 +50,18 @@ class MainViewModel @Inject constructor(
             initialValue = connectivityObserver.checkCurrentState()
         )
 
+    val eventState = userPreference.eventStatePreference.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = ""
+    )
+
+    fun setEventState(state: String) {
+        viewModelScope.launch {
+            userPreference.setEventState(state)
+        }
+    }
+
     private val _journals = MutableStateFlow<DataResult<List<Journal>>>(DataResult.Idle)
     val journals = _journals.asStateFlow()
 

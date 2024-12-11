@@ -64,7 +64,6 @@ fun ProfileScreen(
 
     val username by mainViewModel.username.collectAsState()
 
-
     LaunchedEffect(Unit) {
         profileViewModel.getUserStatistics()
     }
@@ -110,11 +109,7 @@ fun ProfileScreen(
                     onDismissRequest = { openModal = false },
                     onLogout = {
                         openModal = false
-                        loginViewModel.logout()
-                        navHostController.navigate(NavigationRoutes.LOGIN) {
-                            popUpTo(0) { inclusive = true }
-                            launchSingleTop = true
-                        }
+                        loginViewModel.logout(navHostController)
                     }
                 )
             }
