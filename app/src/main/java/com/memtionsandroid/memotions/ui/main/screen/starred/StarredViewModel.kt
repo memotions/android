@@ -1,7 +1,5 @@
 package com.memtionsandroid.memotions.ui.main.screen.starred
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import com.memtionsandroid.memotions.data.local.entity.Journal
 import com.memtionsandroid.memotions.utils.FilterCriteria
@@ -19,13 +17,11 @@ class StarredViewModel: ViewModel() {
     val journals = _journals.asStateFlow()
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun setFilterCriteria(newFilter: FilterCriteria) {
         _filterCriteria.value = newFilter
         setFilteredJournals()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun setJournals(journals: List<Journal>) {
         _journals.value = journals.filter{journal ->
             journal.starred
@@ -33,7 +29,6 @@ class StarredViewModel: ViewModel() {
         setFilteredJournals()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun setFilteredJournals() {
         val filtered = journals.value.filter { journal ->
             _filterCriteria.value.matches(journal)

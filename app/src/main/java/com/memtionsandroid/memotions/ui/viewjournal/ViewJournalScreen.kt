@@ -1,7 +1,5 @@
 package com.memtionsandroid.memotions.ui.viewjournal
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,7 +36,6 @@ import com.memtionsandroid.memotions.ui.components.journal.FormSection
 import com.memtionsandroid.memotions.ui.theme.customColors
 import java.time.format.DateTimeFormatter
 
-@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ViewJournalScreen(

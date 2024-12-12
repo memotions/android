@@ -1,7 +1,5 @@
 package com.memtionsandroid.memotions.utils
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.memtionsandroid.memotions.data.local.entity.Journal
 import com.memtionsandroid.memotions.data.remote.response.journals.TagsItem
 
@@ -35,14 +33,11 @@ data class FilterCriteria(
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun matches(journal: Journal): Boolean {
         val journalDateTime = journal.datetime.toLocalDateTime()
 
-        // Memeriksa apakah nama jurnal cocok dengan name (single string)
         val isNameMatching = name.isEmpty() || journal.title.contains(name, ignoreCase = true)
 
-        // Memeriksa apakah salah satu tag dalam FilterCriteria cocok dengan tags dalam jurnal
         val isTagMatching = tags.isEmpty() || tags.any { tag ->
             journal.tags?.any {
                 it.contains(
@@ -52,7 +47,6 @@ data class FilterCriteria(
             } == true
         }
 
-        // Memeriksa apakah tanggal jurnal cocok dengan rentang yang diberikan
         val isStartDateMatching =
             startDate == null || journalDateTime.isAfter(startDate.toLocalDate().atStartOfDay())
         val isEndDateMatching =

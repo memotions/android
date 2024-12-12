@@ -1,7 +1,5 @@
 package com.memtionsandroid.memotions.ui.main.screen.starred
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,7 +29,6 @@ import com.memtionsandroid.memotions.ui.main.MainViewModel
 import com.memtionsandroid.memotions.utils.DataResult
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StarredScreen(

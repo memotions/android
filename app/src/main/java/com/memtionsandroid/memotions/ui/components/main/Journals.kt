@@ -1,7 +1,5 @@
 package com.memtionsandroid.memotions.ui.components.main
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,7 +10,6 @@ import androidx.compose.ui.unit.dp
 import com.memtionsandroid.memotions.data.local.entity.Journal
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Journals(
     journals: List<Journal>,

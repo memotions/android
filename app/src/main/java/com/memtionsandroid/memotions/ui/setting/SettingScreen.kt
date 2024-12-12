@@ -4,7 +4,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -35,7 +34,6 @@ import com.memtionsandroid.memotions.ui.components.setting.SettingSection
 import com.memtionsandroid.memotions.ui.theme.customColors
 import kotlinx.coroutines.launch
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SettingScreen(navController: NavHostController, viewModel: SettingViewModel = hiltViewModel()) {
     val context = LocalContext.current

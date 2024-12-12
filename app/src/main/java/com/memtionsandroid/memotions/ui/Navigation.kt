@@ -1,9 +1,6 @@
 package com.memtionsandroid.memotions.ui
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavType
@@ -22,7 +19,6 @@ import com.memtionsandroid.memotions.ui.register.RegisterScreen
 import com.memtionsandroid.memotions.ui.setting.SettingScreen
 import com.memtionsandroid.memotions.ui.viewjournal.ViewJournalScreen
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainNavigation(viewModel: LoginViewModel = hiltViewModel()) {
     val navController = rememberNavController()

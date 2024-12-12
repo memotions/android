@@ -2,8 +2,6 @@ package com.memtionsandroid.memotions.ui.main
 
 import ConnectivityObserver
 import android.content.Context
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.memtionsandroid.memotions.data.local.datastore.UserPreference
@@ -82,7 +80,6 @@ class MainViewModel @Inject constructor(
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun getJournals() {
         viewModelScope.launch {
             val userId = userPreference.userIdPreference.first()

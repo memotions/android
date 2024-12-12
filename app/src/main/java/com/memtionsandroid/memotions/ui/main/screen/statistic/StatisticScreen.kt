@@ -1,7 +1,5 @@
 package com.memtionsandroid.memotions.ui.main.screen.statistic
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
@@ -58,7 +56,6 @@ const val MODE_SEMUA = "Semua"
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun StatisticScreen(
     mainViewModel: MainViewModel = hiltViewModel(),

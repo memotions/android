@@ -1,7 +1,5 @@
 package com.memtionsandroid.memotions.ui.main
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -56,7 +54,6 @@ import com.memtionsandroid.memotions.ui.theme.customColors
 import timber.log.Timber
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainScreen(
     navHostController: NavHostController,

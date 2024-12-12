@@ -1,7 +1,5 @@
 package com.memtionsandroid.memotions.ui.main.screen.statistic
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import com.memtionsandroid.memotions.data.local.entity.Journal
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,11 +12,9 @@ import java.util.Locale
 import java.util.SortedMap
 
 class StatisticViewModel : ViewModel() {
-    @RequiresApi(Build.VERSION_CODES.O)
 
     private val _journals = MutableStateFlow<List<Journal>>(emptyList())
 
-    @RequiresApi(Build.VERSION_CODES.O)
     val journals = _journals.asStateFlow()
 
     private val _groupedJournalListDate =
@@ -39,7 +35,6 @@ class StatisticViewModel : ViewModel() {
         )
     val groupedJournalListMonth = _groupedJournalListMonth.asStateFlow()
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun setJournals(journals: List<Journal>) {
         _journals.value = journals
         setJournalsDateMode(journals)
@@ -48,7 +43,6 @@ class StatisticViewModel : ViewModel() {
         setJournalsMonthMode(journals)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun setJournalsDateMode(journals: List<Journal>) {
         val dateFormatterMonth = DateTimeFormatter.ofPattern("yyyy MM")
         val dateFormatterDate = DateTimeFormatter.ofPattern("dd MMMM yyyy")
@@ -64,7 +58,6 @@ class StatisticViewModel : ViewModel() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun setJournalsWeekMode(journals: List<Journal>) {
         val dateFormatterMonth = DateTimeFormatter.ofPattern("yyyy MM")
 
@@ -81,7 +74,6 @@ class StatisticViewModel : ViewModel() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun setJournalsMonthMode(journals: List<Journal>) {
         val dateFormatterYear = DateTimeFormatter.ofPattern("yyyy")
         val dateFormatterMonthYear = DateTimeFormatter.ofPattern("MMMM yyyy")

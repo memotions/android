@@ -1,7 +1,5 @@
 package com.memtionsandroid.memotions.utils
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.LocalDate
@@ -10,8 +8,6 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
-
-@RequiresApi(Build.VERSION_CODES.O)
 
 fun String.toLocalDateTime(): LocalDateTime {
     val formatter = DateTimeFormatter.ISO_DATE_TIME // Atau sesuaikan dengan format yang digunakan
@@ -27,7 +23,6 @@ fun String.toNickname(): String {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun String.formatMonthYear(): String {
     if (this.length == 4) return this
     val outputFormatter = DateTimeFormatter.ofPattern("MMMM yyyy", Locale("id", "ID"))
@@ -39,7 +34,6 @@ fun String.formatMonthYear(): String {
     return localDate.format(outputFormatter)
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun String.formatDateTime(): String {
     val inputFormatter = DateTimeFormatter.ISO_DATE_TIME // ISO_DATE_TIME mendukung zona waktu
     val outputFormatter = DateTimeFormatter.ofPattern("HH.mm • dd MMMM yyyy")
@@ -92,7 +86,6 @@ fun Long?.toformatDateFromMillis(default: String, locale: Locale = Locale.getDef
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun Long.toLocalDate(zoneId: ZoneId = ZoneId.systemDefault()): LocalDate {
     return Instant.ofEpochMilli(this)
         .atZone(zoneId)

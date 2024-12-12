@@ -1,7 +1,5 @@
 package com.memtionsandroid.memotions.ui.components.main
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -42,7 +40,6 @@ import com.memtionsandroid.memotions.ui.theme.customColors
 import com.memtionsandroid.memotions.utils.EmotionImageSource
 import com.memtionsandroid.memotions.utils.formatDateTime
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun JournalCard(
     journal: Journal,

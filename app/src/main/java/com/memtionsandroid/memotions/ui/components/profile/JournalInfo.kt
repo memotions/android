@@ -1,6 +1,5 @@
 package com.memtionsandroid.memotions.ui.components.profile
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth

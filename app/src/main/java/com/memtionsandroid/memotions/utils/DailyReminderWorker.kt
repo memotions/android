@@ -85,24 +85,24 @@ class DailyReminderWorker(
         val journalReminderMessages = listOf(
             "Selamat pagi! Hari ini pasti penuh petualangan seru. Jangan lupa cerita nanti ya! ✨🔥",
             "Yo, hari baru nih! Bikin tiap detik jadi berkesan. Ceritain nanti di jurnal ya! 🌟📖",
-            "Good vibes only hari ini! Semangat ya, dan jangan lupa cerita keseruanmu nanti ✍️🌈.",
+            "Good vibes only hari ini! Semangat ya, dan jangan lupa cerita keseruanmu nanti ✍️🌈",
             "Bangun, dunia menunggu aksimu hari ini! Cerita nanti bakal seru banget, yakin! 🚀✨",
-            "Selamat pagi, pahlawan cerita! Hari ini bakal jadi epic, siap-siap share kisahnya nanti 🕶️📓.",
+            "Selamat pagi, pahlawan cerita! Hari ini bakal jadi epic, siap-siap share kisahnya nanti 🕶️📓",
             "Hari ini bakal keren banget kalau kamu jalanin dengan semangat! Ceritain nanti ya! 💪⚡",
-            "Good morning! Yuk, jalani hari dengan senyum dan cerita epic yang siap ditulis nanti 🌅📔.",
+            "Good morning! Yuk, jalani hari dengan senyum dan cerita epic yang siap ditulis nanti 🌅📔",
             "Semangat pagi! Hari ini adalah kesempatan baru buat bikin kisah seru. Jangan lupa share! ✨💭",
-            "Halo, superstar! Hari ini bakal amazing, cerita nanti pasti bikin bangga 🌟🎇.",
-            "Ayo bangkit, bikin harimu memorable! Ceritakan petualangan kerenmu nanti, ya 🌈📘.",
-            "Bangun, pejuang mimpi! Siapkan harimu untuk jadi cerita yang layak diabadikan nanti 💕🚀.",
+            "Halo, superstar! Hari ini bakal amazing, cerita nanti pasti bikin bangga 🌟🎇",
+            "Ayo bangkit, bikin harimu memorable! Ceritakan petualangan kerenmu nanti, ya 🌈📘",
+            "Bangun, pejuang mimpi! Siapkan harimu untuk jadi cerita yang layak diabadikan nanti 💕🚀",
             "Selamat pagi! Jadilah legenda di harimu sendiri, dan pastikan kamu cerita nanti! 🏆📖",
-            "Hari ini penuh peluang keren, jangan lupa semangat! Ceritakan semuanya nanti ✍️✨.",
-            "Yo, the world is yours today! Jalani harimu, dan siapkan cerita hebat untuk nanti 🌟📓.",
-            "Bangkit, dan tunjukkan siapa dirimu hari ini! Ceritakan kisah heroikmu nanti 😎✨.",
+            "Semoga hari ini penuh peluang, jangan lupa semangat! Ceritakan semuanya nanti ✍️✨",
+            "Yo, the world is yours today! Jalani harimu, dan siapkan cerita hebat untuk nanti 🌟📓",
+            "Bangkit, dan tunjukkan siapa dirimu hari ini! Ceritakan kisah heroikmu nanti 😎✨",
             "Pagi ini cerah, sama seperti potensi harimu! Jangan lupa cerita nanti ya! 🌄📒",
-            "Awali hari dengan senyuman, jalani dengan semangat, dan ceritakan semua nanti 🌈📖.",
-            "Semangat pagi! Setiap langkahmu hari ini bakal jadi bagian dari cerita seru nanti ✨🌟.",
+            "Awali hari dengan senyuman, jalani dengan semangat, dan ceritakan semua nanti 🌈📖",
+            "Semangat pagi! Setiap langkahmu hari ini bakal jadi bagian dari cerita seru nanti ✨🌟",
             "Pagi ini istimewa karena kamu ada di dalamnya. Ceritakan petualanganmu nanti ya! 💪📘",
-            "Hari baru, semangat baru! Jalani dengan penuh energi, dan share ceritanya nanti 🌟✍️."
+            "Hari baru, semangat baru! Jalani dengan penuh energi, dan share ceritanya nanti 🌟✍️"
         )
 
     }

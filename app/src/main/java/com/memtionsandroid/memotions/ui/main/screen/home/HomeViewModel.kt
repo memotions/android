@@ -1,7 +1,5 @@
 package com.memtionsandroid.memotions.ui.main.screen.home
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.memtionsandroid.memotions.data.local.entity.Journal
@@ -51,19 +49,16 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun setFilterCriteria(newFilter: FilterCriteria) {
         _filterCriteria.value = newFilter
         setFilteredJournals()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun setJournals(journals: List<Journal>) {
         _journals.value = journals
         setFilteredJournals()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun setFilteredJournals() {
         val filtered = journals.value.filter { journal ->
             _filterCriteria.value.matches(journal)
