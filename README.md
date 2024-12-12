@@ -61,7 +61,7 @@ A Kotlin library designed for asynchronous programming, making tasks like networ
 
 # Demo
 
-## Developed By  
+# Developed By  
 
 - [I Gusti Ngurah Putu Astrawan](https://github.com/WahtuAstrawan)
 - [I Putu Liangga Ristiana Putra](https://github.com/LianggaRistiana)
